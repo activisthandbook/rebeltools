@@ -2,6 +2,8 @@
 
 The all-in-one toolset for progressive movements 🦋
 
+![Screenshot of Rebel Tools](src/assets/screenshot.png)
+
 ## Install the dependencies
 ```bash
 yarn
