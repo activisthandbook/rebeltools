@@ -11,16 +11,6 @@ import routes from './routes'
  * with the Router instance.
  */
 
-// DYNAMICALLY CHANGE COLOURS
-import { colors, setCssVar } from 'quasar'
-const { getPaletteColor } = colors
-
-setCssVar('primary', '#0431EA')
-setCssVar('secondary', '#D70057')
-setCssVar('accent', '#FFF8DB')
-setCssVar('dark', '#000000')
-console.log(getPaletteColor('light'))
-
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory

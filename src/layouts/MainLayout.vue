@@ -1,9 +1,9 @@
 <template>
   <q-layout view="hHr lpR fFr" class="">
-    <q-header class="bg-secondary">
+    <q-header class="bg-secondary" >
       <q-toolbar>
 
-        <q-toolbar-title>
+        <q-toolbar-title @click="$router.push('/')" class="cursor-pointer">
           Activist Handbook
         </q-toolbar-title>
 
@@ -18,8 +18,8 @@
         <q-list>
           <q-item-label header>Activist Handbook</q-item-label>
 
-          <q-item active clickable v-ripple class="text-bold">
-            <q-item-section avatar>
+          <q-item clickable v-ripple class="text-bold" :to="'/'" exact>
+            <q-item-section avatar active-class="text-primary">
               <q-icon name="mdi-home" />
             </q-item-section>
 
@@ -28,7 +28,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple class="text-bold">
+          <q-item clickable v-ripple class="text-bold" :to="'events'" active-class="text-primary">
             <q-item-section avatar>
               <q-icon name="mdi-calendar"/>
             </q-item-section>
@@ -37,7 +37,7 @@
               Events
             </q-item-section>
           </q-item>
-          <q-item clickable v-ripple>
+          <q-item clickable v-ripple active-class="text-primary">
             <q-item-section avatar>
               <q-icon name="mdi-account-group"/>
             </q-item-section>
@@ -56,7 +56,7 @@
           <h2 class="q-mb-md">Welcome back, Joppe!</h2>
           <p>Open the dashboard to manage your movement:</p>
           <div class="q-gutter-sm">
-            <q-btn label="Dashboard" icon="mdi-view-dashboard" color="primary"/>
+            <q-btn label="Dashboard" icon="mdi-view-dashboard" color="primary" :to="'dashboard'"/>
             <!-- <q-btn label="Admin" icon="mdi-database-cog" color="primary"/> -->
             <q-btn label="Sign out" color="primary" outline/>
           </div>
@@ -66,10 +66,12 @@
     </q-drawer>
 
     <q-page-container class="flex justify-center">
-      <router-view />
+      <q-page padding class="q-py-lg">
+        <router-view />
+      </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
             <q-fab
-              icon="mdi-chat"
+              icon="mdi-forum"
               color="secondary"
             >
 
