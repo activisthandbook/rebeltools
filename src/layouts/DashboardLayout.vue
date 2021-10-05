@@ -11,18 +11,18 @@
 
       </q-toolbar>
       <q-tabs inline-label outside-arrows>
-        <q-route-tab icon="mdi-home" label="Overview" to="dashboard" />
-        <q-route-tab icon="mdi-calendar" label="Calendar" />
-        <q-route-tab icon="mdi-account-group" label="Community" />
-        <q-route-tab icon="mdi-file-document" label="Page" />
+        <q-route-tab icon="mdi-home" label="Overview" :to="{name: 'Dashboard'}" />
+        <q-route-tab icon="mdi-calendar" label="Calendar" :to="{name: 'Dashboard Calendar'}"/>
+        <q-route-tab icon="mdi-account-group" label="Community" :to="{name: 'Dashboard Community'}"/>
+        <q-route-tab icon="mdi-file-document" label="Page" :to="{name: 'Dashboard Page'}"/>
         <q-space />
          <q-separator vertical inset dark />
-        <q-route-tab icon="mdi-apps" label="Apps" :to="'apps'" alert="secondary"/>
+        <q-route-tab icon="mdi-apps" label="Apps" :to="{name: 'Dashboard Apps'}" alert="secondary"/>
       </q-tabs>
     </q-header>
 
     <q-page-container class="flex justify-center">
-      <q-page padding class="q-py-lg">
+      <q-page padding class="q-pt-lg q-pb-xl q-mb-xl">
         <router-view />
       </q-page>
     </q-page-container>
@@ -31,9 +31,9 @@
 
 <script>
 
-import { defineComponent, ref } from 'vue'
+import { ref } from 'vue'
 
-export default defineComponent({
+export default {
   name: 'MainLayout',
 
   setup () {
@@ -46,7 +46,7 @@ export default defineComponent({
       }
     }
   }
-})
+}
 </script>
 <style>
 .q-page{

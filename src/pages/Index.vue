@@ -1,158 +1,44 @@
 <template>
-  <div class="q-gutter-sm q-mb-lg">
-    <h1>Activist Handbook is the Wikipedia for rebels.</h1>
-    <p>Activist Handbook is a collaborative platform for rebels to exchange knowledge and experiences. We are inviting you to join our international project!</p>
+  <div class="q-gutter-lg">
+    <hgroup class="q-mt-xl">
+      <h1>Rebel Tools 🦋</h1>
+      <h2>The all-in-one toolset for activists</h2>
+    </hgroup>
+    <p class="text-body1 text-bold">We are building tools for movements. They will be 100% free to use for social, progressive and green rebels. All our code is open source.</p>
+    <q-card class="q-mb-md">
+        <q-expansion-item icon="mdi-lightning-bolt" label="Get early access">
+          <q-card>
+            <q-card-section class="text-body2">
+              We will start by giving a small number of people access before public release. Do you want to be one of the firsts to use Rebel Tools? Request early access as beta tester: <a href="mailto:contact@activisthandbook.org">contact@activisthandbook.org</a>
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+        <q-expansion-item icon="mdi-github" label="Contribute as developer">
+          <q-card>
+            <q-card-section class="text-body2">
+              Do you have experience with web development or are you eager to learn? We would love to welcome you on our team! Let us know you are interested: <a href="mailto:contact@activisthandbook.org">contact@activisthandbook.org</a>
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+    </q-card>
+    <div class="text-body2">
+      <p>Rebel Tools is being developed by the people behind <a href="https://activisthandbook.org" title="Activist Handbook, manual for rebels">Activist Handbook</a>, the Wikipedia for rebels. While developing Activist Handbook, we realised we needed a toolset to grow our movement, engage existing members, host events, schedule events, etc. As we are on a tight budget (we are all volunteers and pay everything out of pocket), we didn't like using the commercially available services.</p>
+      <p>So we are developing our own tools! Everything we do, is to help people organise for positive change. That is why we made these tools available for free. In addition, we share our code publicly, so that movements can adapt the platform to their own needs.</p>
+    </div>
+    <q-card class="bg-black">
+      <q-video class="rounded-borders" :ratio="16/9" src="https://www.youtube.com/embed/G6xxxa-yAco"/>
+    </q-card>
   </div>
 
-  <q-card class="bg-primary" dark>
-
-    <q-card-section class="q-gutter-sm column">
-      <h2>Join us</h2>
-      <div>
-        We'd love to get to know you. Sign up and join our international community of change-makers.
-      </div>
-      <q-input label="Email" outlined autofocus bg-color="white">
-        <template v-slot:append>
-          <q-btn icon="mdi-arrow-right" color="primary" round>
-            <q-tooltip>Sign up</q-tooltip>
-          </q-btn>
-        </template>
-      </q-input>
-    </q-card-section>
-  </q-card>
-
-  <div class="q-gutter-sm q-my-lg">
-    <h2>Upcoming events</h2>
-    <q-list bordered class="rounded-borders" separator>
-      <q-item clickable v-ripple>
-        <q-item-section class="q-my-sm">
-          <q-item-label><strong>Meetup: Some topic</strong></q-item-label>
-          <q-item-label caption >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus alias ab, temporibus molestiae beatae, dolor repellat a hic nostrum officiis adipisci facilis mollitia aut distinctio itaque. Dolores, vero dicta. Temporibus?</q-item-label>
-          <q-item-label>
-            <q-chip label="14 Feb 14:00" color="primary" dark/>
-            <q-chip label="You + 22 others" icon="mdi-check-circle" color="primary" text-color="white"/></q-item-label>
-
-        </q-item-section>
-
-        <q-item-section side>
-          <q-btn icon="mdi-check" round color="primary" >
-            <q-tooltip>Count me in!</q-tooltip>
-          </q-btn>
-        </q-item-section>
-      </q-item>
-
-      <q-item clickable v-ripple>
-
-        <q-item-section class="q-my-sm">
-          <q-item-label><strong>Training: Interesting</strong></q-item-label>
-          <q-item-label caption>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus facere doloremque nemo eius porro ab nulla, minima tempore, impedit molestiae molestias laboriosam quia quam. Blanditiis adipisci praesentium id deserunt nulla.</q-item-label>
-          <q-item-label><q-chip label="14 Feb 14:00" color="primary" dark/><q-chip label="22 people attending" icon="check"  /></q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-btn round icon="mdi-check" color="primary" outline no-caps>
-            <q-tooltip>Count me in!</q-tooltip>
-          </q-btn>
-        </q-item-section>
-      </q-item>
-      <q-item clickable v-ripple>
-
-        <q-item-section class="q-my-sm">
-          <q-item-label><strong>Protest march</strong></q-item-label>
-          <q-item-label caption>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus facere doloremque nemo eius porro ab nulla, minima tempore, impedit molestiae molestias laboriosam quia quam. Blanditiis adipisci praesentium id deserunt nulla.</q-item-label>
-          <q-item-label><q-chip label="14 Feb 14:00" color="primary" dark/><q-chip label="New event!" icon="mdi-star-outline" /></q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <q-btn round icon="mdi-check" color="primary" outline >
-            <q-tooltip>Count me in!</q-tooltip>
-          </q-btn>
-        </q-item-section>
-      </q-item>
-      <q-item class="justify-end">
-          <q-btn label="See all events" flat color="primary"/>
-      </q-item>
-    </q-list>
-  </div>
-  <div class="q-gutter-sm q-my-lg">
-    <h2>Become involved</h2>
-    <p>We believe that diversity strengthens our organisation. That is why we encourage people of all genders, sexual preferences and ethnic backgrounds, including people with disabilities, to join our cause.</p>
-    <q-list bordered class="rounded-borders" separator>
-      <!-- <q-item-label header>Vacant roles</q-item-label> -->
-
-      <q-expansion-item switch-toggle-side expand-separator label="Ways to contribute">
-          <q-list separator>
-            <q-item >
-
-              <q-item-section class="q-my-sm">
-                <q-item-label><strong>Become a volunteer</strong></q-item-label>
-                <q-item-label class="text-body2">There are many ways in which you can contribute to our project. How about we schedule a video call so we can get to know each other a bit?</q-item-label>
-                <q-item-label>
-                  <q-btn label="Get started" icon="mdi-arrow-right" color="primary" rounded outline no-caps/>
-                </q-item-label>
-              </q-item-section>
-
-            </q-item>
-            <q-item>
-
-              <q-item-section class="q-my-sm">
-                <q-item-label><strong>Partner up</strong></q-item-label>
-                <q-item-label class="text-body2">Are you active for a progressive change-making organisation or movement? Let's work together! We would love to talk with you.</q-item-label>
-                <q-item-label>
-                  <q-btn label="Get started" icon="mdi-arrow-right" color="primary" rounded outline no-caps/>
-                </q-item-label>
-              </q-item-section>
-
-            </q-item>
-          </q-list>
-      </q-expansion-item>
-
-      <q-expansion-item switch-toggle-side expand-separator label="Vacant roles">
-          <q-list separator>
-            <q-item clickable v-ripple>
-
-              <q-item-section class="q-my-sm">
-                <q-item-label><strong>Integrator</strong></q-item-label>
-                <q-item-label>
-                  <q-chip label="8 hours per week" icon="mdi-clock" />
-                  <q-chip label="6 months" icon="mdi-calendar"/>
-                </q-item-label>
-                <q-item-label class="text-body2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus facere doloremque nemo eius porro ab nulla, minima tempore, impedit molestiae molestias laboriosam quia quam. Blanditiis adipisci praesentium id deserunt nulla.</q-item-label>
-                <q-item-label>
-                  <q-btn label="Get started" icon="mdi-arrow-right" rounded outline color="primary" no-caps/>
-                </q-item-label>
-              </q-item-section>
-
-            </q-item>
-            <q-item clickable v-ripple>
-
-              <q-item-section class="q-my-sm">
-                <q-item-label><strong>Communications coordinator</strong></q-item-label>
-                <q-item-label>
-                  <q-chip label="8 hours per week" icon="mdi-clock"/>
-                  <q-chip label="6 months" icon="mdi-calendar"/>
-                </q-item-label>
-
-                <q-item-label class="text-body2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus facere doloremque nemo eius porro ab nulla, minima tempore, impedit molestiae molestias laboriosam quia quam. Blanditiis adipisci praesentium id deserunt nulla.</q-item-label>
-                <q-item-label>
-                  <q-btn label="Get started" icon="mdi-arrow-right" rounded outline color="primary" no-caps/>
-                </q-item-label>
-              </q-item-section>
-
-            </q-item>
-            <q-item class="justify-end">
-              <q-btn label="See all vacancies" flat color="primary"/>
-            </q-item>
-          </q-list>
-      </q-expansion-item>
-    </q-list>
-  </div>
+  <footer class="q-pt-xl q-gutter-sm">
+    <h2>An open source project</h2>
+    <div class="text-body2">Rebel Tools is built by activists, for activists. Check out our GitHub repository and join our community in Slack:</div>
+    <q-btn label="GitHub" icon="mdi-github" outline no-caps type="a" href="https://github.com/activisthandbook/rebeltools"/>
+    <q-btn label="Slack" icon="mdi-slack" outline no-caps type="a" href="https://join.slack.com/t/activisthandbook/shared_invite/zt-e1d26qma-nUiopZFKEiXf3lUwll_jhw"/>
+  </footer>
 </template>
-
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'PageIndex'
-})
-</script>
+<style>
+.q-page{
+  max-width: 640px;
+}
+</style>

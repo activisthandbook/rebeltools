@@ -2,7 +2,9 @@
 body {
   font-family: 'Noto Sans', sans-serif;
   font-size: 16px;
+  background-color: #fafafa;
 }
+a{color: #0431EA}
 h1,h2,h3,h4,h5,h6,.text-h1,.text-h2,.text-h3,.text-h4,.text-h5,.text-h6,.q-toolbar__title{
   font-family: 'Noto Serif', serif;
   font-weight: 700;
@@ -13,7 +15,9 @@ h1,.text-h1{
   font-size:2.6em
 }
 h2,.text-h2{
-  font-size:1.8em
+  font-size:1.8em;
+  // font-weight: 400;
+  font-style: italic;
 }
 h3,.text-h3{
   font-size:1.6em

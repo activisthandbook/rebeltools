@@ -3,7 +3,7 @@
     <q-header class="bg-secondary" >
       <q-toolbar>
 
-        <q-toolbar-title @click="$router.push('/')" class="cursor-pointer">
+        <q-toolbar-title @click="$router.push({name: 'Movement'})" class="cursor-pointer">
           Activist Handbook
         </q-toolbar-title>
 
@@ -18,7 +18,7 @@
         <q-list>
           <q-item-label header>Activist Handbook</q-item-label>
 
-          <q-item clickable v-ripple class="text-bold" :to="'/'" exact>
+          <q-item clickable v-ripple class="text-bold" :to="{name: 'Movement'}" exact>
             <q-item-section avatar active-class="text-primary">
               <q-icon name="mdi-home" />
             </q-item-section>
@@ -28,7 +28,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple class="text-bold" :to="'events'" active-class="text-primary">
+          <q-item clickable v-ripple class="text-bold" :to="{name: 'Events'}" active-class="text-primary">
             <q-item-section avatar>
               <q-icon name="mdi-calendar"/>
             </q-item-section>
@@ -37,7 +37,7 @@
               Events
             </q-item-section>
           </q-item>
-          <q-item clickable v-ripple active-class="text-primary">
+          <q-item clickable v-ripple active-class="text-primary" :to="{name: 'Community'}">
             <q-item-section avatar>
               <q-icon name="mdi-account-group"/>
             </q-item-section>
@@ -66,8 +66,9 @@
     </q-drawer>
 
     <q-page-container class="flex justify-center">
-      <q-page padding class="q-py-lg">
+      <q-page padding class="q-pt-lg">
         <router-view />
+        <p class="text-caption text-center q-mt-xl text-grey-6">Made with <span @click="$router.push({name: 'Home'})" class="cursor-pointer text-bold">Rebel Tools</span></p>
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
             <q-fab
@@ -103,5 +104,6 @@ export default defineComponent({
 <style>
 .q-page{
   max-width: 640px;
+  width: 100%
 }
 </style>
