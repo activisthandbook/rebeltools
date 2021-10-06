@@ -1,11 +1,10 @@
 <template>
-  <div class="q-gutter-sm q-mb-lg">
+  <div class="q-gutter-sm">
     <h1>Activist Handbook is the Wikipedia for rebels.</h1>
     <p>Activist Handbook is a collaborative platform for rebels to exchange knowledge and experiences. We are inviting you to join our international project!</p>
   </div>
 
-  <q-card class="bg-primary" dark>
-
+  <q-card class="bg-primary q-my-lg" dark>
     <q-card-section class="q-gutter-sm column">
       <h2>Join us</h2>
       <div>
@@ -21,7 +20,7 @@
     </q-card-section>
   </q-card>
 
-  <div class="q-gutter-y-sm q-my-lg">
+  <div class="q-gutter-y-sm">
     <h2>Upcoming events</h2>
     <event-list/>
     <div class="row justify-end items-center q-gutter-x-sm">
@@ -30,19 +29,19 @@
     </div>
   </div>
 
-  <div class="q-gutter-y-sm q-my-lg">
+  <div class="q-gutter-y-sm">
     <h2 class="q-mb-sm">Become involved</h2>
     <vacancies-list/>
     <div class="row justify-end items-center q-gutter-x-sm">
       <div class="text-caption">4 more vacancies</div>
-      <q-btn icon-right="mdi-arrow-right-circle" label="See all" flat color="primary" no-caps :to="{name: 'Community'}" dense/>
+      <q-btn icon-right="mdi-arrow-right-circle" label="See all" flat color="primary" no-caps :to="{name: 'Vacant roles'}" dense/>
     </div>
   </div>
 </template>
 
 <script>
-import EventList from '../components/EventList.vue'
-import VacanciesList from '../components/VacanciesList.vue'
+import EventList from '../../components/EventList.vue'
+import VacanciesList from '../../components/VacanciesList.vue'
 
 export default {
   name: 'PageIndex',

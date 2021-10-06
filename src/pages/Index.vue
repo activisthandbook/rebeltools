@@ -1,9 +1,9 @@
 <template>
   <div class="q-gutter-lg">
-    <hgroup class="q-mt-xl">
+    <div class="q-mt-xl">
       <h1>Rebel Tools 🦋</h1>
       <h2>The all-in-one toolset for activists</h2>
-    </hgroup>
+    </div>
     <p class="text-body1 text-bold">We are building tools for movements. They will be 100% free to use for social, progressive and green rebels. All our code is open source.</p>
     <q-card class="q-mb-md">
         <q-expansion-item icon="mdi-lightning-bolt" label="Get early access">

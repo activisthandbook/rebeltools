@@ -9,7 +9,11 @@
             <q-item-section>
               <q-item-label class="text-bold">{{person.name}}</q-item-label>
               <q-item-label caption>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit repellat numquam odit.</q-item-label>
-              <q-item-label caption><q-chip size="sm">{{person.role}}</q-chip></q-item-label>
+              <q-item-label caption>
+                <q-chip size="sm">{{person.role}}
+                  <q-tooltip :delay="1000" :offset="[0, 10]">Quasar Rulz!</q-tooltip>
+                </q-chip>
+              </q-item-label>
             </q-item-section>
           </q-item>
       </q-card>

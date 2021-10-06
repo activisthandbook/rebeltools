@@ -3,11 +3,11 @@
     <q-header class="bg-primary" >
       <q-toolbar>
 
-        <q-toolbar-title @click="$router.push('dashboard')" class="cursor-pointer">
+        <q-toolbar-title @click="$router.push({name: 'Dashboard'})" class="cursor-pointer">
           Dashboard
         </q-toolbar-title>
 
-        <q-btn outline label="Open page" icon="mdi-eye" :to="'/'"/>
+        <q-btn outline label="Open page" icon="mdi-eye" :to="{name: 'Movement'}"/>
 
       </q-toolbar>
       <q-tabs inline-label outside-arrows>
@@ -22,8 +22,9 @@
     </q-header>
 
     <q-page-container class="flex justify-center">
-      <q-page padding class="q-pt-lg q-pb-xl q-mb-xl">
+      <q-page padding class="q-pt-lg q-pb-xl q-mb-xl full-width">
         <router-view />
+        <p class="text-caption text-center q-mt-xl text-grey-6">Made with <span @click="$router.push('/')" class="cursor-pointer text-bold">Rebel Tools</span></p>
       </q-page>
     </q-page-container>
   </q-layout>

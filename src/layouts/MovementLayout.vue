@@ -56,7 +56,7 @@
           <h2 class="q-mb-md">Welcome back, Joppe!</h2>
           <p>Open the dashboard to manage your movement:</p>
           <div class="q-gutter-sm">
-            <q-btn label="Dashboard" icon="mdi-view-dashboard" color="primary" :to="'dashboard'"/>
+            <q-btn label="Dashboard" icon="mdi-view-dashboard" color="primary" :to="{name: 'Dashboard'}"/>
             <!-- <q-btn label="Admin" icon="mdi-database-cog" color="primary"/> -->
             <q-btn label="Sign out" color="primary" outline/>
           </div>
@@ -66,9 +66,9 @@
     </q-drawer>
 
     <q-page-container class="flex justify-center">
-      <q-page padding class="q-pt-lg">
+      <q-page padding class="q-pt-lg q-gutter-y-md">
         <router-view />
-        <p class="text-caption text-center q-mt-xl text-grey-6">Made with <span @click="$router.push({name: 'Home'})" class="cursor-pointer text-bold">Rebel Tools</span></p>
+        <p class="text-caption text-center q-mt-xl text-grey-6">Made with <span @click="$router.push('/')" class="cursor-pointer text-bold">Rebel Tools</span></p>
       </q-page>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
             <q-fab
