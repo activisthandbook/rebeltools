@@ -2,9 +2,6 @@
 version: 1
 backend:
   phases:
-    preBuild:
-      commands:
-        - nvm install 12.22.1
     build:
       commands:
         - '# Execute Amplify CLI with the helper script'
@@ -14,6 +11,7 @@ frontend:
     preBuild:
       commands:
         - '# Install Quasar globally & install dependancies'
+        - nvm install 12.22.1
         - npm install -g @quasar/cli
         - yarn install
     build:
