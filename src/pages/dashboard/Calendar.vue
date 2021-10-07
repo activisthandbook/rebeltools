@@ -1,9 +1,6 @@
 <template>
-  <div>
-    <h1>Calendar</h1>
-    <event-list/>
-  </div>
-
+  <h1>Calendar</h1>
+  <event-list/>
 </template>
 <script>
 import EventList from '../../components/EventList.vue'

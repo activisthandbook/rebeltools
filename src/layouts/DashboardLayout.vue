@@ -11,9 +11,9 @@
 
       </q-toolbar>
       <q-tabs inline-label outside-arrows>
-        <q-route-tab icon="mdi-home" label="Overview" :to="{name: 'Dashboard'}" />
-        <q-route-tab icon="mdi-calendar" label="Calendar" :to="{name: 'Dashboard Calendar'}"/>
+        <q-route-tab icon="mdi-home" label="Home" :to="{name: 'Dashboard'}" />
         <q-route-tab icon="mdi-account-group" label="Community" :to="{name: 'Dashboard Community'}"/>
+        <q-route-tab icon="mdi-calendar" label="Calendar" :to="{name: 'Dashboard Calendar'}"/>
         <q-route-tab icon="mdi-file-document" label="Page" :to="{name: 'Dashboard Page'}"/>
         <q-space />
          <q-separator vertical inset dark />
@@ -22,7 +22,7 @@
     </q-header>
 
     <q-page-container class="flex justify-center">
-      <q-page padding class="q-pt-lg q-pb-xl q-mb-xl full-width">
+      <q-page padding class="q-pt-lg q-gutter-y-md full-width">
         <router-view />
         <p class="text-caption text-center q-mt-xl text-grey-6">Made with <span @click="$router.push('/')" class="cursor-pointer text-bold">Rebel Tools</span></p>
       </q-page>
