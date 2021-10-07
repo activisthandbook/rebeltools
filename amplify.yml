@@ -12,7 +12,7 @@ frontend:
       commands:
         - '# Install Quasar globally & install dependancies'
         - npm install -g @quasar/cli
-        - yarn install
+        - yarn install --ignore-engines
     build:
       commands:
         - '# Build using quasar'
