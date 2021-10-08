@@ -11,12 +11,13 @@ frontend:
     preBuild:
       commands:
         - '# Install Quasar globally & install dependancies'
-        - nvm install 12.22.1
-        - npm install -g @quasar/cli
+        - nvm use $VERSION_NODE_14
+        - yarn global add @quasar/cli
         - yarn install
     build:
       commands:
         - '# Build using quasar'
+        - nvm use $VERSION_NODE_14
         - quasar build
   artifacts:
     files:
