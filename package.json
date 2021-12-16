@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.11.1",
+    "@vue/devtools": "^5.3.4",
     "core-js": "^3.6.5",
     "firebase": "^9.6.1",
-    "quasar": "^2.1.0"
+    "quasar": "^2.1.0",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
@@ -24,7 +26,8 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-vue": "^7.0.0",
-    "eslint-webpack-plugin": "^2.4.0"
+    "eslint-webpack-plugin": "^2.4.0",
+    "workbox-webpack-plugin": "^6.0.0"
   },
   "browserslist": [
     "last 10 Chrome versions",

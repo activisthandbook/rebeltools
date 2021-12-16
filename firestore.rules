@@ -1,0 +1,15 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /users/{user} {
+      allow create: if request.auth.emailVerified && request.auth.uid == request.resource.id;
+      allow read, update, delete: if request.auth.uid == request.resource.id;
+    }
+
+    match /movements/{movement} {
+      allow read: if true;
+      allow create: if request.auth.emailVerified;
+    }
+
+  }
+}

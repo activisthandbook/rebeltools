@@ -156,8 +156,3 @@
     </q-timeline>
   </div>
 </template>
-<style>
-.q-page{
-  max-width: 640px;
-}
-</style>
