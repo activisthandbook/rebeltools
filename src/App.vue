@@ -1,4 +1,5 @@
 <template>
+  Test
   <router-view />
 </template>
 <script>
