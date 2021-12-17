@@ -1,3 +1,9 @@
+<!--
+PAGE: NEW MOVEMENT 🌊
+On this page, users can create a new movement.
+
+Path: /new-movement
+ -->
 <template>
   <div  class="q-gutter-y-md">
     <h1>New movement</h1>

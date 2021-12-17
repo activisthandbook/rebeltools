@@ -1,3 +1,9 @@
+<!--
+PAGE: SETTINGS 🛠
+On this page, users can change their personal settings.
+
+Path: /settings
+ -->
 <template>
   <h1>Settings</h1>
   <q-input label="First name" outlined v-model="firstName" @blur="save()"/>

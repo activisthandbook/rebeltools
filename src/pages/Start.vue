@@ -1,3 +1,9 @@
+<!--
+PAGE: START 🏁
+This is what would usually be the sign in or register page. But in our case, both follow the same procedure (invite link). We want to make engagement as seamless as possible, so that is why we 'removed' the process of registering.
+
+Path: /start
+ -->
 <template>
   <q-card>
     <q-card-section v-if="phase == 'sign-in'">

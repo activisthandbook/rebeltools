@@ -1,3 +1,9 @@
+<!--
+PAGE: HOME 🏡
+This is the homepage of Rebel Tools.
+
+Path: /
+ -->
 <template>
   <div class="q-gutter-y-lg">
     <div class="q-mt-xl">

@@ -1,5 +1,6 @@
 <!--
 PAGE: DOESN'T EXIST ⛔️
+This page is shown when the path matches none of the predefined routes, and when no movement doc has been found in the database.
 
 Path: /404
  -->
