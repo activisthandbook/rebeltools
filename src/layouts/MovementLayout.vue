@@ -70,7 +70,7 @@ Path: /:movementID/*
         <div class="q-mx-md q-mt-lg" v-if="isAnonymous">
           <h2 class="q-mb-md">Already a member?</h2>
           <p>Access the dashboard with your account:</p>
-          <q-btn label="Log in" color="primary"/>
+          <q-btn label="Sign in" color="primary" :to="{name: 'Start'}"/>
         </div>
 
         <div class="q-mx-md q-mt-lg" v-else>
