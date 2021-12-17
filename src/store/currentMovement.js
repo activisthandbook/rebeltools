@@ -1,3 +1,8 @@
+/*
+STORE MODULE: CURRENT MOVEMENT 🌊
+In this module, data is stored on the current movement that is viewed by the user.
+*/
+
 import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore'
 import { setCssVar } from 'quasar'
 

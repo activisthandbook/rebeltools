@@ -1,3 +1,8 @@
+/*
+STORE MODULE: CURRENT USER 🙋‍♀️
+In this module, data is stored about the user this is currently signed in. This data is retrieved from the Firestore 'users' collection.
+*/
+
 import { getFirestore, doc, onSnapshot, setDoc } from 'firebase/firestore'
 
 export default {

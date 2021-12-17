@@ -17,11 +17,8 @@ quasar dev
 yarn run lint
 ```
 
-<<<<<<< Updated upstream
-=======
 ## Build & deploy
 
->>>>>>> Stashed changes
 ### Build the app for production
 ```bash
 quasar build
