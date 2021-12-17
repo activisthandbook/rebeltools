@@ -142,8 +142,8 @@ module.exports = configure(function (ctx) {
         description: 'The all-in-one toolset for progressive movements 🦋',
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#ffffff',
-        theme_color: '#FFF8DB',
+        background_color: '#fafafa',
+        theme_color: '#fafafa',
         icons: [
           {
             src: 'icons/icon-128x128.png',
