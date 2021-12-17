@@ -1,3 +1,9 @@
+<!--
+PAGE: MOVEMENT / COMMUNITY 💜
+This page shows oppertunities for people to get involved in the movement community.
+
+Path: /:movementID/community
+ -->
 <template>
   <h1>Community</h1>
   <q-card class="text-bold">

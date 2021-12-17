@@ -1,3 +1,12 @@
+/*
+STORE: MAIN FILE 📂
+In this file, the Vuex is initialised.
+
+Documentation:
+- https://vuex.vuejs.org/
+- https://quasar.dev/quasar-cli/vuex-store
+*/
+
 import { store } from 'quasar/wrappers'
 import { createStore } from 'vuex'
 

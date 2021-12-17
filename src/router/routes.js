@@ -1,3 +1,11 @@
+/*
+ROUTER: ROUTES 🔗
+In this file, all routes for the Rebel Tools app are defined.
+
+Documentation:
+- https://router.vuejs.org/
+- https://quasar.dev/layout/routing-with-layouts-and-pages
+*/
 
 const routes = [
   {

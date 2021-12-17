@@ -71,7 +71,7 @@ export default {
         ...this.newMovement
       }).then(() => {
         this.loading = false
-        this.$router.push(this.newMovement.path)
+        this.$router.push('/' + this.newMovement.path)
       })
     }
   }

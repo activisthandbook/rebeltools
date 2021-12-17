@@ -1,3 +1,9 @@
+<!--
+LAYOUT: MOVEMENT 🌊
+This layout is used for all public movement pages (their homepage, events, community, etc).
+
+Path: /:movementID/*
+ -->
 <template>
 
   <div v-if="!movementName" class="fixed-center text-center">
@@ -84,7 +90,7 @@
         <router-view />
         <p class="text-caption text-center q-mt-xl text-grey-6">Made with <span @click="$router.push('/')" class="cursor-pointer text-bold">Rebel Tools</span></p>
       </q-page>
-      <q-page-sticky position="bottom-right" :offset="[18, 18]" >
+      <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="movementAdmins.includes(userUID)">
           <q-btn icon="mdi-pencil" color="secondary" fab :to="{name: 'Dashboard'}"/>
         </q-page-sticky>
     </q-page-container>

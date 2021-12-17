@@ -1,3 +1,9 @@
+<!--
+LAYOUT: MAIN ⏺
+The whole app loads inside this layout.
+
+Path: /*
+ -->
 <template>
   <router-view v-if="$store.state.auth.user" />
   <div v-else class="fixed-center text-center">

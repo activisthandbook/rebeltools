@@ -1,7 +1,13 @@
+<!--
+PAGE: SUPER ADMIN HOMEPAGE 🔴
+This page is for administrators of the Rebel Tools platform. It allows them to get an overview of everything that users do.
+
+Path: /super-admin
+ -->
 <template>
   <h1>Movements</h1>
   <q-list bordered>
-    <q-item v-for="(movement, index) in movements" :key="index">
+    <q-item v-for="(movement, index) in movements" :key="index" :to="'/' + movement.path">
       <q-item-section>
         <q-item-label>{{ movement.name }}</q-item-label>
         <q-item-label caption lines="2">/{{ movement.path }}</q-item-label>

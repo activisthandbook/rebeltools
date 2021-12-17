@@ -1,3 +1,8 @@
+<!--
+PAGE: MOVEMENT / VACANCIES 🤝
+
+Path: /:movementID/partners
+ -->
 <template>
   <h1>Vacant roles</h1>
   <div>

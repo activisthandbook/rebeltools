@@ -1,3 +1,9 @@
+<!--
+PAGE: MOVEMENT / EVENTS 📆
+This page shows oppertunities for people to get involved in the movement community.
+
+Path: /:movementID/events
+ -->
 <template>
   <h1>Events</h1>
   <q-card v-ripple class="cursor-pointer">

@@ -1,3 +1,9 @@
+<!--
+LAYOUT: DASHBOARD 📝
+The dashboard layout is used by activists to manage their movement. Only people with admin rights for that movement can access it.
+
+Path: /:movementID/dashboard/*
+ -->
 <template>
   <q-layout view="hHr lpR fFr" class="">
     <q-header class="bg-secondary" >

@@ -1,3 +1,12 @@
+/*
+ROUTER: MAIN FILE 🔗
+In this file, the Vue Router is initialised.
+
+Documentation:
+- https://router.vuejs.org/
+- https://quasar.dev/layout/routing-with-layouts-and-pages
+*/
+
 import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'

@@ -1,3 +1,9 @@
+<!--
+LAYOUT: MOVEMENT 🌊
+This layout is used for all public movement pages (their homepage, events, community, etc).
+
+Path: /super-admin/*
+ -->
 <template>
   <q-layout view="hHr lpR fFr">
     <q-header class="bg-secondary" >

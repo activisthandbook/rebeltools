@@ -1,10 +1,16 @@
+<!--
+PAGE: MOVEMENT / HOME 🏡
+This is the main landing page of movements
+
+Path: /:movementID/
+ -->
 <template>
   <div class="q-gutter-sm">
     <h1>{{ headline }}</h1>
     <p>{{ description }}</p>
   </div>
 
-  <q-card class="bg-primary q-my-lg" dark>
+  <!-- <q-card class="bg-primary q-my-lg" dark>
     <q-card-section class="q-gutter-sm column">
       <h2>{{ primaryAction.title }}</h2>
       <div v-if="primaryAction.description">{{ primaryAction.description }}</div>
@@ -16,7 +22,7 @@
         </template>
       </q-input>
     </q-card-section>
-  </q-card>
+  </q-card> -->
 
   <div class="q-gutter-y-sm">
     <h2>Upcoming events</h2>
