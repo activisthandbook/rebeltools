@@ -1,15 +1,13 @@
 <template>
   <div class="q-gutter-sm">
-    <h1>Activist Handbook is the Wikipedia for rebels.</h1>
-    <p>Activist Handbook is a collaborative platform for rebels to exchange knowledge and experiences. We are inviting you to join our international project!</p>
+    <h1>{{ headline }}</h1>
+    <p>{{ description }}</p>
   </div>
 
   <q-card class="bg-primary q-my-lg" dark>
     <q-card-section class="q-gutter-sm column">
-      <h2>Join us</h2>
-      <div>
-        We'd love to get to know you. Sign up and join our international community of change-makers.
-      </div>
+      <h2>{{ primaryAction.title }}</h2>
+      <div v-if="primaryAction.description">{{ primaryAction.description }}</div>
       <q-input label="Email" outlined bg-color="white">
         <template v-slot:append>
           <q-btn icon="mdi-arrow-right" color="primary" round>
@@ -45,6 +43,17 @@ import VacanciesList from '../../components/VacanciesList.vue'
 
 export default {
   name: 'PageIndex',
-  components: { EventList, VacanciesList }
+  components: { EventList, VacanciesList },
+  computed: {
+    headline: {
+      get () { return this.$store.state.currentMovement.data.headline }
+    },
+    description: {
+      get () { return this.$store.state.currentMovement.data.description }
+    },
+    primaryAction: {
+      get () { return this.$store.state.currentMovement.data.primaryAction }
+    }
+  }
 }
 </script>

@@ -1,32 +1,27 @@
 <template>
   <h1>Settings</h1>
-  <q-input label="First name" outlined v-model="currentUser.firstName" @blur="updateUser()"/>
-  <q-input label="Last name" outlined v-model="currentUser.lastName" @blur="updateUser()"/>
+  <q-input label="First name" outlined v-model="firstName" @blur="save()"/>
+  <q-input label="Last name" outlined v-model="lastName" @blur="save()"/>
 </template>
 <script>
-import { getFirestore, doc, onSnapshot, updateDoc } from 'firebase/firestore'
-
-const currentUserRef = doc(getFirestore(), 'users', 'id123')
 
 export default {
-  data () {
-    return {
-      currentUser: {
-        firstName: null,
-        lastName: null
-      }
+  computed: {
+    firstName: {
+      get () { return this.$store.state.currentUser.data.firstName },
+      set (value) { this.$store.commit('currentUser/update', { firstName: value }) }
+    },
+    lastName: {
+      get () { return this.$store.state.currentUser.data.lastName },
+      set (value) { this.$store.commit('currentUser/update', { lastName: value }) }
     }
   },
-  mounted () {
-    this.$nextTick(function () {
-      onSnapshot(currentUserRef, (doc) => {
-        this.currentUser = doc.data()
-      })
-    })
-  },
   methods: {
-    updateUser () {
-      updateDoc(currentUserRef, this.currentUser)
+    updateLocally (e) {
+      this.$store.commit('currentUser/update', e.target.value)
+    },
+    save () {
+      this.$store.dispatch('currentUser/pushToDatabase')
     }
   }
 }

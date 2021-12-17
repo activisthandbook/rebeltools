@@ -2,6 +2,7 @@ import { boot } from 'quasar/wrappers'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics, logEvent } from 'firebase/analytics'
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth'
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAcEwD4BWj11X_sHNX8WMntp_XgiblsVk0',
@@ -19,8 +20,18 @@ const firebaseConfig = {
 export default boot(async ({ store }) => {
   // something to do
   const app = initializeApp(firebaseConfig)
+
   const analytics = getAnalytics(app)
-  logEvent(analytics, 'test-a')
+
+  // Pass your reCAPTCHA v3 site key (public key) to activate(). Make sure this
+  // key is the counterpart to the secret key you set in the Firebase console.
+  initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider('6LckPKsdAAAAALrvsVbXnI-j5doL4S_792D7jpb0'),
+
+    // Optional argument. If true, the SDK automatically refreshes App Check
+    // tokens as needed.
+    isTokenAutoRefreshEnabled: true
+  })
 
   const auth = getAuth()
 
@@ -28,8 +39,13 @@ export default boot(async ({ store }) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
-      store.commit('auth/signin', user)
-      console.log(user)
+
+      store.commit('auth/signin', user) // Store the user data in Vuex
+
+      if (!store.state.auth.user.isAnonymous) {
+        store.dispatch('currentUser/fetchFromDatabase') // Fetch additional data from database
+      }
+
       logEvent(analytics, 'signin')
       // ...
     } else {

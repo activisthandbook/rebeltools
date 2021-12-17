@@ -18,7 +18,7 @@ export default {
   data () {
     return {
       phase: 'sign-in',
-      email: 'joppehoekstra@icloud.com'
+      email: null
     }
   },
   mounted () {

@@ -1,0 +1,51 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 📩 EMAIL VERIFIED
+    function verifiedUser() {
+      return request.auth.token.email_verified;
+    }
+
+    // 🔴 IS SUPER ADMIN!!!
+    // A super admin has super powers. Be very careful with this one!
+    function isSuperADMIN() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isSuperADMIN == true;
+    }
+
+    // 👋 USERS
+    match /users/{userID} {
+
+      allow create: if
+        verifiedUser() && // User is verified
+        request.auth.uid == userID && // Users can only create a doc for themselves
+        request.resource.data.isSuperADMIN == false; // New users cannot make themselves superADMIN
+
+      allow get, update, delete: if
+        verifiedUser() && // User is verified
+        request.auth.uid == userID && // Users can only create a doc for themselves
+        request.resource.data.isSuperADMIN == false; // New users cannot make themselves superADMIN
+
+      allow read, write, delete: if
+        isSuperADMIN() // User is superADMIN 🔴
+    }
+
+    // 📢 MOVEMENTS
+    match /movements/{movement} {
+
+      allow read: if true; // Anyone can read movement data
+
+      allow create: if
+        verifiedUser() && // User is verified
+        [request.auth.uid] == request.resource.data.admins; // User can only make themselves admin
+
+      allow update, delete: if
+        verifiedUser() && // User is verified
+        request.auth.uid in resource.data.admins;
+
+      allow read, write, delete: if
+        isSuperADMIN() // User is superADMIN 🔴
+
+    }
+
+  }
+}

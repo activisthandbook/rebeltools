@@ -1,13 +1,13 @@
 <template>
   <q-layout view="hHr lpR fFr" class="">
-    <q-header class="bg-primary" >
+    <q-header class="bg-secondary" >
       <q-toolbar>
 
         <q-toolbar-title @click="$router.push({name: 'Dashboard'})" class="cursor-pointer">
           Dashboard
         </q-toolbar-title>
 
-        <q-btn outline label="Open page" icon="mdi-eye" :to="{name: 'Movement'}"/>
+        <q-btn icon="mdi-exit-to-app" label="Close dashboard" :to="{name: 'Movement'}" color="white" text-color="black" no-caps/>
 
       </q-toolbar>
       <q-tabs inline-label outside-arrows>

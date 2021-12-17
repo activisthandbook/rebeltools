@@ -11,7 +11,14 @@ const routes = [
     ]
   },
   {
-    path: '/:id/',
+    path: '/super-admin/',
+    component: () => import('src/layouts/SuperAdminLayout.vue'),
+    children: [
+      { path: '', name: 'Super admin', component: () => import('src/pages/super-admin/Index.vue') }
+    ]
+  },
+  {
+    path: '/:movementID/',
     component: () => import('src/layouts/MovementLayout.vue'),
     children: [
       { path: '', name: 'Movement', component: () => import('src/pages/movement/Index.vue') },
@@ -23,7 +30,7 @@ const routes = [
     ]
   },
   {
-    path: '/:id/dashboard',
+    path: '/:movementID/dashboard',
     component: () => import('layouts/DashboardLayout.vue'),
     children: [
       { path: '', name: 'Dashboard', component: () => import('src/pages/dashboard/Index.vue') },

@@ -5,7 +5,7 @@
 
         <q-item clickable class="full-width q-pa-sm">
           <div class="col-4 overflow-hidden row items-center q-pr-md">
-          <q-img :ratio="16/9" :src="event.image" class="rounded-borders"/>
+          <q-img :ratio="16/9" :src="event.image" class="rounded-borders" spinner-color="transparent"/>
         </div>
           <q-item-section>
             <q-item-label caption>{{ event.date }}, {{ event.location }}</q-item-label>

@@ -1,13 +1,26 @@
 <template>
-  <q-layout view="hHr lpR fFr" class="">
+
+  <div v-if="!movementName" class="fixed-center text-center">
+    <q-circular-progress
+      color="grey"
+      indeterminate
+      size="50px"
+      class="q-ma-md"
+    />
+    <div class="text-grey">
+      Loading movement...
+    </div>
+  </div>
+
+  <q-layout view="hHr lpR fFr" v-else>
     <q-header class="bg-secondary" >
       <q-toolbar>
 
         <q-toolbar-title @click="$router.push({name: 'Movement'})" class="cursor-pointer">
-          Activist Handbook
+          {{ movementName }}
         </q-toolbar-title>
 
-        <q-btn dense flat round icon="mdi-menu" @click="toggleRightDrawer">
+        <q-btn dense flat round icon="mdi-menu" @click="rightDrawerOpen = true">
           <q-tooltip>Menu</q-tooltip>
         </q-btn>
 
@@ -16,7 +29,7 @@
 
     <q-drawer v-model="rightDrawerOpen" side="right" overlay behavior="mobile" elevated>
         <q-list>
-          <q-item-label header>Activist Handbook</q-item-label>
+          <q-item-label header>{{ movementName }}</q-item-label>
 
           <q-item clickable v-ripple class="text-bold" :to="{name: 'Movement'}" exact>
             <q-item-section avatar active-class="text-primary">
@@ -47,20 +60,21 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <!-- <div class="q-mx-md q-mt-lg">
+
+        <div class="q-mx-md q-mt-lg" v-if="isAnonymous">
           <h2 class="q-mb-md">Already a member?</h2>
           <p>Access the dashboard with your account:</p>
           <q-btn label="Log in" color="primary"/>
-        </div> -->
-        <div class="q-mx-md q-mt-lg">
-          <h2 class="q-mb-md">Welcome back, Joppe!</h2>
-          <p>Open the dashboard to manage your movement:</p>
+        </div>
+
+        <div class="q-mx-md q-mt-lg" v-else>
+          <h2 class="q-mb-md">Welcome back, {{ firstName }}!</h2>
+          <p v-if="movementAdmins.includes(userUID)">Open the dashboard to manage your movement:</p>
           <div class="q-gutter-sm">
-            <q-btn label="Dashboard" icon="mdi-view-dashboard" color="primary" :to="{name: 'Dashboard'}"/>
-            <!-- <q-btn label="Admin" icon="mdi-database-cog" color="primary"/> -->
+            <q-btn label="Dashboard" icon="mdi-view-dashboard" color="primary" :to="{name: 'Dashboard'}" v-if="movementAdmins.includes(userUID)"/>
+            <q-btn label="Admin" color="primary" v-if="isSuperADMIN" :to="{name: 'Super admin'}"/>
             <q-btn label="Sign out" color="primary" outline/>
           </div>
-
         </div>
 
     </q-drawer>
@@ -70,33 +84,41 @@
         <router-view />
         <p class="text-caption text-center q-mt-xl text-grey-6">Made with <span @click="$router.push('/')" class="cursor-pointer text-bold">Rebel Tools</span></p>
       </q-page>
-      <q-page-sticky position="bottom-right" :offset="[18, 18]">
-            <q-fab
-              icon="mdi-forum"
-              color="secondary"
-            >
-
-            </q-fab>
-          </q-page-sticky>
+      <q-page-sticky position="bottom-right" :offset="[18, 18]" >
+          <q-btn icon="mdi-pencil" color="secondary" fab :to="{name: 'Dashboard'}"/>
+        </q-page-sticky>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'MainLayout',
-
-  setup () {
-    const rightDrawerOpen = ref(false)
-
+  data () {
     return {
-      rightDrawerOpen,
-      toggleRightDrawer () {
-        rightDrawerOpen.value = !rightDrawerOpen.value
-      }
+      rightDrawerOpen: false
+    }
+  },
+  computed: {
+    movementName: {
+      get () { return this.$store.state.currentMovement.data.name }
+    },
+    movementAdmins: {
+      get () { return this.$store.state.currentMovement.data.admins }
+    },
+    userUID: {
+      get () { return this.$store.state.auth.user.uid }
+    },
+    firstName: {
+      get () { return this.$store.state.currentUser.data.firstName }
+    },
+    isAnonymous: {
+      get () { return this.$store.state.auth.user.isAnonymous }
+    },
+    isSuperADMIN: {
+      get () { return this.$store.state.currentUser.data.isSuperADMIN }
     }
   }
 })
