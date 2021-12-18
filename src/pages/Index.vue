@@ -12,14 +12,14 @@ Path: /
     </div>
     <p class="text-body1 text-bold">We are building tools for movements. They are 100% free to use for social, progressive and green rebels. And all our code is open source.</p>
     <q-card class="q-mb-md">
-        <q-expansion-item icon="mdi-lightning-bolt" label="Get early access">
+        <q-expansion-item icon="mdi-lightning-bolt" expand-icon="mdi-chevron-down" label="Get early access">
           <q-card>
             <q-card-section>
               We will start by giving a small number of people access before public release. Do you want to be one of the firsts to use Rebel Tools? Request early access as beta tester: <a href="mailto:contact@activisthandbook.org">contact@activisthandbook.org</a>
             </q-card-section>
           </q-card>
         </q-expansion-item>
-        <q-expansion-item icon="mdi-github" label="Contribute as developer">
+        <q-expansion-item icon="mdi-github" expand-icon="mdi-chevron-down" label="Contribute as developer">
           <q-card>
             <q-card-section>
               Do you have experience with web development or are you eager to learn? We would love to welcome you on our team! Let us know you are interested: <a href="mailto:contact@activisthandbook.org">contact@activisthandbook.org</a>
