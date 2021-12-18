@@ -51,9 +51,11 @@ export default {
       const q = query(collection(getFirestore(), 'movements'))
 
       onSnapshot(q, (querySnapshot) => {
+        const movements = []
         querySnapshot.forEach((doc) => {
-          this.movements.push(doc.data())
+          movements.push(doc.data())
         })
+        this.movements = movements
       })
     },
     fetchUsersFromDatabase () {
