@@ -5,17 +5,36 @@ This is what would usually be the sign in or register page. But in our case, bot
 Path: /start
  -->
 <template>
-  <q-card>
-    <q-card-section v-if="phase == 'sign-in'">
-      <h2>Get started</h2>
-      <q-input type="email" outlined label="Email address" v-model="email"/>
-      <q-btn @click="sendVerificationEmail" label="Sign in"/>
-    </q-card-section>
-    <q-card-section v-if="phase == 'verify-email'">
-      <h2>Check your email</h2>
-      <p>We just need to verify it's really you.</p>
-    </q-card-section>
-  </q-card>
+  <div v-if="!$store.state.auth.user" class="fixed-center text-center">
+    <q-circular-progress
+      color="grey"
+      indeterminate
+      size="50px"
+      class="q-ma-md"
+    />
+    <div class="text-grey">
+      Loading auth...
+    </div>
+  </div>
+  <div v-else>
+    <q-card v-if="!this.$store.state.auth.user.emailVerified">
+      <q-card-section v-if="phase == 'sign-in'">
+        <h2>Get started</h2>
+        <q-input type="email" outlined label="Email address" v-model="email"/>
+        <q-btn @click="sendVerificationEmail" label="Sign in"/>
+      </q-card-section>
+      <q-card-section v-if="phase == 'verify-email'">
+        <h2>Check your email</h2>
+        <p>We just need to verify it's really you.</p>
+      </q-card-section>
+    </q-card>
+    <q-card v-else>
+      <q-card-section>
+        <h2>You are already signed in.</h2>
+        <q-btn label="Go home" :to="{name: 'Home'}"/>
+      </q-card-section>
+    </q-card>
+  </div>
 </template>
 <script>
 import { getAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth'
@@ -26,20 +45,6 @@ export default {
       phase: 'sign-in',
       email: null
     }
-  },
-  mounted () {
-    this.$nextTick(function () {
-      // Code that will run only after the
-      // entire view has been rendered
-
-      if (this.$store.state.auth.user.emailVerified) {
-        // We are already signed in.
-        this.$router.push({ name: 'Home' })
-      } else {
-        // We are not signed in yet
-        this.signin()
-      }
-    })
   },
   methods: {
 

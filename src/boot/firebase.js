@@ -4,6 +4,7 @@ import { getAnalytics, logEvent } from 'firebase/analytics'
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore'
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
+import { getPerformance } from 'firebase/performance'
 
 // When hosting yourself, make sure to edit this configuration
 const firebaseConfig = {
@@ -38,7 +39,9 @@ export default boot(async ({ store }) => {
   const auth = getAuth()
 
   onAuthStateChanged(auth, (user) => {
+    console.log('onAuthStateChanged')
     if (user) {
+      console.log('SIGNIN SUCCESFUL')
       /* SIGNIN SUCCESFUL ✅
       User is signed in, see docs for a list of available properties:
       https://firebase.google.com/docs/reference/js/firebase.User */
@@ -53,15 +56,18 @@ export default boot(async ({ store }) => {
 
       /* Future logged events will be linked to the user ID:
       https://firebase.google.com/docs/analytics/userid */
-      analytics.setUserID(user.uid)
+      // analytics.setUserID(user.uid) -> Uncaught (in promise) TypeError: Cannot read properties of null (reading 'emailVerified')
+
       logEvent(analytics, 'signin')
 
       // ..
     } else {
+      console.log('NOT SIGNED IN')
       /* NOT SIGNED IN ❌
       This may seem a bit counterintuitive, but we always want to make sure users are signed in. Even if they don't have an account, we will sign them in, but with an anonymous Firebase account. */
       signInAnonymously(auth)
         .then(() => {
+          console.log('Signed in with anonymous account')
           // Signed in with anonymous account
         })
         .catch((error) => {
@@ -99,4 +105,10 @@ export default boot(async ({ store }) => {
     /* Optional argument. If true, the SDK automatically refreshes App Check tokens as needed. */
     isTokenAutoRefreshEnabled: true
   })
+
+  /* 🤖 PERFORNANCE MONITORING
+  Pass your reCAPTCHA v3 site key (public key) to activate(). Make sure this key is the counterpart to the secret key you set in the Firebase console.
+  Docs: https://firebase.google.com/docs/app-check
+  */
+  getPerformance(app)
 })

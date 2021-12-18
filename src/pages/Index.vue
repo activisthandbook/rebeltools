@@ -107,6 +107,38 @@ Path: /
         </q-list>
       </q-card>
     </div>
+    <div class="q-mt-xl q-gutter-y-sm">
+      <h2>More awesomeness</h2>
+      <p></p>
+      <q-card>
+        <q-list bordered separator>
+          <q-item>
+            <q-item-section avatar>
+              <q-icon name="mdi-wifi-off" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-bold">Works offline</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section avatar>
+              <q-icon name="mdi-translate" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-bold">Multi-language support</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section avatar>
+              <q-icon name="mdi-palette" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-bold">Customisable</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card>
+    </div>
   </div>
 
   <div class="q-mt-xl q-gutter-sm">
