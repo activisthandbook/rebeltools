@@ -26,9 +26,7 @@ Path: /:movementID/*
           {{ movementName }}
         </q-toolbar-title>
 
-        <q-btn dense flat round icon="mdi-menu" @click="rightDrawerOpen = true">
-          <q-tooltip>Menu</q-tooltip>
-        </q-btn>
+        <q-btn dense flat round icon="mdi-menu" @click="rightDrawerOpen = true"/>
 
       </q-toolbar>
     </q-header>

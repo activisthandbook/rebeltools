@@ -10,6 +10,8 @@ Path: /:movementID/
     <p>{{ description }}</p>
   </div>
 
+  <smart-action :title="primaryAction.title" :description="primaryAction.description"/>
+
   <!-- <q-card class="bg-primary q-my-lg" dark>
     <q-card-section class="q-gutter-sm column">
       <h2>{{ primaryAction.title }}</h2>
@@ -44,12 +46,13 @@ Path: /:movementID/
 </template>
 
 <script>
+import SmartAction from 'src/components/SmartAction.vue'
 import EventList from '../../components/EventList.vue'
 import VacanciesList from '../../components/VacanciesList.vue'
 
 export default {
   name: 'PageIndex',
-  components: { EventList, VacanciesList },
+  components: { EventList, VacanciesList, SmartAction },
   computed: {
     headline: {
       get () { return this.$store.state.currentMovement.data.headline }

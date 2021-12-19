@@ -5,7 +5,7 @@ This component allows users to sign up for movements and events.
 2. When logged out, it shows an email signup field
  -->
 <template>
-  <q-card>
+  <q-card dark class="bg-primary q-my-lg">
     <q-card-section class="q-gutter-sm column">
       <h2>{{ title }}</h2>
       <div v-if="description">{{ description }}</div>
