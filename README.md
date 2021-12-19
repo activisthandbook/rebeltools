@@ -15,10 +15,11 @@ In this guide, we assume you already have the following installed:
 - [Node.js](https://nodejs.org)
 - [Yarn](https://yarnpkg.com/getting-started/install)
 - [Git](https://git-scm.com/downloads)
-- [GitHub Desktop](https://desktop.github.com)
 
-### 3. Clone the repository
-To start, [clone the repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) to your local device.
+### 3. Fork & clone the repository
+You will need to fork & clone this repository, to start making edits & sharing them with us.
+
+Never done that before? Don't worry, read this [guide for beginners](https://github.com/firstcontributions/first-contributions/blob/master/gui-tool-tutorials/github-desktop-tutorial.md).
 
 ### 4. Install the dependencies
 To install all dependencies, run this inside your project folder:
@@ -42,7 +43,13 @@ You will need a [Firebase](firebase.google.com) account to host your own instanc
 - [Setup](https://firebase.google.com/docs/web/setup) your Firebase project.
 - Make sure to edit the [Firebase configuration](https://firebase.google.com/docs/web/learn-more#config-object) in the `/src/boot/firebase.js` file.
 
-### 2. Customize the app
+### 2. Deploy
+We use automatic deployment whenever our GitHub repository updates. Learn how to [set up automatic deployments](https://firebase.google.com/docs/hosting/github-integration). Add this line to the `firebase-hosting-merge.yml` and `firebase-hosting-pull-request.yml` files:
+```yml
+- run: yarn install --immutable && yarn global add @quasar/cli && quasar build  -m pwa
+```
+
+### 3. Customize the app
 If you are hosting your own instance, you can change every aspect of the app. We recommend you to start by editing the following files:
 - quasar.conf.js ([Learn more](https://v2.quasar.dev/quasar-cli/quasar-conf-js))
 - src/css/quasar.variables.scss ([Learn more](https://quasar.dev/style/sass-scss-variables#customizing))
