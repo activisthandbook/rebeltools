@@ -10,35 +10,23 @@ Path: /new-movement
     <p>Create your own movement page using Rebel Tools.</p>
     <q-card>
       <q-card-section>
-        <p class="text-bold">📢 What would you like to call your movement?</p>
-        <q-input label="Name of movement" placeholder="Climate Justice Now!" outlined v-model="newMovement.name" required/>
-        <q-input label="URL Path" placeholder="climate-justice-now" outlined v-model="newMovement.path" hint="Only use lowercase letters and dashes (my-movement)." class="q-mt-md" required/>
+        <div class="q-gutter-sm">
+          <div class="text-bold">📢 What would you like to call your movement?</div>
+          <input-name v-model="newMovement.name" />
+          <input-path v-model="newMovement.path"/>
+        </div>
       </q-card-section>
     </q-card>
     <q-card>
       <q-card-section>
-        <p class="text-bold">🎨 Customise your theme.</p>
-        <q-input label="Primary colour" outlined v-model="newMovement.primaryColor" :rules="['anyColor']">
-          <template v-slot:append>
-            <q-btn icon="mdi-palette" class="cursor-pointer" v-bind:style="{ background: newMovement.primaryColor }" text-color="white">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-color v-model="newMovement.primaryColor" />
-              </q-popup-proxy>
-            </q-btn>
-          </template>
-        </q-input>
-        <q-input label="Secondary colour" outlined v-model="newMovement.secondaryColor" :rules="['anyColor']">
-          <template v-slot:append>
-            <q-btn icon="mdi-palette" class="cursor-pointer" v-bind:style="{ background: newMovement.secondaryColor }" text-color="white">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-color v-model="newMovement.secondaryColor" />
-              </q-popup-proxy>
-            </q-btn>
-          </template>
-        </q-input>
+        <div class="q-gutter-sm">
+          <div class="text-bold">🎨 Customise your theme.</div>
+          <input-color label="Primary color" v-model="newMovement.primaryColor"/>
+          <input-color label="Secondary color" v-model="newMovement.secondaryColor"/>
+        </div>
       </q-card-section>
     </q-card>
-    <q-btn label="Create movement" @click="createMovement()" no-caps color="primary" icon-right="mdi-arrow-right" :loading="loading" :disable="!newMovement.name || !newMovement.path || !newMovement.primaryColor || !newMovement.secondaryColor">
+    <q-btn label="Create movement" @click="createMovement()" no-caps icon-right="mdi-arrow-right" :loading="loading" :disable="!newMovement.name || !newMovement.path || !newMovement.primaryColor || !newMovement.secondaryColor" v-bind:style="{ background: newMovement.primaryColor }" text-color="white">
        <template v-slot:loading>
         Creating...
       </template>
@@ -47,17 +35,26 @@ Path: /new-movement
 </template>
 <script>
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore'
-import { ref } from 'vue'
+
+// COMPONENTS
+import inputName from '../components/movement/inputName'
+import inputPath from '../components/movement/inputPath'
+import inputColor from '../components/movement/inputColor'
 
 export default {
+  components: {
+    inputName,
+    inputPath,
+    inputColor
+  },
   data () {
     return {
       loading: false,
       newMovement: {
         name: null,
         path: null,
-        primaryColor: ref('#0431EA'),
-        secondaryColor: ref('#D70057'),
+        primaryColor: '#0431EA',
+        secondaryColor: '#D70057',
         admins: null,
         headline: "We're awesome rebels",
         description: "And we're here to change the world. You should most definitely join us.",
@@ -79,6 +76,9 @@ export default {
         this.loading = false
         this.$router.push('/' + this.newMovement.path)
       })
+    },
+    test (event) {
+      console.log(event)
     }
   }
 }

@@ -1,11 +1,42 @@
+<!--
+COMPONENT: MOVEMENT / INPUT COLOR
+Docs: https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components
+ -->
 <template>
-  <q-input label="Primary colour" outlined v-model="newMovement.primaryColor" :rules="['anyColor']">
-    <template v-slot:append>
-      <q-btn icon="mdi-palette" class="cursor-pointer" v-bind:style="{ background: newMovement.primaryColor }" text-color="white">
-        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-          <q-color v-model="newMovement.primaryColor" />
-        </q-popup-proxy>
-      </q-btn>
-    </template>
-  </q-input>
+  <div>
+    <q-input
+      :label="label"
+      outlined
+
+      v-bind="$attrs"
+    >
+      <template v-slot:append>
+        <q-btn icon="mdi-eyedropper" label="Pick color" flat no-caps v-bind:style="{ color: $attrs.modelValue }">
+          <q-menu :offset="[0, 4]">
+            <q-color
+              v-bind="$attrs"
+            />
+          </q-menu>
+        </q-btn>
+      </template>
+    </q-input>
+  </div>
 </template>
+<script>
+export default {
+  name: 'input-color',
+  props: ['label', 'value'],
+  inheritAttrs: false
+  // computed: {
+  //   model: {
+  //     get () {
+  //       return this.value
+  //     },
+  //     set (value) {
+  //       console.log(value)
+  //       this.$emit('input', value)
+  //     }
+  //   }
+  // }
+}
+</script>
