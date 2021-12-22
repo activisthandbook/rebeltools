@@ -10,21 +10,7 @@ Path: /:movementID/
     <p>{{ description }}</p>
   </div>
 
-  <smart-action :title="primaryAction.title" :description="primaryAction.description"/>
-
-  <!-- <q-card class="bg-primary q-my-lg" dark>
-    <q-card-section class="q-gutter-sm column">
-      <h2>{{ primaryAction.title }}</h2>
-      <div v-if="primaryAction.description">{{ primaryAction.description }}</div>
-      <q-input label="Email" outlined bg-color="white">
-        <template v-slot:append>
-          <q-btn icon="mdi-arrow-right" color="primary" round>
-            <q-tooltip>Sign up</q-tooltip>
-          </q-btn>
-        </template>
-      </q-input>
-    </q-card-section>
-  </q-card> -->
+  <smart-action :title="primaryAction.title" :description="primaryAction.description" actionlabel="Join movement" :actionpeople="24"/>
 
   <div class="q-gutter-y-sm">
     <h2>Upcoming events</h2>

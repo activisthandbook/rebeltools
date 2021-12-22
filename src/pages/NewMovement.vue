@@ -5,59 +5,122 @@ On this page, users can create a new movement.
 Path: /new-movement
  -->
 <template>
-  <div  class="q-gutter-y-md">
-    <h1>New movement</h1>
-    <p>Create your own movement page using Rebel Tools.</p>
-    <q-card>
-      <q-card-section>
-        <div class="q-gutter-sm">
-          <div class="text-bold">📢 What would you like to call your movement?</div>
-          <input-name v-model="newMovement.name" />
-          <input-path v-model="newMovement.path"/>
+  <h1 class="q-mb-md">New movement</h1>
+  <q-stepper
+    v-model="step"
+    vertical
+    animated
+    header-nav
+  >
+    <q-step
+      :name="1"
+      title="Page details"
+      icon="mdi-bullhorn-outline"
+      active-icon="mdi-bullhorn-outline"
+      :done="step > 1"
+    >
+      <div class="q-gutter-y-sm">
+        <div class="text-bold">What do you want to call your movement?</div>
+        <input-name v-model="newMovement.name" @blur="newMovement.path = newMovement.name.toLowerCase().replace(/[^a-z,.]+/g, '')"/>
+        <input-path v-model="newMovement.path"/>
+        <transition v-show="advanced" enter-active-class="animated fadeIn">
+          <div v-show="advanced" class="q-gutter-y-sm">
+            <input-headline v-model="newMovement.headline"/>
+            <input-description v-model="newMovement.description"/>
+          </div>
+        </transition>
+
+      </div>
+
+      <q-stepper-navigation class="flex justify-between items-center q-gutter-sm">
+        <q-btn @click="step = 2" color="primary" label="Continue" icon-right="mdi-arrow-right" no-caps :disable="!newMovement.name || !newMovement.path"/>
+        <q-btn label="Advanced settings" no-caps flat class="bg-grey-3" size="sm" @click="advanced = !advanced" :ripple="false"/>
+
+      </q-stepper-navigation>
+    </q-step>
+
+    <q-step
+      :name="2"
+      :done="step > 2"
+      title="Customise design"
+      icon="mdi-palette"
+      active-icon="mdi-palette"
+      :disable="!newMovement.name || !newMovement.path"
+    >
+      <div class="q-gutter-y-sm">
+        <div class="text-bold">Make look your own.</div>
+        <input-color label="1️⃣ Primary color" v-model="newMovement.primaryColor"/>
+        <input-color label="2️⃣ Secondary color" v-model="newMovement.secondaryColor"/>
+      </div>
+
+      <q-stepper-navigation class="q-gutter-sm">
+        <q-btn label="Continue" icon-right="mdi-arrow-right" color="primary" no-caps @click="step = 3" v-if="$store.state.auth.user && !$store.state.auth.user.emailVerified"/>
+        <q-btn color="primary" label="Create movement" icon-right="mdi-arrow-right-circle" no-caps
+        @click="createMovement()"  :loading="loading" :disable="!newMovement.name || !newMovement.path || !newMovement.primaryColor || !newMovement.secondaryColor" v-if="$store.state.auth.user && $store.state.auth.user.emailVerified"/>
+      </q-stepper-navigation>
+    </q-step>
+    <q-step
+      v-if="$store.state.auth.user && !$store.state.auth.user.emailVerified"
+      :name="3"
+      title="Get started"
+      icon="mdi-account"
+      active-icon="mdi-account"
+      :disable="!newMovement.name || !newMovement.path || !newMovement.primaryColor || !newMovement.secondaryColor"
+    >
+      <div class="q-gutter-y-sm">
+        <div>Almost there! Register or sign in to Rebel Tools to get started.</div>
+        <smart-action title="Create movement" :description="'Fill in your email address, and start mobilising people for ' + newMovement.name + '.'"/>
+        <div class="text-bold">
+          <div class="text-caption">Rebel Tools is built for activists, by activists.</div>
+          <q-chip icon="mdi-currency-usd-off" label="Forever free" color="secondary" text-color="white" size="sm"/>
+          <q-chip icon="mdi-github" label="Open source" color="secondary" text-color="white" size="sm"/>
+          <q-chip icon="mdi-lightning-bolt" label="Powerful tools, easy to use" color="secondary" text-color="white" size="sm"/>
         </div>
-      </q-card-section>
-    </q-card>
-    <q-card>
-      <q-card-section>
-        <div class="q-gutter-sm">
-          <div class="text-bold">🎨 Customise your theme.</div>
-          <input-color label="Primary color" v-model="newMovement.primaryColor"/>
-          <input-color label="Secondary color" v-model="newMovement.secondaryColor"/>
-        </div>
-      </q-card-section>
-    </q-card>
-    <q-btn label="Create movement" @click="createMovement()" no-caps icon-right="mdi-arrow-right" :loading="loading" :disable="!newMovement.name || !newMovement.path || !newMovement.primaryColor || !newMovement.secondaryColor" v-bind:style="{ background: newMovement.primaryColor }" text-color="white">
-       <template v-slot:loading>
-        Creating...
-      </template>
-    </q-btn>
-  </div>
+
+      </div>
+
+      <!-- <q-stepper-navigation class="q-gutter-sm">
+
+        <q-btn color="primary" label="Create movement" icon-right="mdi-arrow-right-circle" no-caps
+        @click="createMovement()"  :loading="loading" :disable="!newMovement.name || !newMovement.path || !newMovement.primaryColor || !newMovement.secondaryColor" />
+      </q-stepper-navigation> -->
+    </q-step>
+  </q-stepper>
 </template>
 <script>
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { setCssVar } from 'quasar'
 
 // COMPONENTS
-import inputName from '../components/movement/inputName'
-import inputPath from '../components/movement/inputPath'
-import inputColor from '../components/movement/inputColor'
+import InputName from '../components/movement/InputName'
+import InputPath from '../components/movement/InputPath'
+import InputHeadline from '../components/movement/InputHeadline'
+import InputDescription from '../components/movement/InputDescription'
+import InputColor from '../components/movement/InputColor'
+import SmartAction from '../components/SmartAction'
 
 export default {
   components: {
-    inputName,
-    inputPath,
-    inputColor
+    InputName,
+    InputPath,
+    InputHeadline,
+    InputDescription,
+    InputColor,
+    SmartAction
   },
   data () {
     return {
+      step: 1,
+      advanced: false,
       loading: false,
       newMovement: {
-        name: null,
-        path: null,
+        name: '',
+        path: '',
         primaryColor: '#0431EA',
         secondaryColor: '#D70057',
         admins: null,
-        headline: "We're awesome rebels",
-        description: "And we're here to change the world. You should most definitely join us.",
+        headline: '',
+        description: '',
         primaryAction: {
           title: 'Join us',
           description: "We'd love to get to know you."
@@ -65,10 +128,25 @@ export default {
       }
     }
   },
+  watch: {
+    newMovement: {
+      handler (newMovement) {
+        setCssVar('primary', newMovement.primaryColor)
+        setCssVar('secondary', newMovement.secondaryColor)
+      },
+      deep: true
+    }
+  },
   methods: {
     createMovement () {
       this.loading = true
       this.newMovement.admins = [this.$store.state.auth.user.uid]
+      if (!this.newMovement.headline) {
+        this.newMovement.headline = "We're awesome rebels"
+      }
+      if (!this.newMovement.description) {
+        this.newMovement.description = "And we're here to change the world. You should most definitely join us."
+      }
       addDoc(collection(getFirestore(), 'movements'), {
         createdAt: serverTimestamp(),
         ...this.newMovement
@@ -76,9 +154,6 @@ export default {
         this.loading = false
         this.$router.push('/' + this.newMovement.path)
       })
-    },
-    test (event) {
-      console.log(event)
     }
   }
 }

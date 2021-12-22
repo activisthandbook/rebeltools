@@ -5,108 +5,26 @@ This is what would usually be the sign in or register page. But in our case, bot
 Path: /start
  -->
 <template>
-  <div v-if="!$store.state.auth.user" class="fixed-center text-center">
-    <q-circular-progress
-      color="grey"
-      indeterminate
-      size="50px"
-      class="q-ma-md"
-    />
-    <div class="text-grey">
-      Loading auth...
-    </div>
-  </div>
+  <q-skeleton class="q-my-lg" height="172px" v-if="!$store.state.auth.user"/>
   <div v-else>
-    <q-card v-if="!this.$store.state.auth.user.emailVerified">
-      <q-card-section v-if="phase == 'sign-in'">
-        <h2>Get started</h2>
-        <q-input type="email" outlined label="Email address" v-model="email"/>
-        <q-btn @click="sendVerificationEmail" label="Sign in"/>
-      </q-card-section>
-      <q-card-section v-if="phase == 'verify-email'">
-        <h2>Check your email</h2>
-        <p>We just need to verify it's really you.</p>
-      </q-card-section>
-    </q-card>
-    <q-card v-else>
+    <q-card class="q-my-lg" v-if="$store.state.auth.user.emailVerified">
       <q-card-section>
-        <h2>You are already signed in.</h2>
-        <q-btn label="Go home" :to="{name: 'Home'}"/>
+        <div class="q-gutter-y-sm">
+          <h2>Welcome back!</h2>
+          <div>On this page, you can sign in. But you already seem to be signed in. Are you confused? Well, we are.</div>
+          <q-btn label="Go home" :to="{name: 'Home'}" color="primary" icon="mdi-home" no-caps/>
+        </div>
       </q-card-section>
     </q-card>
+    <smart-action v-else title="Get started" description="Fill in your email address to register or sign in."/>
   </div>
 </template>
 <script>
-import { getAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth'
+import SmartAction from 'src/components/SmartAction'
 
 export default {
-  data () {
-    return {
-      phase: 'sign-in',
-      email: null
-    }
-  },
-  methods: {
-
-    sendVerificationEmail () {
-      const auth = getAuth()
-      const actionCodeSettings = {
-        // URL you want to redirect back to. The domain (www.example.com) for this
-        // URL must be in the authorized domains list in the Firebase Console.
-        url: window.location.href,
-        handleCodeInApp: true
-      }
-
-      sendSignInLinkToEmail(auth, this.email, actionCodeSettings)
-        .then(() => {
-          // The link was successfully sent. Inform the user.
-          // Save the email locally so you don't need to ask the user for it again
-          // if they open the link on the same device.
-          window.localStorage.setItem('emailForSignIn', this.email)
-          this.phase = 'verify-email'
-        })
-        .catch((error) => {
-          // const errorCode = error.code;
-          const errorMessage = error.message
-          console.log(errorMessage)
-        })
-    },
-
-    signin () {
-      // Confirm the link is a sign-in with email link.
-      const auth = getAuth()
-      if (isSignInWithEmailLink(auth, window.location.href)) {
-        // Additional state parameters can also be passed via URL.
-        // This can be used to continue the user's intended action before triggering
-        // the sign-in operation.
-        // Get the email if available. This should be available if the user completes
-        // the flow on the same device where they started it.
-        let email = window.localStorage.getItem('emailForSignIn')
-        if (!email) {
-          // User opene d the link on a different device. To prevent session fixation
-          // attacks, ask the user to provide the associated email again. For example:
-          email = window.prompt('Please provide your email for confirmation')
-        }
-        // The client SDK will parse the code from the link for you.
-        signInWithEmailLink(auth, email, window.location.href)
-          .then((result) => {
-            // Clear email from storage.
-            window.localStorage.removeItem('emailForSignIn')
-            // You can access the new user via result.user
-            // Additional user info profile not available via:
-            // result.additionalUserInfo.profile == null
-            // You can check if the user is new or existing:
-            // result.additionalUserInfo.isNewUser
-          })
-          .catch((error) => {
-            // Some error occurred, you can inspect the code: error.code
-            // Common errors could be invalid email and invalid or expired OTPs.
-            console.log(error)
-          })
-      }
-    }
-
+  components: {
+    SmartAction
   }
-
 }
 </script>

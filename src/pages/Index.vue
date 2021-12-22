@@ -64,7 +64,7 @@ Path: /
               <q-icon name="mdi-bullhorn" />
             </q-item-section>
             <q-item-section>
-              <q-item-label class="text-bold">Effective petitions</q-item-label>
+              <q-item-label class="text-bold">Petition campaigns</q-item-label>
               <q-item-label caption>Use petitions as a low barrier way for new people to get to know your movement. Send targeted messages to your community based on their interests.</q-item-label>
             </q-item-section>
           </q-item>
