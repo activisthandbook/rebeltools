@@ -16,6 +16,7 @@ export default {
   },
   mutations: {
     update (state, userData) {
+      // Only update the fields that were changed
       state.data = Object.assign(state.data, userData)
     }
   },

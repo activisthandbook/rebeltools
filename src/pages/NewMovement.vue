@@ -92,12 +92,12 @@ import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/fire
 import { setCssVar } from 'quasar'
 
 // COMPONENTS
-import InputName from '../components/movement/InputName'
-import InputPath from '../components/movement/InputPath'
-import InputHeadline from '../components/movement/InputHeadline'
-import InputDescription from '../components/movement/InputDescription'
-import InputColor from '../components/movement/InputColor'
-import SmartAction from '../components/SmartAction'
+import InputName from '../components/movement/InputName.vue'
+import InputPath from '../components/movement/InputPath.vue'
+import InputHeadline from '../components/movement/InputHeadline.vue'
+import InputDescription from '../components/movement/InputDescription.vue'
+import InputColor from '../components/movement/InputColor.vue'
+import SmartAction from '../components/SmartAction.vue'
 
 export default {
   components: {

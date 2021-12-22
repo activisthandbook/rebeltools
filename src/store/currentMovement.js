@@ -24,7 +24,8 @@ export default {
   },
   mutations: {
     update (state, movementData) {
-      state.data = movementData
+      // Only update the fields that were changed
+      state.data = Object.assign(state.data, movementData)
     }
   },
   actions: {
