@@ -4,7 +4,7 @@ Docs: https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components
  -->
 <template>
   <q-input
-    label="Headline"
+    label="✊ Headline"
 
     outlined
 
@@ -15,6 +15,6 @@ Docs: https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components
 <script>
 export default {
   props: ['value']
-  // TO-DO: Add some validation here
+  // 👉 TO-DO: Add some validation here
 }
 </script>

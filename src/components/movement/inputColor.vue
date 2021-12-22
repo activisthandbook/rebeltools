@@ -6,8 +6,10 @@ Docs: https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components
   <div>
     <q-input
       :label="label"
+      placeholder="#000000"
       outlined
-
+      @focus="focus()"
+      ref="colorInput"
       v-bind="$attrs"
     >
       <template v-slot:append>
@@ -26,17 +28,12 @@ Docs: https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components
 export default {
   name: 'input-color',
   props: ['label', 'value'],
-  inheritAttrs: false
-  // computed: {
-  //   model: {
-  //     get () {
-  //       return this.value
-  //     },
-  //     set (value) {
-  //       console.log(value)
-  //       this.$emit('input', value)
-  //     }
-  //   }
-  // }
+  inheritAttrs: false,
+  methods: {
+    focus: function () {
+      this.$refs.colorInput.select()
+    }
+  }
+  // 👉 TO-DO: Add some contrast validation here: https://www.npmjs.com/package/color-contrast-checker
 }
 </script>
