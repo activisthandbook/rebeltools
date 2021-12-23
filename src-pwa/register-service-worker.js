@@ -25,12 +25,27 @@ register(process.env.SERVICE_WORKER_FILE, {
   },
 
   updatefound (/* registration */) {
-    // console.log('New content is downloading.')
+    Notify.create({
+      message: 'Downloading update...',
+      color: 'white',
+      textColor: 'black',
+      timeout: 1000,
+      position: 'bottom-left'
+    })
   },
 
   updated (/* registration */) {
     // console.log('New content is available; please refresh.')
-    Notify.create("There's a new version of Rebel Tools")
+    Notify.create({
+      message: "There's a new version of Rebel Tools.",
+      color: 'white',
+      textColor: 'black',
+      timeout: 0,
+      position: 'bottom-left',
+      actions: [
+        { label: 'Update', handler: () => { window.location.reload() } }
+      ]
+    })
   },
 
   offline () {
