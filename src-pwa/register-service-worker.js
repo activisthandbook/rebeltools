@@ -21,11 +21,19 @@ register(process.env.SERVICE_WORKER_FILE, {
   },
 
   cached (/* registration */) {
-    // console.log('Content has been cached for offline use.')
+    Notify.create({
+      icon: 'mdi-cloud-check',
+      message: 'Rebel Tools now works offline.',
+      color: 'white',
+      textColor: 'black',
+      timeout: 1000,
+      position: 'bottom-left'
+    })
   },
 
   updatefound (/* registration */) {
     Notify.create({
+      icon: 'mdi-cloud-download-outline',
       message: 'Downloading update...',
       color: 'white',
       textColor: 'black',
@@ -37,6 +45,7 @@ register(process.env.SERVICE_WORKER_FILE, {
   updated (/* registration */) {
     // console.log('New content is available; please refresh.')
     Notify.create({
+      icon: 'mdi-shimmer',
       message: "There's a new version of Rebel Tools.",
       color: 'white',
       textColor: 'black',
@@ -50,7 +59,10 @@ register(process.env.SERVICE_WORKER_FILE, {
 
   offline () {
     // console.log('No internet connection found. App is running in offline mode.')
-    Notify.create("You're offline")
+    Notify.create({
+      icon: 'mdi-wifi-off',
+      message: "You're offline"
+    })
   },
 
   error (/* err */) {
