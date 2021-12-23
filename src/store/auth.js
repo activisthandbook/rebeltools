@@ -9,7 +9,9 @@ export default {
   namespaced: true,
   state: {
     status: 'signed-out',
-    user: null
+    user: {
+      isAnonymous: true
+    }
   },
   mutations: {
     signin (state, newUser) {

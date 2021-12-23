@@ -23,11 +23,22 @@ Path: /:movementID/events
 
   </q-card>
   <event-list/>
+  <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="admins.includes(userUID)">
+    <q-btn icon="mdi-calendar-edit" color="primary" fab :to="{name: 'Dashboard Page'}"/>
+  </q-page-sticky>
 </template>
 <script>
 import EventList from '../../components/EventList.vue'
 
 export default {
-  components: { EventList }
+  components: { EventList },
+  computed: {
+    admins: {
+      get () { return this.$store.state.currentMovement.data.admins }
+    },
+    userUID: {
+      get () { return this.$store.state.auth.user.uid }
+    }
+  }
 }
 </script>

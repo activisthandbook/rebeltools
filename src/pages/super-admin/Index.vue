@@ -6,29 +6,36 @@ Path: /super-admin
  -->
 <template>
   <h1>Movements</h1>
-  <q-list bordered separator>
+  <q-card>
+    <q-list separator>
     <q-item v-for="(movement, index) in movements" :key="index">
       <q-item-section>
         <q-item-label>{{ movement.name }}</q-item-label>
         <q-item-label caption lines="2">/{{ movement.path }}</q-item-label>
       </q-item-section>
       <q-item-section side>
-        <q-btn icon="mdi-eye" label="Open" outline text-color="black" :to="'/' + movement.path"/>
+        <q-btn icon="mdi-link" round flat no-caps :to="'/' + movement.path" dense/>
       </q-item-section>
       <q-item-section side>
-        <q-btn icon="mdi-delete" flat round color="red" @click="deleteMovement(movement)"/>
+        <q-btn icon="mdi-pencil" round flat no-caps @click="$router.push({ name: 'Dashboard', params: { movementID: movement.path } })" dense/>
+      </q-item-section>
+      <q-item-section side>
+        <q-btn icon="mdi-delete" flat round @click="deleteMovement(movement)" dense/>
       </q-item-section>
     </q-item>
   </q-list>
+  </q-card>
   <h1>Users</h1>
-  <q-list bordered>
-    <q-item v-for="(user, index) in users" :key="index">
-      <q-item-section>
-        <q-item-label>{{ user.firstName }} {{ user.lastName }}</q-item-label>
-        <!-- <q-item-label caption lines="2">/{{ movement.path }}</q-item-label> -->
-      </q-item-section>
-    </q-item>
-  </q-list>
+  <q-card>
+    <q-list separator>
+      <q-item v-for="(user, index) in users" :key="index">
+        <q-item-section>
+          <q-item-label>{{ user.firstName }} {{ user.lastName }}</q-item-label>
+          <!-- <q-item-label caption lines="2">/{{ movement.path }}</q-item-label> -->
+        </q-item-section>
+      </q-item>
+    </q-list>
+  </q-card>
 </template>
 <script>
 import { getFirestore, collection, query, onSnapshot, doc, deleteDoc } from 'firebase/firestore'

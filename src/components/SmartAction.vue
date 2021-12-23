@@ -5,7 +5,7 @@ This component allows users to sign up for movements and events.
 2. When logged out, it shows an email signup field. In the verification link sent to their email address, there are parameters stored related to the action that is being taken. In other words: any action taken is only stored once the user opens the verification link.
  -->
 <template>
-  <q-card dark class="bg-primary q-my-lg shadow-6">
+  <q-card dark class="bg-secondary q-my-lg shadow-6">
     <q-card-section class="q-gutter-y-sm" v-if="phase == 'action'">
       <h2>{{ title }}</h2>
       <div v-if="description">{{ description }}</div>
@@ -16,7 +16,7 @@ This component allows users to sign up for movements and events.
       <!-- INPUT: Show if the user is not signed in. -->
       <q-input label="✉️ Email address" color="black" bg-color="white" outlined class="shadow-8 q-mb-sm" v-model="email" v-if="$store.state.auth.user && $store.state.auth.user.isAnonymous">
         <template v-slot:append>
-          <q-btn icon="mdi-arrow-right" color="primary" round @click="sendVerificationEmail">
+          <q-btn icon="mdi-arrow-right" color="secondary" round @click="sendVerificationEmail">
             <q-tooltip>Sign up</q-tooltip>
           </q-btn>
         </template>
@@ -24,7 +24,7 @@ This component allows users to sign up for movements and events.
 
       <!-- BUTTON: Show if the user is already signed in. -->
       <div class="q-gutter-sm items-center" v-if="$store.state.auth.user && $store.state.auth.user.emailVerified">
-        <q-btn :label="actionlabel" color="white" text-color="secondary" unelevated class="shadow-12 q-my-sm" icon="mdi-check-circle-outline" rounded no-caps/>
+        <q-btn :label="actionlabel" color="white" text-color="primary" unelevated class="shadow-12 q-my-sm" icon="mdi-check-circle-outline" rounded no-caps/>
         <q-chip color="white" icon="mdi-account-group" class="text-bold q-my-sm" size="sm" outline square>
           {{ actionpeople }} others
         </q-chip>

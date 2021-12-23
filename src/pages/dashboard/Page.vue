@@ -2,13 +2,118 @@
   <h1>Page</h1>
   <q-card>
     <q-card-section>
+      <p class="text-bold">Customise your main landing page</p>
+      <div class="q-gutter-sm">
+        <input-headline
+          v-model="headline"
+          :error="this.v$.headline.$error"
+          :errorMessage="mixin_mergeErrorMessages(this.v$.headline.$errors)"
+          @blur="save()"
+        />
+
+        <input-description
+          v-model="description"
+          :error="this.v$.description.$error"
+          :errorMessage="mixin_mergeErrorMessages(this.v$.description.$errors)"
+          @blur="save()"
+        />
+
+        <input-color
+          label="1️⃣ Primary color"
+          v-model="primaryColor"
+          :error="this.v$.primaryColor.$error"
+          :errorMessage="mixin_mergeErrorMessages(this.v$.primaryColor.$errors)"
+          @blur="save()"
+        />
+        <input-color
+          label="2️⃣ Secondary color"
+          v-model="secondaryColor"
+          :error="this.v$.secondaryColor.$error"
+          :errorMessage="mixin_mergeErrorMessages(this.v$.secondaryColor.$errors)"
+          @blur="save()"
+        />
+      </div>
+    </q-card-section>
+  </q-card>
+  <q-card>
+    <q-card-section>
       <div class="q-gutter-sm">
         <p class="text-bold">Movement settings</p>
-        <q-input label="Movement name" outlined/>
-        <q-input label="Path" outlined/>
-        <q-input label="Headline" outlined/>
-        <q-input label="Description" type="textarea" outlined/>
+        <input-name
+          v-model="name"
+          :error="this.v$.name.$error"
+          :errorMessage="mixin_mergeErrorMessages(this.v$.name.$errors)"
+          @blur="save()"
+        />
+
+        <input-path
+          v-model="path"
+          :error="this.v$.path.$error"
+          :errorMessage="mixin_mergeErrorMessages(this.v$.path.$errors)"
+          @blur="save()"
+          disable
+        />
+        <div class="text-caption">Warning: if you change the URL path, existing links to your page will stop working!</div>
       </div>
     </q-card-section>
   </q-card>
 </template>
+<script>
+import useVuelidate from '@vuelidate/core'
+
+// COMPONENTS
+import InputName from '../../components/movement/InputName'
+import InputPath from '../../components/movement/InputPath'
+import InputHeadline from '../../components/movement/InputHeadline'
+import InputDescription from '../../components/movement/InputDescription'
+import InputColor from '../../components/movement/InputColor'
+
+export default {
+  setup () {
+    return { v$: useVuelidate() }
+  },
+  components: {
+    InputName,
+    InputPath,
+    InputHeadline,
+    InputDescription,
+    InputColor
+  },
+  computed: {
+    name: {
+      get () { return this.$store.state.currentMovement.data.name },
+      set (value) { this.$store.commit('currentMovement/update', { name: value }) }
+    },
+    path: {
+      get () { return this.$store.state.currentMovement.data.path },
+      set (value) { this.$store.commit('currentMovement/update', { path: value }) }
+    },
+    headline: {
+      get () { return this.$store.state.currentMovement.data.headline },
+      set (value) { this.$store.commit('currentMovement/update', { headline: value }) }
+    },
+    description: {
+      get () { return this.$store.state.currentMovement.data.description },
+      set (value) { this.$store.commit('currentMovement/update', { description: value }) }
+    },
+    primaryColor: {
+      get () { return this.$store.state.currentMovement.data.primaryColor },
+      set (value) { this.$store.commit('currentMovement/update', { primaryColor: value }) }
+    },
+    secondaryColor: {
+      get () { return this.$store.state.currentMovement.data.secondaryColor },
+      set (value) { this.$store.commit('currentMovement/update', { secondaryColor: value }) }
+    }
+  },
+  validations () {
+    return this.$store.state.currentMovement.validations
+  },
+  methods: {
+    save () {
+      if (!this.v$.$invalid) {
+        this.$store.dispatch('currentMovement/pushToDatabase')
+      }
+    }
+  }
+}
+</script>

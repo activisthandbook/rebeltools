@@ -12,11 +12,14 @@ Docs: https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components
     :value="value"
     @input="$emit('input', $event.target.value)"
 
+    :error="error"
+    :error-message="errorMessage"
+
   />
 </template>
 <script>
 export default {
-  props: ['value']
+  props: ['value', 'error', 'errorMessage']
   // 👉 TO-DO: Add some validation here
 }
 </script>

@@ -1,3 +1,5 @@
+// IMPORTANT: To update the security rules, copy & paste the following into the Firebase dashboard. Test & then deploy.
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -9,7 +11,9 @@ service cloud.firestore {
     // 🔴 IS SUPER ADMIN!!!
     // A super admin has super powers. Be very careful with this one!
     function isSuperADMIN() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isSuperADMIN == true;
+      return
+        request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isSuperADMIN == true;
     }
 
     // 👋 USERS
@@ -32,17 +36,53 @@ service cloud.firestore {
     // 📢 MOVEMENTS
     match /movements/{movement} {
 
+      function isValidMovement() {
+        return
+          // NAME
+          "name" in request.resource.data &&
+          request.resource.data.name != null &&
+
+          // PATH
+          "path" in request.resource.data &&
+          request.resource.data.path != null &&
+          request.resource.data.path.matches('^[a-z|0-9]+(-[a-z|0-9]+)*$') &&
+
+          // HEADLINE
+          "headline" in request.resource.data &&
+          request.resource.data.headline != null &&
+
+          // PIMRARY COLOR
+          "primaryColor" in request.resource.data &&
+          request.resource.data.primaryColor != null &&
+          request.resource.data.primaryColor.matches('^#(?:[0-9a-fA-F]{3}){1,2}$') &&
+
+          // SECONDARY COLOR
+          "secondaryColor" in request.resource.data &&
+          request.resource.data.secondaryColor != null &&
+          request.resource.data.secondaryColor.matches('^#(?:[0-9a-fA-F]{3}){1,2}$') &&
+
+          // DESCRIPTION
+          "description" in request.resource.data &&
+          request.resource.data.description!= null
+      }
+
       allow read: if true; // Anyone can read movement data
 
       allow create: if
         verifiedUser() && // User is verified
+        isValidMovement() &&
         [request.auth.uid] == request.resource.data.admins; // User can only make themselves admin
 
       allow update, delete: if
         verifiedUser() && // User is verified
-        request.auth.uid in resource.data.admins;
+        isValidMovement() &&
+        request.auth.uid in resource.data.admins; // User is admin of movement
 
-      allow read, write, delete: if
+      allow write: if
+        isValidMovement() &&
+        isSuperADMIN() // User is superADMIN 🔴
+
+      allow read, delete: if
         isSuperADMIN() // User is superADMIN 🔴
 
     }

@@ -5,7 +5,6 @@ Docs: https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components
 <template>
   <q-input
     placeholder="my-url"
-    hint="Only use lowercase letters and dashes."
 
     filled
     dense

@@ -6,7 +6,7 @@ Path: /super-admin/*
  -->
 <template>
   <q-layout view="hHr lpR fFr">
-    <q-header class="bg-secondary" >
+    <q-header class="bg-primary" bordered>
       <q-toolbar>
 
         <q-toolbar-title>

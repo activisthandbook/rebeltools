@@ -23,9 +23,6 @@ export default {
     }
   },
   methods: {
-    updateLocally (e) {
-      this.$store.commit('currentUser/update', e.target.value)
-    },
     save () {
       this.$store.dispatch('currentUser/pushToDatabase')
     }

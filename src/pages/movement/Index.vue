@@ -29,6 +29,9 @@ Path: /:movementID/
       <q-btn icon-right="mdi-arrow-right-circle" label="See all" flat color="primary" no-caps :to="{name: 'Vacant roles'}" dense/>
     </div>
   </div>
+  <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="admins.includes(userUID)">
+    <q-btn icon="mdi-file-document-edit" color="primary" fab :to="{name: 'Dashboard Page'}"/>
+  </q-page-sticky>
 </template>
 
 <script>
@@ -48,6 +51,12 @@ export default {
     },
     primaryAction: {
       get () { return this.$store.state.currentMovement.data.primaryAction }
+    },
+    admins: {
+      get () { return this.$store.state.currentMovement.data.admins }
+    },
+    userUID: {
+      get () { return this.$store.state.auth.user.uid }
     }
   }
 }

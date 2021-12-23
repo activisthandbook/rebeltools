@@ -11,12 +11,16 @@ Docs: https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components
       @focus="focus()"
       ref="colorInput"
       v-bind="$attrs"
+
+      :error="error"
+      :error-message="errorMessage"
     >
       <template v-slot:append>
         <q-btn icon="mdi-eyedropper" label="Pick color" flat no-caps v-bind:style="{ color: $attrs.modelValue }">
           <q-menu :offset="[0, 4]">
             <q-color
               v-bind="$attrs"
+              @change="this.$emit('blur')"
             />
           </q-menu>
         </q-btn>
@@ -27,7 +31,7 @@ Docs: https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components
 <script>
 export default {
   name: 'input-color',
-  props: ['label', 'value'],
+  props: ['label', 'value', 'error', 'errorMessage'],
   inheritAttrs: false,
   methods: {
     focus: function () {

@@ -19,7 +19,7 @@ Path: /:movementID/*
   </div>
 
   <q-layout view="hHr lpR fFr" v-else>
-    <q-header class="bg-secondary" >
+    <q-header class="bg-primary" bordered>
       <q-toolbar>
 
         <q-toolbar-title @click="$router.push({name: 'Movement'})" class="cursor-pointer">
@@ -88,9 +88,6 @@ Path: /:movementID/*
         <router-view />
         <p class="text-caption text-center q-mt-xl text-grey-6">Made with <span @click="$router.push('/')" class="cursor-pointer text-bold">Rebel Tools</span></p>
       </q-page>
-      <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="movementAdmins.includes(userUID)">
-          <q-btn icon="mdi-pencil" color="secondary" fab :to="{name: 'Dashboard'}"/>
-        </q-page-sticky>
     </q-page-container>
   </q-layout>
 </template>

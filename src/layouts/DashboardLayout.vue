@@ -6,7 +6,7 @@ Path: /:movementID/dashboard/*
  -->
 <template>
   <q-layout view="hHr lpR fFr" class="">
-    <q-header class="bg-secondary" >
+    <q-header class="bg-primary" bordered>
       <q-toolbar>
 
         <q-toolbar-title @click="$router.push({name: 'Dashboard'})" class="cursor-pointer">
@@ -16,14 +16,14 @@ Path: /:movementID/dashboard/*
         <q-btn icon="mdi-exit-to-app" label="Close dashboard" :to="{name: 'Movement'}" color="white" text-color="black" no-caps/>
 
       </q-toolbar>
-      <q-tabs inline-label outside-arrows>
+      <q-tabs inline-label outside-arrows no-caps>
         <q-route-tab icon="mdi-home" label="Home" :to="{name: 'Dashboard'}" />
         <q-route-tab icon="mdi-account-group" label="Community" :to="{name: 'Dashboard Community'}"/>
         <q-route-tab icon="mdi-calendar" label="Calendar" :to="{name: 'Dashboard Calendar'}"/>
         <q-route-tab icon="mdi-file-document" label="Page" :to="{name: 'Dashboard Page'}"/>
         <q-space />
-         <q-separator vertical inset dark />
-        <q-route-tab icon="mdi-apps" label="Apps" :to="{name: 'Dashboard Apps'}" alert="secondary"/>
+         <!-- <q-separator vertical inset dark /> -->
+        <!-- <q-route-tab icon="mdi-apps" label="Apps" :to="{name: 'Dashboard Apps'}" alert="secondary"/> -->
       </q-tabs>
     </q-header>
 
