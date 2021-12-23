@@ -30,7 +30,7 @@ register(process.env.SERVICE_WORKER_FILE, {
 
   updated (/* registration */) {
     // console.log('New content is available; please refresh.')
-    Notify.create('New content is available; please refresh.')
+    Notify.create("There's a new version of Rebel Tools")
   },
 
   offline () {
