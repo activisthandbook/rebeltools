@@ -6,7 +6,13 @@ Path: /:movementID/community
  -->
 <template>
   <h1>Community</h1>
-  <q-card class="text-bold">
+  <q-banner class="bg-grey-3 text-grey-9">
+    <template v-slot:avatar>
+      <q-icon name="mdi-star-shooting-outline" color="grey"/>
+    </template>
+    Coming soon
+  </q-banner>
+  <!-- <q-card class="text-bold">
     <q-list>
       <q-item clickable v-ripple :to="{name:'Vacant roles'}">
         <q-item-section avatar>
@@ -46,12 +52,23 @@ Path: /:movementID/community
   <div>
     <h2 class="q-mb-sm">People</h2>
     <people-list/>
-  </div>
+  </div> -->
+  <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="admins.includes(userUID)">
+    <q-btn icon="mdi-account-edit" color="primary" fab :to="{name: 'Dashboard Community'}"/>
+  </q-page-sticky>
 </template>
 <script>
-import PeopleList from '../../components/PeopleList.vue'
+// import PeopleList from '../../components/PeopleList.vue'
 
 export default {
-  components: { PeopleList }
+  // components: { PeopleList }
+  computed: {
+    admins: {
+      get () { return this.$store.state.currentMovement.data.admins }
+    },
+    userUID: {
+      get () { return this.$store.state.auth.user.uid }
+    }
+  }
 }
 </script>

@@ -3,7 +3,7 @@ STORE MODULE: AUTHENTICATION 🔐
 In this module, data is stored about the user this is currently signed in. This data is retrieved from the Firestore Authentication module.
 */
 import { Notify } from 'quasar'
-import { getAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth'
+import { getAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, signOut } from 'firebase/auth'
 
 export default {
   namespaced: true,
@@ -44,14 +44,14 @@ export default {
           /* ❌ ERROR: Notify user of error (as a last resort). */
           Notify.create({ message: error.message, icon: 'mdi-alert' })
 
-          return false
+          throw new Error(error)
         })
     },
 
     /* 🔐 SIGN IN USING EMAIL LINK
     Docs: https://firebase.google.com/docs/auth/web/email-link-auth#completing_sign-in_in_a_web_page
     */
-    signInWithEmailLink () {
+    async signInWithEmailLink () {
       const auth = getAuth()
 
       // Confirm the link is a sign-in with email link.
@@ -70,7 +70,7 @@ export default {
         }
 
         // The client SDK will parse the code from the link for you.
-        signInWithEmailLink(auth, email, window.location.href)
+        await signInWithEmailLink(auth, email, window.location.href)
           .then((result) => {
             /* ✅ SUCCESS
             - You can access the new user via result.user.
@@ -82,12 +82,32 @@ export default {
 
             // Notify the user that the login was succesful.
             Notify.create({ message: 'You are now signed in', icon: 'mdi-account-check' })
+
+            return true
           })
           .catch((error) => {
+            console.log('b')
             /* ❌ ERROR: Common errors could be invalid email and invalid or expired OTPs. */
             Notify.create({ message: error, icon: 'mdi-alert' })
+
+            throw new Error(error)
           })
+      } else {
+        throw new Error('isNotSignInWithEmailLink')
       }
+    },
+
+    /* 💔 SIGN OUT
+    Docs: https://firebase.google.com/docs/reference/js/auth#signout
+    */
+    signOut ({ state, commit }) {
+      const auth = getAuth()
+      signOut(auth).then(() => {
+        // Sign-out successful.
+      }).catch((error) => {
+        // An error happened.
+        console.log(error)
+      })
     }
 
   }

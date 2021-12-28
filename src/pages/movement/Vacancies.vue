@@ -6,7 +6,7 @@ Path: /:movementID/partners
 <template>
   <h1>Vacant roles</h1>
   <div>
-    <q-select filled v-model="selectedTeam" map-options clearable option-value="id" option-label="name" label="Teams" :options="loremIpsum.teams"/>
+    <!-- <q-select filled v-model="selectedTeam" map-options clearable option-value="id" option-label="name" label="Teams" :options="loremIpsum.teams"/> -->
     <vacancies-list class="q-mt-sm" :filter="{team: selectedTeam}"/>
   </div>
 </template>

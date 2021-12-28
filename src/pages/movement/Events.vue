@@ -6,7 +6,7 @@ Path: /:movementID/events
  -->
 <template>
   <h1>Events</h1>
-  <q-card v-ripple class="cursor-pointer">
+  <!-- <q-card v-ripple class="cursor-pointer">
     <q-img :ratio="16/9" src="https://source.unsplash.com/random?protesting"/>
       <q-item clickable class="q-pa-md">
         <q-item-section>
@@ -21,10 +21,10 @@ Path: /:movementID/events
 
       </q-item>
 
-  </q-card>
+  </q-card> -->
   <event-list/>
   <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="admins.includes(userUID)">
-    <q-btn icon="mdi-calendar-edit" color="primary" fab :to="{name: 'Dashboard Page'}"/>
+    <q-btn icon="mdi-calendar-edit" color="primary" fab :to="{name: 'Dashboard Calendar'}"/>
   </q-page-sticky>
 </template>
 <script>

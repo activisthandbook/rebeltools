@@ -10,13 +10,31 @@ Path: /:movementID/
     <p>{{ description }}</p>
   </div>
 
-  <smart-action :title="primaryAction.title" :description="primaryAction.description" actionlabel="Join movement" :actionpeople="24"/>
+  <q-skeleton v-if="!hasSignedUpLoaded" type="rect" height="196px"/>
+  <div v-else>
+    <q-card v-if="hasSignedUp" dark class="bg-secondary q-mb-lg">
+      <q-card-section>
+        <div class="q-gutter-y-sm">
+          <h2>Welcome back</h2>
+          <div>You have already signed up for this movement.</div>
+        </div>
+      </q-card-section>
+    </q-card>
+    <smart-action
+      v-else
+      :title="primaryAction.title"
+      :description="primaryAction.description"
+      actionlabel="Join movement"
+      :actionpeople="24"
+      @signup="saveSignup()"
+    />
+  </div>
 
   <div class="q-gutter-y-sm">
     <h2>Upcoming events</h2>
     <event-list/>
     <div class="row justify-end items-center q-gutter-x-sm">
-      <div class="text-caption">3 more events</div>
+      <!-- <div class="text-caption">3 more events</div> -->
       <q-btn icon-right="mdi-arrow-right-circle" label="See all" flat color="primary" no-caps :to="{name: 'Events'}" dense/>
     </div>
   </div>
@@ -25,7 +43,7 @@ Path: /:movementID/
     <h2 class="q-mb-sm">Become involved</h2>
     <vacancies-list/>
     <div class="row justify-end items-center q-gutter-x-sm">
-      <div class="text-caption">4 more vacancies</div>
+      <!-- <div class="text-caption">4 more vacancies</div> -->
       <q-btn icon-right="mdi-arrow-right-circle" label="See all" flat color="primary" no-caps :to="{name: 'Vacant roles'}" dense/>
     </div>
   </div>
@@ -35,6 +53,9 @@ Path: /:movementID/
 </template>
 
 <script>
+import { getFirestore, doc, setDoc, serverTimestamp, onSnapshot } from 'firebase/firestore'
+const db = getFirestore()
+
 import SmartAction from 'src/components/SmartAction.vue'
 import EventList from '../../components/EventList.vue'
 import VacanciesList from '../../components/VacanciesList.vue'
@@ -42,7 +63,24 @@ import VacanciesList from '../../components/VacanciesList.vue'
 export default {
   name: 'PageIndex',
   components: { EventList, VacanciesList, SmartAction },
+  mounted () {
+    this.$nextTick(function () {
+      onSnapshot(doc(db, 'movements/' + this.id + '/signups/', this.userUID), (doc) => {
+        this.hasSignedUp = doc.data()
+        this.hasSignedUpLoaded = true
+      })
+    })
+  },
+  data () {
+    return {
+      hasSignedUpLoaded: false,
+      hasSignedUp: null
+    }
+  },
   computed: {
+    id: {
+      get () { return this.$store.state.currentMovement.data.id }
+    },
     headline: {
       get () { return this.$store.state.currentMovement.data.headline }
     },
@@ -57,6 +95,15 @@ export default {
     },
     userUID: {
       get () { return this.$store.state.auth.user.uid }
+    }
+  },
+  methods: {
+    saveSignup () {
+      setDoc(doc(db, 'movements/' + this.id + '/signups/', this.userUID), {
+        createdAt: serverTimestamp()
+      }).then(() => {
+        return true
+      })
     }
   }
 }

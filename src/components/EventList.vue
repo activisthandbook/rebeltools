@@ -1,7 +1,12 @@
 <template>
-  <div class="q-gutter-y-sm">
+  <q-banner class="bg-grey-3 text-grey-9">
+    <template v-slot:avatar>
+      <q-icon name="mdi-star-shooting-outline" color="grey"/>
+    </template>
+    Coming soon
+  </q-banner>
+  <!-- <div class="q-gutter-y-sm">
     <q-card flat bordered v-ripple v-for="(event, index) in loremIpsum.events" :key="index" class="cursor-pointer">
-      <!-- <q-card-section> -->
 
         <q-item clickable class="full-width q-pa-sm">
           <div class="col-4 overflow-hidden row items-center q-pr-md">
@@ -18,10 +23,8 @@
           </q-item-section>
 
         </q-item>
-
-      <!-- </q-card-section> -->
     </q-card>
-  </div>
+  </div> -->
 </template>
 <script>
 export default {

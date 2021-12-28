@@ -32,14 +32,6 @@ register(process.env.SERVICE_WORKER_FILE, {
   },
 
   updatefound (/* registration */) {
-    Notify.create({
-      icon: 'mdi-cloud-download-outline',
-      message: 'Downloading update...',
-      color: 'white',
-      textColor: 'black',
-      timeout: 1000,
-      position: 'bottom-left'
-    })
   },
 
   updated (/* registration */) {

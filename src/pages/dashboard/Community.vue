@@ -1,6 +1,12 @@
 <template>
   <h1>Community</h1>
-  <q-card class="text-bold">
+  <q-banner class="bg-grey-3 text-grey-9">
+    <template v-slot:avatar>
+      <q-icon name="mdi-star-shooting-outline" color="grey"/>
+    </template>
+    Coming soon
+  </q-banner>
+  <!-- <q-card class="text-bold">
     <q-list>
       <q-item clickable v-ripple :to="{name:'Vacant roles'}">
         <q-item-section avatar>
@@ -133,6 +139,6 @@
       </q-card>
     </div>
 
-  </div>
+  </div> -->
 
 </template>

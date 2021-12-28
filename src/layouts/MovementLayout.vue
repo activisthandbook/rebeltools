@@ -20,7 +20,7 @@ Path: /:movementID/*
 
   <q-layout view="hHr lpR fFr" v-else>
     <q-header class="bg-primary" bordered>
-      <q-toolbar>
+      <q-toolbar class="justify-between">
 
         <q-toolbar-title @click="$router.push({name: 'Movement'})" class="cursor-pointer">
           {{ movementName }}
@@ -67,18 +67,22 @@ Path: /:movementID/*
 
         <div class="q-mx-md q-mt-lg" v-if="isAnonymous">
           <h2 class="q-mb-md">Already a member?</h2>
-          <p>Access the dashboard with your account:</p>
           <q-btn label="Sign in" color="primary" :to="{name: 'Start'}"/>
         </div>
 
         <div class="q-mx-md q-mt-lg" v-else>
           <h2 class="q-mb-md">Welcome back, {{ firstName }}!</h2>
-          <p v-if="movementAdmins.includes(userUID)">Open the dashboard to manage your movement:</p>
           <div class="q-gutter-sm">
-            <q-btn label="Dashboard" icon="mdi-view-dashboard" color="primary" :to="{name: 'Dashboard'}" v-if="movementAdmins.includes(userUID)"/>
-            <q-btn label="Admin" color="primary" v-if="isSuperADMIN" :to="{name: 'Super admin'}"/>
-            <q-btn label="Sign out" color="primary" outline/>
+            <q-btn label="Dashboard" icon="mdi-view-dashboard" color="primary" :to="{name: 'Dashboard'}" v-if="movementAdmins.includes(userUID)" no-caps/>
+
+            <q-btn label="Sign out" color="primary" outline no-caps @click="$store.dispatch('auth/signOut')"/>
           </div>
+          <q-card class="q-mt-lg">
+            <q-card-section>
+              <div class="q-mb-sm">You have superpowers, use them wisely 🌟</div>
+              <q-btn icon="mdi-shield-check" label="Super admin" outline color="primary" v-if="isSuperADMIN" :to="{name: 'Super admin'}" no-caps/>
+            </q-card-section>
+          </q-card>
         </div>
 
     </q-drawer>

@@ -7,6 +7,12 @@ import { setCssVar } from 'quasar'
 import { getFirestore, collection, query, where, onSnapshot, addDoc, serverTimestamp, doc, setDoc } from 'firebase/firestore'
 import { required, helpers } from '@vuelidate/validators'
 
+import ColorContrastChecker from 'color-contrast-checker'
+function hasEnoughContrast (value) {
+  const ccc = new ColorContrastChecker()
+  return ccc.isLevelAA(value, '#fff', 18)
+}
+
 export default {
   namespaced: true,
   state: {
@@ -40,13 +46,16 @@ export default {
         $autoDirty: true
       },
       primaryColor: {
-        required: helpers.withMessage('Add a color code', required),
+        // 👉 TO-DO: Add some contrast validation here: https://www.npmjs.com/package/color-contrast-checker
+        required: helpers.withMessage('Add a color code.', required),
         isColor: helpers.withMessage('Add a valid HEX color code.', helpers.regex(/^#(?:[0-9a-fA-F]{3}){1,2}$/)),
+        hasEnoughContrast: helpers.withMessage('Use more contrast.', hasEnoughContrast),
         $autoDirty: true
       },
       secondaryColor: {
         required: helpers.withMessage('Add a color code.', required),
         isColor: helpers.withMessage('Add a valid HEX color code.', helpers.regex(/^#(?:[0-9a-fA-F]{3}){1,2}$/)),
+        hasEnoughContrast: helpers.withMessage('Use more contrast.', hasEnoughContrast),
         $autoDirty: true
       },
       description: {

@@ -1,5 +1,7 @@
 // IMPORTANT: To update the security rules, copy & paste the following into the Firebase dashboard. Test & then deploy.
 
+rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -26,7 +28,7 @@ service cloud.firestore {
 
       allow get, update, delete: if
         verifiedUser() && // User is verified
-        request.auth.uid == userID && // Users can only create a doc for themselves
+        request.auth.uid == userID && // Users can only edit their own doc
         request.resource.data.isSuperADMIN == false; // New users cannot make themselves superADMIN
 
       allow read, write, delete: if
@@ -78,12 +80,19 @@ service cloud.firestore {
         isValidMovement() &&
         request.auth.uid in resource.data.admins; // User is admin of movement
 
+      allow read, delete: if
+        isSuperADMIN() // User is superADMIN 🔴
+
       allow write: if
         isValidMovement() &&
         isSuperADMIN() // User is superADMIN 🔴
 
-      allow read, delete: if
-        isSuperADMIN() // User is superADMIN 🔴
+
+      match /signups/{userID} {
+        allow create: if verifiedUser();
+
+        allow read: if request.auth.uid == userID; // Users can only read their own doc
+      }
 
     }
 

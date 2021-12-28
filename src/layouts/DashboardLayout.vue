@@ -10,7 +10,7 @@ Path: /:movementID/dashboard/*
       <q-toolbar>
 
         <q-toolbar-title @click="$router.push({name: 'Dashboard'})" class="cursor-pointer">
-          Dashboard
+          {{ movementName }}
         </q-toolbar-title>
 
         <q-btn icon="mdi-exit-to-app" label="Close dashboard" :to="{name: 'Movement'}" color="white" text-color="black" no-caps/>
@@ -51,6 +51,11 @@ export default {
       toggleRightDrawer () {
         rightDrawerOpen.value = !rightDrawerOpen.value
       }
+    }
+  },
+  computed: {
+    movementName: {
+      get () { return this.$store.state.currentMovement.data.name }
     }
   }
 }

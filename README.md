@@ -34,7 +34,15 @@ quasar dev
 ```
 
 ## Host your own instance
-Everyone can use [rebel.tools](https://rebel.tools) for free. However, you can also decide to host your own (customised) version.
+Everyone can use [rebel.tools](https://rebel.tools) for free. However, you can also decide to host your it by yourself.
+
+Benefits:
+- You can customise any aspect of the app. This is especially useful if you are a large movement with lots of smaller local groups. You can help these smaller groups by hosting your own customised version which they can use.
+- You can decide yourself what geographical area to host your Firebase project. This will help your pages load a bit faster.
+
+Drawbacks:
+- You will need to pay yourself for any costs incurred by running your own Firebase project. If you are a small movement, these costs will be minimal.
+- Hosting your own instance requires more maintainance. You will need to update your instance manually to make use of our latest features.
 
 ### 1. Setup a Firebase project
 You will need a [Firebase](firebase.google.com) account to host your own instance. There is a free plan available to get started.

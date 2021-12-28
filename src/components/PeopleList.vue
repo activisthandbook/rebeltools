@@ -1,5 +1,11 @@
 <template>
-  <div class="row q-col-gutter-sm">
+  <q-banner class="bg-grey-3 text-grey-9">
+    <template v-slot:avatar>
+      <q-icon name="mdi-star-shooting-outline" color="grey"/>
+    </template>
+    Coming soon
+  </q-banner>
+  <!-- <div class="row q-col-gutter-sm">
     <div class="col-xs-12 col-sm-6 row items-stretch" v-for="(person, index) in loremIpsum.people" :key="index">
       <q-card flat bordered class="row items-center full-width">
           <q-item>
@@ -18,7 +24,7 @@
           </q-item>
       </q-card>
     </div>
-  </div>
+  </div> -->
 </template>
 <script>
 export default {

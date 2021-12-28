@@ -70,16 +70,23 @@ export default {
     },
     deleteMovement (movement) {
       this.$q.dialog({
-        title: 'Do you want to delete ' + movement.name + '?',
-        message: 'This action cannot be undone!',
+        title: 'Danger zone 😰',
+        message: "Are you sure you want to delete this movement? Type '" + movement.name + "' to confirm:",
         persistent: true,
+        prompt: {
+          model: '',
+          isValid: val => val === movement.name,
+          type: 'text'
+        },
         ok: {
-          label: 'Delete',
-          color: 'red'
+          label: 'Delete permanently',
+          icon: 'mdi-delete',
+          noCaps: true
         },
         cancel: {
           color: 'black',
-          flat: true
+          flat: true,
+          noCaps: true
         }
       }).onOk(async () => {
         await deleteDoc(doc(db, 'movements', movement.id))

@@ -8,6 +8,7 @@ Docs: https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components
       :label="label"
       placeholder="#000000"
       outlined
+      color="black"
       @focus="focus()"
       ref="colorInput"
       v-bind="$attrs"
@@ -38,6 +39,5 @@ export default {
       this.$refs.colorInput.select()
     }
   }
-  // 👉 TO-DO: Add some contrast validation here: https://www.npmjs.com/package/color-contrast-checker
 }
 </script>
