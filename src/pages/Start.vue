@@ -5,9 +5,9 @@ This is what would usually be the sign in or register page. But in our case, bot
 Path: /start
  -->
 <template>
-  <q-skeleton class="q-my-lg" height="172px" v-if="!$store.state.auth.user"/>
+  <q-skeleton class="q-my-lg" height="172px" v-if="!$store.state.data.user"/>
   <div v-else>
-    <q-card class="q-my-lg" v-if="$store.state.auth.user.emailVerified">
+    <q-card class="q-my-lg" v-if="$store.state.auth.data.emailVerified">
       <q-card-section>
         <div class="q-gutter-y-sm">
           <h2>Welcome back!</h2>

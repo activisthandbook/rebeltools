@@ -7,6 +7,8 @@ Documentation:
 - https://quasar.dev/layout/routing-with-layouts-and-pages
 */
 
+// import { getAnalytics, logEvent } from 'firebase/analytics'
+
 import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
@@ -39,6 +41,8 @@ export default route(function ({ store }) {
     if (to.params.movementID) {
       store.dispatch('currentMovement/fetchFromDatabase', to.params.movementID)
     }
+
+    // logEvent(getAnalytics(), 'page_view')
 
     next()
   })

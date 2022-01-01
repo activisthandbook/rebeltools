@@ -5,17 +5,18 @@ In this module, data is stored about the user this is currently signed in. This 
 import { Notify } from 'quasar'
 import { getAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, signOut } from 'firebase/auth'
 
+import { getAnalytics, logEvent } from 'firebase/analytics'
+
 export default {
   namespaced: true,
   state: {
-    status: 'signed-out',
-    user: {
-      isAnonymous: true
-    }
+    dataLoaded: false,
+    data: null
   },
   mutations: {
     signin (state, newUser) {
-      state.user = newUser
+      state.data = newUser
+      state.dataLoaded = true
     }
   },
   actions: {
@@ -37,6 +38,8 @@ export default {
           /* ✅ SUCCESS: The link was successfully sent. Inform the user. Save the email locally so you don't need to ask the user for it again if they open the link on the same device. */
           window.localStorage.setItem('emailForSignIn', email)
           Notify.create({ message: 'Verification email sent', icon: 'mdi-email-check' })
+
+          logEvent(getAnalytics(), 'verification_email_sent')
 
           return true
         })
@@ -83,6 +86,10 @@ export default {
             // Notify the user that the login was succesful.
             Notify.create({ message: 'You are now signed in', icon: 'mdi-account-check' })
 
+            logEvent(getAnalytics(), 'signin', {
+              with: 'email-link'
+            })
+
             return true
           })
           .catch((error) => {
@@ -104,6 +111,7 @@ export default {
       const auth = getAuth()
       signOut(auth).then(() => {
         // Sign-out successful.
+        logEvent(getAnalytics(), 'signout')
       }).catch((error) => {
         // An error happened.
         console.log(error)

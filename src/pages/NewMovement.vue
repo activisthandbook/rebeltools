@@ -91,7 +91,7 @@ Path: /new-movement
       <q-stepper-navigation class="q-gutter-sm">
 
         <!-- IF NOT SIGNED IN, CONTINUE TO NEXT STEP -->
-        <q-btn label="Continue" icon-right="mdi-arrow-right" color="primary" no-caps @click="step = 3" v-if="$store.state.auth.user && !$store.state.auth.user.emailVerified"/>
+        <q-btn label="Continue" icon-right="mdi-arrow-right" color="primary" no-caps @click="step = 3" v-if="$store.state.auth.data && !$store.state.auth.data.emailVerified"/>
 
         <!-- IF SIGNED IN, SHOW CREATE BUTTON -->
         <q-btn
@@ -102,7 +102,7 @@ Path: /new-movement
           @click="createMovement()"
           :loading="loading"
           :disable="this.v$.newMovement.name.$invalid || this.v$.newMovement.path.$invalid || this.v$.newMovement.primaryColor.$invalid || this.v$.newMovement.secondaryColor.$invalid"
-          v-if="$store.state.auth.user && $store.state.auth.user.emailVerified"
+          v-if="$store.state.auth.data && $store.state.auth.data.emailVerified"
         />
 
       </q-stepper-navigation>
@@ -112,12 +112,12 @@ Path: /new-movement
     This step is only visible to users that are not signed in.
     -->
     <q-step
-      v-if="$store.state.auth.user && !$store.state.auth.user.emailVerified"
+      v-if="$store.state.auth.data && !$store.state.auth.data.emailVerified"
       :name="3"
       title="Get started"
       icon="mdi-account"
       active-icon="mdi-account"
-      :disable="!newMovement.name || !newMovement.path || !newMovement.primaryColor || !newMovement.secondaryColor"
+      :disable="this.v$.newMovement.name.$invalid || this.v$.newMovement.path.$invalid || this.v$.newMovement.primaryColor.$invalid || this.v$.newMovement.secondaryColor.$invalid"
     >
       <div class="q-gutter-y-sm">
         <div>Almost there! Register or sign in to Rebel Tools to get started.</div>
@@ -137,6 +137,9 @@ Path: /new-movement
   </q-stepper>
 </template>
 <script>
+import { getAnalytics, logEvent } from 'firebase/analytics'
+const analytics = getAnalytics()
+
 import { setCssVar } from 'quasar'
 
 import useVuelidate from '@vuelidate/core'
@@ -201,7 +204,7 @@ export default {
     },
     async createMovement () {
       this.loading = true
-      this.newMovement.admins = [this.$store.state.auth.user.uid]
+      this.newMovement.admins = [this.$store.state.auth.data.uid]
 
       if (!this.newMovement.headline) {
         this.newMovement.headline = "We're awesome rebels"
@@ -213,6 +216,8 @@ export default {
       await this.$store.dispatch('currentMovement/addToDatabase', this.newMovement).then(() => {
         this.loading = false
         this.$router.push('/' + this.newMovement.path)
+
+        logEvent(analytics, 'movement_created')
       })
     }
   }

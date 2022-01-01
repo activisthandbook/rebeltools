@@ -16,6 +16,7 @@ function hasEnoughContrast (value) {
 export default {
   namespaced: true,
   state: {
+    dataLoaded: false,
     data: {
       name: null,
       path: null,
@@ -68,6 +69,7 @@ export default {
     update (state, movementData) {
       // Only update the fields that were changed
       state.data = Object.assign(state.data, movementData)
+      state.dataLoaded = true
     }
   },
   actions: {

@@ -37,7 +37,7 @@ export default {
       get () { return this.$store.state.currentMovement.data.admins }
     },
     userUID: {
-      get () { return this.$store.state.auth.user.uid }
+      get () { return this.$store.state.auth.data.uid }
     }
   }
 }

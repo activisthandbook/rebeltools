@@ -31,11 +31,11 @@ Path: /:movementID/*
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="rightDrawerOpen" side="right" overlay behavior="mobile" elevated>
-        <q-list>
-          <q-item-label header>{{ movementName }}</q-item-label>
+    <q-drawer v-model="rightDrawerOpen" side="right" overlay behavior="mobile" elevated :width="280">
+        <q-list class="q-mt-md">
+          <q-item><h2>{{ movementName }}</h2></q-item>
 
-          <q-item clickable v-ripple class="text-bold" :to="{name: 'Movement'}" exact>
+          <q-item clickable v-ripple :to="{name: 'Movement'}" exact>
             <q-item-section avatar active-class="text-primary">
               <q-icon name="mdi-home" />
             </q-item-section>
@@ -45,7 +45,7 @@ Path: /:movementID/*
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple class="text-bold" :to="{name: 'Events'}" active-class="text-primary">
+          <q-item clickable v-ripple :to="{name: 'Events'}" active-class="text-primary">
             <q-item-section avatar>
               <q-icon name="mdi-calendar"/>
             </q-item-section>
@@ -59,30 +59,31 @@ Path: /:movementID/*
               <q-icon name="mdi-account-group"/>
             </q-item-section>
 
-            <q-item-section class="text-bold">
+            <q-item-section>
               Community
             </q-item-section>
           </q-item>
+
         </q-list>
 
-        <div class="q-mx-md q-mt-lg" v-if="isAnonymous">
-          <h2 class="q-mb-md">Already a member?</h2>
+        <q-separator inset class="q-mt-lg"/>
+
+        <div class="q-mx-md q-mt-lg" v-if="$store.state.auth.dataLoaded && $store.state.currentUser.dataLoaded && isAnonymous">
+          <div class="q-mb-md text-bold">Already a member?</div>
           <q-btn label="Sign in" color="primary" :to="{name: 'Start'}"/>
         </div>
 
-        <div class="q-mx-md q-mt-lg" v-else>
-          <h2 class="q-mb-md">Welcome back, {{ firstName }}!</h2>
+        <div class="q-mx-md q-my-lg" v-else>
+          <div class="q-mb-md text-bold">Welcome back, {{ $store.state.currentUser.data.firstName }}!</div>
           <div class="q-gutter-sm">
-            <q-btn label="Dashboard" icon="mdi-view-dashboard" color="primary" :to="{name: 'Dashboard'}" v-if="movementAdmins.includes(userUID)" no-caps/>
+            <q-btn label="Dashboard" icon="mdi-rocket-launch" color="primary" :to="{name: 'Dashboard'}" v-if="movementAdmins.includes(userUID)" no-caps/>
 
             <q-btn label="Sign out" color="primary" outline no-caps @click="$store.dispatch('auth/signOut')"/>
           </div>
-          <q-card class="q-mt-lg">
-            <q-card-section>
-              <div class="q-mb-sm">You have superpowers, use them wisely 🌟</div>
-              <q-btn icon="mdi-shield-check" label="Super admin" outline color="primary" v-if="isSuperADMIN" :to="{name: 'Super admin'}" no-caps/>
-            </q-card-section>
-          </q-card>
+          <div class="q-mt-lg" v-if="isSuperADMIN">
+            <div class="q-mb-sm">You have superpowers, use them wisely 🌟</div>
+            <q-btn icon="mdi-shield-check" label="Super admin" outline color="primary" :to="{name: 'Super admin'}" no-caps/>
+          </div>
         </div>
 
     </q-drawer>
@@ -114,13 +115,10 @@ export default defineComponent({
       get () { return this.$store.state.currentMovement.data.admins }
     },
     userUID: {
-      get () { return this.$store.state.auth.user.uid }
-    },
-    firstName: {
-      get () { return this.$store.state.currentUser.data.firstName }
+      get () { return this.$store.state.auth.data.uid }
     },
     isAnonymous: {
-      get () { return this.$store.state.auth.user.isAnonymous }
+      get () { return this.$store.state.auth.data.isAnonymous }
     },
     isSuperADMIN: {
       get () { return this.$store.state.currentUser.data.isSuperADMIN }
@@ -128,9 +126,12 @@ export default defineComponent({
   }
 })
 </script>
-<style>
+<style scoped>
 .q-page{
   max-width: 640px;
   width: 100%
+}
+.q-list .q-router-link--active, .q-list .q-router-link--exact-active {
+  font-weight: 700;
 }
 </style>

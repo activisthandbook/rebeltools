@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers'
 import { initializeApp } from 'firebase/app'
-import { getAnalytics, logEvent } from 'firebase/analytics'
+import { getAnalytics, logEvent, setUserId } from 'firebase/analytics'
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore'
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
@@ -49,18 +49,14 @@ export default boot(async ({ store }) => {
       // Store the user data in Vuex
       store.commit('auth/signin', user)
 
-      if (!store.state.auth.user.isAnonymous) {
+      if (!store.state.auth.data.isAnonymous) {
         // Fetch additional data from database
         store.dispatch('currentUser/fetchFromDatabase')
       }
 
       /* Future logged events will be linked to the user ID:
       https://firebase.google.com/docs/analytics/userid */
-      // analytics.setUserID(user.uid) -> Uncaught (in promise) TypeError: Cannot read properties of null (reading 'emailVerified')
-
-      logEvent(analytics, 'signin')
-
-      // ..
+      setUserId(analytics, user.uid)
     } else {
       /* NOT SIGNED IN ❌
       This may seem a bit counterintuitive, but we always want to make sure users are signed in. Even if they don't have an account, we will sign them in, but with an anonymous Firebase account. */

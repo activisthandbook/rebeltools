@@ -14,6 +14,7 @@ const routes = [
     children: [
       { path: '', name: 'Home', component: () => import('src/pages/Index.vue') },
       { path: 'start', name: 'Start', component: () => import('src/pages/Start.vue') },
+      { path: 'privacy', name: 'Privacy', component: () => import('src/pages/Privacy.vue') },
       { path: 'settings', name: 'Settings', component: () => import('src/pages/Settings.vue') },
       { path: 'new-movement', name: 'New movement', component: () => import('src/pages/NewMovement.vue') }
     ]
