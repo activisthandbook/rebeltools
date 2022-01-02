@@ -1,5 +1,10 @@
 <template>
-  <h1>Community</h1>
+  <q-header bordered class="bg-primary text-white">
+    <q-toolbar>
+      <q-toolbar-title>Community</q-toolbar-title>
+    </q-toolbar>
+  </q-header>
+
   <q-banner class="bg-grey-3 text-grey-9">
     <template v-slot:avatar>
       <q-icon name="mdi-star-shooting-outline" color="grey"/>

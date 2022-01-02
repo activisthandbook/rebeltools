@@ -1,5 +1,9 @@
 <template>
-  <h1>Home</h1>
+  <q-header bordered class="bg-primary text-white">
+    <q-toolbar>
+      <q-toolbar-title>Dashboard</q-toolbar-title>
+    </q-toolbar>
+  </q-header>
   <p>Welcome back, Rebel! Here's how to get your day started:</p>
   <q-card class="text-bold">
 

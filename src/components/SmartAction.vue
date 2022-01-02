@@ -8,7 +8,7 @@ This component allows users to sign up for movements and events.
   <div>
     <q-card dark class="bg-secondary q-my-lg shadow-6">
 
-      <q-card-section v-if="!signupDataLoaded" class="q-gutter-y-sm">
+      <q-card-section v-if="!signupDataLoaded || !$store.state.currentUser.dataLoaded" class="q-gutter-y-sm">
         <q-skeleton type="rect" height="28.8px"/>
         <q-skeleton type="text" height="20px"/>
         <q-skeleton type="text" height="20px"/>
@@ -17,15 +17,16 @@ This component allows users to sign up for movements and events.
 
       <transition name="fade">
 
-        <q-card-section v-if="signupDataLoaded"  class="q-gutter-y-sm">
+        <q-card-section v-if="signupDataLoaded && $store.state.currentUser.dataLoaded"  class="q-gutter-y-sm">
           <sign-up
-            v-if="!actions['sign-up'].completed"
+            v-if="!signupData"
             :dataPath="signup.dataPath"
             :title="signup.title"
             :description="signup.description"
             :buttonLabel="signup.buttonLabel"
           />
-          <create-profile v-else-if="!actions['create-profile'].completed"/>
+
+          <create-profile v-else-if="!$store.state.currentUser.data.profileCreated"/>
           <share-page v-else/>
           <!-- <enable-notifications v-else-if="!actions['enable-notifications'].completed"/> -->
         </q-card-section>
@@ -115,51 +116,15 @@ export default {
   },
   data () {
     return {
-      actions: {
-        'sign-up': { completed: false },
-        'create-profile': { completed: false },
-        'enable-notifications': { completed: false }
-      },
       signupDataLoaded: false,
       signupData: null,
       email: null
-    }
-  },
-  computed: {
-    userDataLoaded () {
-      return this.$store.state.currentUser.dataLoaded
-      // Or return basket.getters.fruitsCount
-      // (depends on your design decisions).
-    },
-    userProfileCreated () {
-      if (this.userDataLoaded) {
-        return this.$store.state.currentUser.data.profileCreated
-      } else {
-        return false
-      }
-      // Or return basket.getters.fruitsCount
-      // (depends on your design decisions).
-    }
-  },
-  watch: {
-    userDataLoaded (userDataLoaded) {
-      if (userDataLoaded && this.userProfileCreated) {
-        this.actions['create-profile'].completed = true
-      }
-    },
-    userProfileCreated (userProfileCreated) {
-      if (userProfileCreated) {
-        this.actions['create-profile'].completed = true
-      }
     }
   },
   mounted () {
     this.$nextTick(function () {
       onSnapshot(doc(db, this.signup.dataPath + '/signups/', this.$store.state.auth.data.uid), (doc) => {
         this.signupData = doc.data()
-        if (this.signupData) {
-          this.actions['sign-up'].completed = true
-        }
         this.signupDataLoaded = true
       })
     })

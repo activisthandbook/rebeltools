@@ -35,8 +35,8 @@ Path: /:movementID/*
         <q-list class="q-mt-md">
           <q-item><h2>{{ movementName }}</h2></q-item>
 
-          <q-item clickable v-ripple :to="{name: 'Movement'}" exact>
-            <q-item-section avatar active-class="text-primary">
+          <q-item clickable v-ripple :to="{name: 'Movement'}" exact active-class="text-primary">
+            <q-item-section avatar>
               <q-icon name="mdi-home" />
             </q-item-section>
 

@@ -44,6 +44,7 @@ const routes = [
     children: [
       { path: '', name: 'Dashboard', component: () => import('src/pages/dashboard/Index.vue') },
       { path: 'calendar', name: 'Dashboard Calendar', component: () => import('pages/dashboard/Calendar.vue') },
+      { path: 'calendar/new-event', name: 'Dashboard New Event', component: () => import('pages/dashboard/dialogs/NewEvent.vue') },
       { path: 'community', name: 'Dashboard Community', component: () => import('pages/dashboard/Community.vue') },
       { path: 'page', name: 'Dashboard Page', component: () => import('pages/dashboard/Page.vue') },
       { path: 'apps', name: 'Dashboard Apps', component: () => import('pages/dashboard/Apps.vue') }
