@@ -13,6 +13,7 @@ import { createStore } from 'vuex'
 import auth from './auth'
 import currentUser from './currentUser'
 import currentMovement from './currentMovement'
+import currentEvent from './currentEvent'
 
 /*
  * If not building with SSR mode, you can
@@ -28,7 +29,8 @@ export default store(function (/* { ssrContext } */) {
     modules: {
       auth,
       currentUser,
-      currentMovement
+      currentMovement,
+      currentEvent
     },
 
     // enable strict mode (adds overhead!)

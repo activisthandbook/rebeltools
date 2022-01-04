@@ -58,3 +58,14 @@ h6,.text-h6{
 .q-transition--field-message-leave-active {
   transition: all 0.2s ease;
 }
+
+
+.q-body--layout-animate .q-drawer{
+  transition: transform .2s ease-in-out, width .2s ease-in-out, top .2s ease-in-out, bottom .2s ease-in-out !important
+}
+// .q-drawer__backdrop{
+//   transition: all 1.12s !important;
+// }
+// :root{
+//   --q-transition-duration: 1.3s
+// }

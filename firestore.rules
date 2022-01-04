@@ -36,7 +36,7 @@ service cloud.firestore {
     }
 
     // 📢 MOVEMENTS
-    match /movements/{movement} {
+    match /movements/{movementID} {
 
       function isValidMovement() {
         return
@@ -88,11 +88,46 @@ service cloud.firestore {
         isSuperADMIN() // User is superADMIN 🔴
 
 
+      // 👋 SIGNUPS
       match /signups/{userID} {
         allow create: if verifiedUser();
 
         allow read: if request.auth.uid == userID; // Users can only read their own doc
       }
+
+    }
+
+    // 📆 EVENTS
+    match /calendar/{eventID} {
+
+      // FIELDS VALIDATION
+      function isValidEvent() {
+        return
+          // NAME
+          "title" in request.resource.data &&
+          request.resource.data.title != null &&
+
+          // PATH
+          "path" in request.resource.data &&
+          request.resource.data.path != null &&
+          request.resource.data.path.matches('^[a-z|0-9]+(-[a-z|0-9]+)*$') &&
+
+          // DESCRIPTION
+          "description" in request.resource.data &&
+          request.resource.data.description != null &&
+
+          // MOVEMENT ID
+          "movementID" in request.resource.data &&
+          request.auth.uid in get(/databases/$(database)/documents/movements/$(request.resource.data.movementID)).data.admins;
+      }
+
+      allow read: if
+        resource != null &&
+        resource.data.published;
+
+      allow create: if
+        verifiedUser() &&
+        isValidEvent();
 
     }
 

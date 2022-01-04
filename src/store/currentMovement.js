@@ -17,18 +17,7 @@ export default {
   namespaced: true,
   state: {
     dataLoaded: false,
-    data: {
-      name: null,
-      path: null,
-      primaryColor: null,
-      secondaryColor: null,
-      headline: null,
-      description: null,
-      primaryAction: {
-        title: null,
-        description: null
-      }
-    },
+    data: {},
     /* 🔴 IMPORTANT SECURITY NOTICE!
     The following validations only happen front-end, to provide a pleasant user experience. Make sure to validate all user input with the Firestore security rules as well!
     */

@@ -13,6 +13,8 @@ const routes = [
     component: () => import('src/layouts/HomeLayout.vue'),
     children: [
       { path: '', name: 'Home', component: () => import('src/pages/Index.vue') },
+      { path: '2', name: 'Home2', component: () => import('src/pages/Index2.vue') },
+      { path: 'actionnetwork', name: 'Action Network', component: () => import('src/pages/campaigns/ActionNetwork.vue') },
       { path: 'start', name: 'Start', component: () => import('src/pages/Start.vue') },
       { path: 'privacy', name: 'Privacy', component: () => import('src/pages/Privacy.vue') },
       { path: 'settings', name: 'Settings', component: () => import('src/pages/Settings.vue') },
@@ -54,7 +56,7 @@ const routes = [
   // Always leave this as last one,
   // but you can also remove it
   {
-    path: '/:catchAll(.*)*',
+    path: '/404',
     component: () => import('pages/Error404.vue')
   }
 ]

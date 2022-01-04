@@ -9,7 +9,7 @@ Path: /privacy
 
     <h2 class="q-mt-xl">Is Rebel Tools privacy-friendly?</h2>
     <div>Kinda, but also, not really. Rebel Tools is developed for small movements, so they do not have to rely on the services of big tech. However, to build Rebel Tools, we make use of Firebase, a service offered by Google.</div>
-    <div>We do not have the financial or technological capacity to build a truely privacy-friendly toolset. Is it better than using Facebook? Definitely. Is it better than only using end-to-end encrypted tools like Signal? No.</div>
+    <div>We do not have the financial or technological capacity to build a truely privacy-friendly toolset. <strong>Is it better than using Facebook? Definitely.</strong> Is it better than only using end-to-end encrypted tools like Signal? No.</div>
     <div>In other words: Privacy is not our main focus. We want to build tools that help you overthrow our toxic capitalist system. We hope that one point in the future, with your help, the web no longer relies on big evil multinationals. For now, we are using their own tools against them.</div>
 
     <h2 class="q-mt-xl">Information we collect</h2>
