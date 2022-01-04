@@ -3,7 +3,7 @@ import { initializeApp } from 'firebase/app'
 import { getAnalytics, logEvent, setUserId } from 'firebase/analytics'
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore'
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
+// import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
 import { getPerformance } from 'firebase/performance'
 
 import { Notify } from 'quasar'
