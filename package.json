@@ -11,19 +11,20 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.11.1",
+    "@quasar/extras": "^1.12.2",
     "@vue/devtools": "^5.3.4",
     "@vuelidate/core": "^2.0.0-alpha.32",
     "@vuelidate/validators": "^2.0.0-alpha.25",
+    "babel-loader": "^8.2.3",
     "color-contrast-checker": "^2.1.0",
     "core-js": "^3.6.5",
     "firebase": "^9.6.1",
-    "quasar": "^2.1.0",
+    "quasar": "^2.4.3",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
-    "@quasar/app": "^3.1.0",
+    "@quasar/app": "^3.2.6",
     "eslint": "^7.14.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.19.1",
