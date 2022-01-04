@@ -93,12 +93,13 @@ export default boot(async ({ store }) => {
   Pass your reCAPTCHA v3 site key (public key) to activate(). Make sure this key is the counterpart to the secret key you set in the Firebase console.
   Docs: https://firebase.google.com/docs/app-check
   */
-  await initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider('6LckPKsdAAAAALrvsVbXnI-j5doL4S_792D7jpb0'),
+  // Temporarily disabled because of performance hit
+  // await initializeAppCheck(app, {
+  //   provider: new ReCaptchaV3Provider('6LckPKsdAAAAALrvsVbXnI-j5doL4S_792D7jpb0'),
 
-    /* Optional argument. If true, the SDK automatically refreshes App Check tokens as needed. */
-    isTokenAutoRefreshEnabled: true
-  })
+  //   /* Optional argument. If true, the SDK automatically refreshes App Check tokens as needed. */
+  //   isTokenAutoRefreshEnabled: true
+  // })
 
   /* 🤖 PERFORNANCE MONITORING
   Pass your reCAPTCHA v3 site key (public key) to activate(). Make sure this key is the counterpart to the secret key you set in the Firebase console.
