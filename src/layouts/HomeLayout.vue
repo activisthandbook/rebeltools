@@ -25,7 +25,10 @@ Path: /*
         <footer class="text-body-2 q-gutter-y-md text-grey-8 q-mt-xl">
           <q-separator class="q-my-lg"/>
           <h2>Rebel Tools</h2>
-          <div><router-link to="/privacy" class="text-grey-8">Privacy</router-link></div>
+          <div>
+            <router-link to="/privacy" class="text-grey-8">Privacy</router-link> |
+            <a href="https://github.com/activisthandbook/rebeltools/blob/main/LICENSE.md" class="text-grey-8">License</a>
+          </div>
           <div class="q-gutter-y-sm">
             <div class="text-bold">Comparing with other platforms</div>
             <div><router-link to="/actionnetwork" class="text-grey-8">Action Network</router-link></div>
