@@ -160,7 +160,7 @@
       <q-btn label="GitHub" icon="mdi-github" outline no-caps type="a" href="https://github.com/activisthandbook/rebeltools"/>
       <q-btn label="Slack" icon="mdi-slack" outline no-caps type="a" href="https://join.slack.com/t/activisthandbook/shared_invite/zt-e1d26qma-nUiopZFKEiXf3lUwll_jhw"/>
       <q-card class="bg-black q-mt-md">
-        <q-video class="rounded-borders" :ratio="16/9" src="https://www.youtube.com/embed/G6xxxa-yAco"/>
+        <q-video title="Video: Join our Rebel Tools project" class="rounded-borders" :ratio="16/9" src="https://www.youtube.com/embed/G6xxxa-yAco"/>
       </q-card>
 
     </section>

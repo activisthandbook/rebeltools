@@ -80,7 +80,7 @@ export default boot(async ({ store }) => {
   /* 📶 OFFLINE PERSISTANCE FIRESTORE
   Docs: https://firebase.google.com/docs/firestore/manage-data/enable-offline
   */
-  enableIndexedDbPersistence(getFirestore())
+  await enableIndexedDbPersistence(getFirestore())
     .catch((err) => {
       if (err.code === 'failed-precondition') {
         /* Multiple tabs open, persistence can only be enabled in one tab at a a time. */
@@ -93,16 +93,20 @@ export default boot(async ({ store }) => {
   Pass your reCAPTCHA v3 site key (public key) to activate(). Make sure this key is the counterpart to the secret key you set in the Firebase console.
   Docs: https://firebase.google.com/docs/app-check
   */
-  initializeAppCheck(app, {
+  await initializeAppCheck(app, {
     provider: new ReCaptchaV3Provider('6LckPKsdAAAAALrvsVbXnI-j5doL4S_792D7jpb0'),
 
     /* Optional argument. If true, the SDK automatically refreshes App Check tokens as needed. */
     isTokenAutoRefreshEnabled: true
+  }).then(() => {
+    // succesful
   })
 
   /* 🤖 PERFORNANCE MONITORING
   Pass your reCAPTCHA v3 site key (public key) to activate(). Make sure this key is the counterpart to the secret key you set in the Firebase console.
   Docs: https://firebase.google.com/docs/app-check
   */
-  getPerformance(app)
+  await getPerformance(app).then(() => {
+    // succesful
+  })
 })
