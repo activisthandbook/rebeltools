@@ -32,9 +32,9 @@ Path: /*
           <div class="q-gutter-y-sm">
             <div class="text-bold">Comparing with other platforms</div>
             <div><router-link to="/actionnetwork" class="text-grey-8">Action Network</router-link></div>
-            <div><router-link to="/nationbuilder" class="text-grey-8">Nation Builder</router-link></div>
+            <!-- <div><router-link to="/nationbuilder" class="text-grey-8">Nation Builder</router-link></div>
             <div><router-link to="/changeorg" class="text-grey-8">Change.org</router-link></div>
-            <div><router-link to="/changeorg" class="text-grey-8">Wordpress</router-link></div>
+            <div><router-link to="/changeorg" class="text-grey-8">Wordpress</router-link></div> -->
           </div>
         </footer>
       </q-page>
