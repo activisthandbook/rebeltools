@@ -63,9 +63,9 @@
 
       <q-img
         alt="Crowd of Black Lives Matter protesters holding signs"
-        src="~assets/black-lives-matter-protest.jpg"
-        srcset="img/black-lives-matter-protest.jpg 592w,
-                img/black-lives-matter-protest-2x.jpg 2x"
+        src="photos/black-lives-matter-protest.jpg"
+        srcset="photos/black-lives-matter-protest.jpg 592w,
+                photos/black-lives-matter-protest-2x.jpg 2x"
       />
     </section>
 
