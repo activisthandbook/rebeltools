@@ -41,9 +41,6 @@ export default route(function ({ store }) {
     if (to.params.movementID) {
       store.dispatch('currentMovement/fetchFromDatabase', to.params.movementID)
     }
-
-    // logEvent(getAnalytics(), 'page_view')
-
     next()
   })
 

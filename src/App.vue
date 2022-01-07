@@ -19,9 +19,20 @@ Path: /*
   </div> -->
 </template>
 <script>
-import { defineComponent } from 'vue'
 
-export default defineComponent({
-  name: 'App'
-})
+export default {
+  name: 'App',
+  computed: {
+    movementNotFound () {
+      return this.$store.state.currentMovement.data.notFound
+    }
+  },
+  watch: {
+    movementNotFound: function (result) {
+      if (result) {
+        this.$router.push({ name: '404', params: { catchAll: 404 } })
+      }
+    }
+  }
+}
 </script>

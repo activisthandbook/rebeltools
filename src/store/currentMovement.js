@@ -62,25 +62,39 @@ export default {
     }
   },
   actions: {
-    fetchFromDatabase ({ state, commit }, movementID) {
-      const q = query(collection(getFirestore(), 'movements'), where('path', '==', movementID))
+    async fetchFromDatabase ({ state, commit }, movementID) {
+      onSnapshot(
+        query(collection(getFirestore(), 'movements'), where('path', '==', movementID)),
 
-      onSnapshot(q, (querySnapshot) => {
-        const movements = []
-        querySnapshot.forEach((doc) => {
-          movements.push({
-            ...doc.data(),
-            id: doc.id
-          })
-        })
-        commit('update', movements[0])
+        (querySnapshot) => {
+          const movements = []
 
-        // DYNAMICALLY CHANGE COLOURS
-        setCssVar('primary', state.data.primaryColor)
-        setCssVar('secondary', state.data.secondaryColor)
-        setCssVar('accent', '#FFF8DB')
-        setCssVar('dark', '#000000')
-      })
+          if (querySnapshot.docs[0]) {
+            querySnapshot.forEach((doc) => {
+              movements.push({
+                ...doc.data(),
+                id: doc.id
+              })
+            })
+
+            commit('update', movements[0])
+            console.log(movements)
+
+            // DYNAMICALLY CHANGE COLOURS
+            setCssVar('primary', state.data.primaryColor)
+            setCssVar('secondary', state.data.secondaryColor)
+            setCssVar('accent', '#FFF8DB')
+            setCssVar('dark', '#000000')
+          } else {
+            commit('update', { notFound: true })
+          }
+        },
+
+        (error) => {
+          // In case of error
+          console.log(error)
+        }
+      )
     },
     async addToDatabase ({ commit }, movement) {
       await addDoc(collection(getFirestore(), 'movements'), {
