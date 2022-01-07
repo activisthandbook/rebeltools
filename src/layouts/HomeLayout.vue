@@ -15,27 +15,42 @@ Path: /*
         <q-toolbar-title @click="$router.push({name: 'Home'})" class="cursor-pointer">
           Rebel Tools
         </q-toolbar-title>
-        <q-btn icon="mdi-github" label="Contribute" outline no-caps @click="openExternal('https://github.com/activisthandbook/rebeltools')"/>
+        <q-btn icon="mdi-heart" label="Volunteer" outline no-caps @click="openExternal('https://guides.rebel.tools/docs/contribute')"/>
       </q-toolbar>
     </q-header>
 
     <q-page-container class="flex justify-center">
       <q-page padding class="q-pt-lg q-pb-xl full-width">
         <router-view />
-        <footer class="text-body-2 q-gutter-y-md text-grey-8 q-mt-xl">
-          <q-separator class="q-my-lg"/>
+        <footer class="text-body-2 q-gutter-y-md text-grey-8 q-mt-xl q-pt-md">
+          <q-separator class="q-my-xl"/>
           <h2>Rebel Tools</h2>
-          <div>
-            <router-link to="/privacy" class="text-grey-8">Privacy</router-link> |
-            <a href="https://github.com/activisthandbook/rebeltools/blob/main/LICENSE.md" class="text-grey-8">License</a>
+
+          <div class="row">
+            <div class="q-gutter-y-sm col-4">
+              <div class="text-bold">About</div>
+              <div><a href="https://guides.rebel.tools/docs/support" class="text-grey-8">User guides</a></div>
+              <div><a href="https://guides.rebel.tools/docs/dev" class="text-grey-8">Documentation</a></div>
+              <div><router-link to="/privacy" class="text-grey-8">Privacy</router-link></div>
+              <div><a href="https://github.com/activisthandbook/rebeltools/blob/main/LICENSE.md" class="text-grey-8">License</a></div>
+            </div>
+            <div class="q-gutter-y-sm col-4">
+              <div class="text-bold">Stay updated</div>
+              <div><a href="http://www.activism.rocks/join" class="text-grey-8">Newsletter</a></div>
+              <div><a href="https://www.instagram.com/activisthandbook/" class="text-grey-8">Instagram</a></div>
+              <div><a href="https://twitter.com/home?lang=en" class="text-grey-8">Twitter</a></div>
+              <div><a href="https://www.youtube.com/channel/UCnaQQFVNV0eKc4j3-zwc09A" class="text-grey-8">YouTube</a></div>
+              <div><a href="https://www.facebook.com/activisthandbook" class="text-grey-8">Facebook</a></div>
+            </div>
+            <div class="q-gutter-y-sm col-4">
+              <div class="text-bold">Comparisons</div>
+              <div><router-link to="/actionnetwork" class="text-grey-8">Action Network</router-link></div>
+              <!-- <div><router-link to="/nationbuilder" class="text-grey-8">Nation Builder</router-link></div>
+              <div><router-link to="/changeorg" class="text-grey-8">Change.org</router-link></div>
+              <div><router-link to="/changeorg" class="text-grey-8">Wordpress</router-link></div> -->
+            </div>
           </div>
-          <div class="q-gutter-y-sm">
-            <div class="text-bold">Comparing with other platforms</div>
-            <div><router-link to="/actionnetwork" class="text-grey-8">Action Network</router-link></div>
-            <!-- <div><router-link to="/nationbuilder" class="text-grey-8">Nation Builder</router-link></div>
-            <div><router-link to="/changeorg" class="text-grey-8">Change.org</router-link></div>
-            <div><router-link to="/changeorg" class="text-grey-8">Wordpress</router-link></div> -->
-          </div>
+
         </footer>
       </q-page>
     </q-page-container>
