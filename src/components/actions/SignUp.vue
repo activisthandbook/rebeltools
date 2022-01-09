@@ -9,9 +9,18 @@
     <q-skeleton type="QInput" v-if="!$store.state.auth.dataLoaded"/>
 
     <!-- INPUT: Show if the user is not signed in. -->
-    <q-input label="✉️ Email address" color="black" bg-color="white" outlined class="shadow-8 q-mb-sm" v-model="email" v-if="$store.state.auth.dataLoaded && $store.state.auth.data.isAnonymous">
+    <q-input
+      label="✉️ Email address"
+      color="black"
+      bg-color="white"
+      outlined
+      class="shadow-8 q-mb-sm"
+      v-model="email"
+      v-if="$store.state.auth.dataLoaded && $store.state.auth.data.isAnonymous"
+      @keyup.enter="sendVerificationEmail()"
+    >
       <template v-slot:append>
-        <q-btn icon="mdi-arrow-right" color="secondary" round @click="sendVerificationEmail">
+        <q-btn icon="mdi-arrow-right" color="secondary" round @click="sendVerificationEmail()">
           <q-tooltip>Sign up</q-tooltip>
         </q-btn>
       </template>
@@ -43,7 +52,7 @@
 
   </div>
 
-  <q-item class="q-py-md" v-if="verificationEmailSent">
+  <q-item class="q-py-md q-mt-none" v-if="verificationEmailSent">
     <q-item-section>
       <h2>Check your email!</h2>
     <div>To confirm, click the Rebel Tools verification link.</div>
@@ -86,7 +95,7 @@ export default {
   },
   mounted () {
     this.$nextTick(function () {
-      // this.$store.dispatch('auth/signInWithEmailLink')
+      this.$store.dispatch('auth/signInWithEmailLink')
     })
   },
   methods: {

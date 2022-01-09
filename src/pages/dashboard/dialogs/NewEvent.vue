@@ -42,6 +42,8 @@ const analytics = getAnalytics()
 
 import useVuelidate from '@vuelidate/core'
 
+import { Notify } from 'quasar'
+
 export default {
   props: ['open'],
   setup () {
@@ -74,7 +76,7 @@ export default {
         this.$router.push({ name: 'Dashboard Calendar' })
         logEvent(analytics, 'event_created')
       }).catch((error) => {
-        console.log(error)
+        Notify.create({ message: error, icon: 'mdi-alert' })
       })
     }
   }

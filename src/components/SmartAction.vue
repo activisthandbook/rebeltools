@@ -7,8 +7,7 @@ This component allows users to sign up for movements and events.
 <template>
   <div>
     <q-card dark class="bg-secondary q-my-lg shadow-6">
-
-      <q-card-section v-if="!signupDataLoaded || !$store.state.currentUser.dataLoaded" class="q-gutter-y-sm">
+      <q-card-section v-if="!signupDataLoaded || (!$store.state.currentUser.dataLoaded && !$store.state.auth.data.isAnonymous)" class="q-gutter-y-sm">
         <q-skeleton type="rect" height="28.8px"/>
         <q-skeleton type="text" height="20px"/>
         <q-skeleton type="text" height="20px"/>
@@ -17,7 +16,7 @@ This component allows users to sign up for movements and events.
 
       <transition name="fade">
 
-        <q-card-section v-if="signupDataLoaded && $store.state.currentUser.dataLoaded"  class="q-gutter-y-sm">
+        <q-card-section v-if="signupDataLoaded && ($store.state.currentUser.dataLoaded || $store.state.auth.data.isAnonymous)"  class="q-gutter-y-sm">
           <sign-up
             v-if="!signupData"
             :dataPath="signup.dataPath"

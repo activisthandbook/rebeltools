@@ -5,7 +5,7 @@ This is what would usually be the sign in or register page. But in our case, bot
 Path: /start
  -->
 <template>
-  <q-skeleton class="q-my-lg" height="172px" v-if="!$store.state.data.user"/>
+  <q-skeleton class="q-my-lg" height="172px" v-if="!$store.state.auth.dataLoaded"/>
   <div v-else>
     <q-card class="q-my-lg" v-if="$store.state.auth.data.emailVerified">
       <q-card-section>
@@ -16,7 +16,16 @@ Path: /start
         </div>
       </q-card-section>
     </q-card>
-    <smart-action v-else title="Get started" description="Fill in your email address to register or sign in."/>
+    <smart-action
+      v-else
+      :onlySignup="true"
+      :signup="{
+        dataPath: 'movements/x',
+        title: 'Get started',
+        description: 'Fill in your email address to register or sign in.',
+        buttonLabel: 'Join movement'
+      }"
+    />
   </div>
 </template>
 <script>

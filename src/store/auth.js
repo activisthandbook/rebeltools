@@ -93,14 +93,9 @@ export default {
             return true
           })
           .catch((error) => {
-            console.log('b')
             /* ❌ ERROR: Common errors could be invalid email and invalid or expired OTPs. */
             Notify.create({ message: error, icon: 'mdi-alert' })
-
-            throw new Error(error)
           })
-      } else {
-        throw new Error('isNotSignInWithEmailLink')
       }
     },
 
@@ -112,9 +107,10 @@ export default {
       signOut(auth).then(() => {
         // Sign-out successful.
         logEvent(getAnalytics(), 'signout')
+        window.location.reload()
       }).catch((error) => {
         // An error happened.
-        console.log(error)
+        Notify.create({ message: error, icon: 'mdi-alert' })
       })
     }
 

@@ -3,7 +3,7 @@ STORE MODULE: CURRENT MOVEMENT 🌊
 In this module, data is stored on the current movement that is viewed by the user.
 */
 
-import { setCssVar } from 'quasar'
+import { Notify, setCssVar } from 'quasar'
 import { getFirestore, collection, query, where, onSnapshot, addDoc, serverTimestamp, doc, setDoc } from 'firebase/firestore'
 import { required, helpers } from '@vuelidate/validators'
 
@@ -78,7 +78,6 @@ export default {
             })
 
             commit('update', movements[0])
-            console.log(movements)
 
             // DYNAMICALLY CHANGE COLOURS
             setCssVar('primary', state.data.primaryColor)
@@ -89,10 +88,9 @@ export default {
             commit('update', { notFound: true })
           }
         },
-
         (error) => {
           // In case of error
-          console.log(error)
+          Notify.create({ message: error, icon: 'mdi-alert' })
         }
       )
     },
