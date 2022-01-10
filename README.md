@@ -9,6 +9,7 @@
 We believe everyone should be able to contribute to Rebel Tools. It is not nessesary to have experience with web development. Learn how **[you can contribute](https://guides.rebel.tools/docs/contribute)**.
 
 ## Documentation 📖
-Check out our **[developer documentation](https://guides.rebel.tools/docs/dev/contribute)** to learn how to contribute to this project, or how to self-host an instance of Rebel Tools.
-- **💻 [Contribute as developer](https://guides.rebel.tools/docs/dev/contribute):** You can contribute by opening issues on GitHub or joining our team.
-- **🌐 [Self host guide](https://guides.rebel.tools/docs/dev/self-hosting):** You can install a (customised) version of Rebel Tools on your own domain.
+Check out our **[developer documentation](https://guides.rebel.tools/docs/dev)** to learn how to contribute to this project, or how to self-host an instance of Rebel Tools.
+- **💻 [Contribute as developer](https://guides.rebel.tools/docs/dev/contribute/get-started):** You can contribute by opening issues on GitHub or joining our team.
+- **🌐 [Self host guide](https://guides.rebel.tools/docs/dev/self-hosting/get-started):** You can install a (customised) version of Rebel Tools on your own domain.
+- **🎓 [Web development course](https://guides.rebel.tools/docs/dev/course/get-started):** New to web development? Check out our collection of guides about all the technologies we use.
