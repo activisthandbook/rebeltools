@@ -3,7 +3,9 @@
     <h1>The all-in-one toolset for movements 🦋</h1>
     <div class="text-bold q-mb-md">Rebel Tools is an <span class="bg-primary text-white rounded-borders q-px-xs">open source</span> platform for social, progressive and green activists. We help change-makers organise & mobilise. It's <span class="bg-primary text-white rounded-borders q-px-xs">free</span> for small movements.</div>
 
-    <section class="row q-col-gutter-md">
+    <waiting-list/>
+
+    <!-- <section class="row q-col-gutter-md">
       <div class="col-sm-6 col-12">
         <q-card>
           <q-card-section class="bg-secondary text-white cursor-pointer" @click="$router.push({name: 'New movement'})" >
@@ -15,9 +17,9 @@
           </q-card-section>
           <q-card-section>
             <div class="q-gutter-y-sm">
-              <!-- <h2>Start organising</h2>
+              <!-<- <h2>Start organising</h2>
               <div class="text-bold">Create your own movement page to get started.</div>
-              <q-chip square class="q-mx-none text-bold" size="sm" color="secondary" outline>1 minute setup</q-chip> -->
+              <q-chip square class="q-mx-none text-bold" size="sm" color="secondary" outline>1 minute setup</q-chip> ->->
               <div class="text-body2">📢 Powerful tools, easy to use</div>
               <div class="text-body2">💸 Movements with up to 1K rebels can use Rebel Tools for free.</div>
               <div class="text-body2">❤️ Like it? You decide how much you can afford to contribute.</div>
@@ -44,7 +46,7 @@
           </q-card-section>
         </q-card>
       </div>
-    </section>
+    </section> -->
 
     <section class="q-gutter-y-md q-mt-xl">
       <h2>Revolutionary,<br/> literally <span style="font-style:normal">✊</span></h2>
@@ -209,3 +211,12 @@
 
   </div>
 </template>
+<script>
+import WaitingList from 'components/WaitingList.vue'
+
+export default {
+  components: {
+    WaitingList
+  }
+}
+</script>
