@@ -6,7 +6,7 @@ Path: /:movementID/*
  -->
 <template>
 
-  <div v-if="!movementName" class="fixed-center text-center">
+  <div v-if="!this.$store.state.currentMovement.dataLoaded" class="fixed-center text-center">
     <q-circular-progress
       color="grey"
       indeterminate

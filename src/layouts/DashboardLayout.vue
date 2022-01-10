@@ -5,18 +5,18 @@ The dashboard layout is used by activists to manage their movement. Only people 
 Path: /:movementID/dashboard/*
  -->
 <template>
-  <q-layout view="lHh LpR lFf">
-
-    <!-- <q-header bordered class="bg-primary text-white">
-      <q-toolbar> -->
-        <!-- <q-btn dense flat round icon="mdi-apps" @click="leftDrawerOpen = !leftDrawerOpen" /> -->
-
-        <!-- <q-toolbar-title>
-          Dashboard
-
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-header> -->
+  <div v-if="!this.$store.state.auth.dataLoaded || !this.$store.state.currentMovement.dataLoaded" class="fixed-center text-center">
+    <q-circular-progress
+      color="grey"
+      indeterminate
+      size="50px"
+      class="q-ma-md"
+    />
+    <div class="text-grey">
+      Loading dashboard...
+    </div>
+  </div>
+  <q-layout view="lHh LpR lFf" v-else>
 
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered :width="224" :breakpoint="767">
       <q-scroll-area class="fit">

@@ -123,7 +123,7 @@ service cloud.firestore {
 
       allow read: if
         resource != null &&
-        resource.data.published;
+        (resource.data.published || request.auth.uid in get(/databases/$(database)/documents/movements/$(resource.data.movementID)).data.admins);
 
       allow create: if
         verifiedUser() &&

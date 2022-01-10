@@ -11,18 +11,26 @@
     <q-card-section>
       <div class="q-gutter-y-sm">
         <div class="text-bold">Event details</div>
-        <q-input label="📢 Event title" outlined color="secondary" v-model="newEvent.title"/>
-        <q-input label="📆 Date" outlined color="secondary" v-model="newEvent.date">
 
-          <template v-slot:append>
-            <q-btn icon="mdi-calendar" label="Pick date" no-caps flat class="cursor-pointer" color="secondary">
-              <q-menu :offset="[0, 4]">
-                <q-date v-model="newEvent.date" mask="YYYY-MM-DD HH:mm" color="secondary">
-                </q-date>
-              </q-menu>
-            </q-btn>
-          </template>
-        </q-input>
+        <q-input
+          label="📢 Event title"
+          outlined
+          color="secondary"
+          v-model="newEvent.title"
+          :error="this.v$.newEvent.title.$error"
+          :errorMessage="mixin_mergeErrorMessages(this.v$.newEvent.title.$errors)"
+        />
+
+        <q-input
+          label="📆 Date and time"
+          hint="Automatically uses your timezone"
+          outlined color="secondary"
+          type="datetime-local"
+          stack-label
+          v-model="newEvent.date"
+          :error="this.v$.newEvent.date.$error"
+          :errorMessage="mixin_mergeErrorMessages(this.v$.newEvent.date.$errors)"
+        />
         <q-input label="📝 Event description" outlined type="textarea" color="secondary" v-model="newEvent.description"/>
         <q-item clickable class="q-pa-none bg-grey-3 rounded-borders" v-ripple>
           <q-img :ratio="16/9">
@@ -55,7 +63,7 @@ export default {
       newEvent: {
         title: '',
         path: 'test',
-        date: null,
+        date: '',
         movementID: null,
         description: ''
       }

@@ -19,6 +19,10 @@ export default {
         required: helpers.withMessage('Fill in a title for your event.', required),
         $autoDirty: true
       },
+      date: {
+        required: helpers.withMessage('Add a date.', required),
+        $autoDirty: true
+      },
       path: {
         required: helpers.withMessage('Add a URL path.', required),
         isPath: helpers.withMessage('Only use lowercase letters and numbers, with hyphens in between: my-event-path', helpers.regex(/^[a-z|0-9]+(-[a-z|0-9]+)*$/)),
