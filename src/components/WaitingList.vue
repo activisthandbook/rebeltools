@@ -24,23 +24,41 @@
 
 <template>
 
-  <div>Hello world!</div>
-
-  <!--
-    ADD COMPONENTS HERE
-    Documentation: https://quasar.dev/vue-components
-   -->
-
-  <!-- EXAMPLE INPUT FIELD AND BUTTON WITH VALIDATION: -->
-  <!--
-
+  <div class="column q-pa-lg">
+      <div class="row">
+        <q-card square class="shadow-24" style="width:300px;height:485px;">
+          <q-card-section class="bg-deep-purple-7">
+            <h2 class="text-h2 text-white q-my-md">Get started</h2>
+            <div class="absolute-bottom-right q-pr-md" style="transform: translateY(50%);">
+              <q-btn fab icon="close" color="purple-4" />
+            </div>
+          </q-card-section>
+          <q-card-section>
+            <q-form class="q-px-sm q-pt-xl q-pb-lg">
+    <q-input
+      label="✉️ First name"
+      v-model="waitingListItem.firstName"
+      :error="this.v$.waitingListItem.firstName.$error"
+      :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.firstName.$errors)"
+    />
     <q-input
       label="✉️ Email address"
       v-model="waitingListItem.emailAddress"
       :error="this.v$.waitingListItem.emailAddress.$error"
       :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.emailAddress.$errors)"
     />
-
+    <q-input
+      label="✉️ Phone number"
+      v-model="waitingListItem.phoneNumber"
+      :error="this.v$.waitingListItem.phoneNumber.$error"
+      :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.phoneNumber.$errors)"
+    />
+    <q-input
+      label="✉️ Organisation"
+      v-model="waitingListItem.organisation"
+      :error="this.v$.waitingListItem.organisation.$error"
+      :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.organisation.$errors)"
+    />
     <q-btn
       color="secondary"
       no-caps
