@@ -1,4 +1,5 @@
-<!-- TO-DO:
+<template>
+  <!-- TO-DO:
   STEP 1: ADD QUASAR COMPONENTS IN <TEMPLATE></TEMPLATE>
   Create a component that allows people to sign up for the Rebel Tools waiting list. This component will be shown on the homepage. It consists of the following elements:
   - A card, within which everything is wrapped.
@@ -22,108 +23,91 @@
   Upate the Firestore security rules to allow anyone to add a document. Only the super admin should be able to read and update the documents. When creating a new document, the data needs to be validated again (see above for requirements.)
   -->
 
-<template>
+  <q-card>
+    <q-card-section>
 
-  <div class="column q-pa-lg">
-      <div class="row">
-        <q-card square class="shadow-24" style="width:300px;height:485px;">
-          <q-card-section class="bg-deep-blue-7">
-            <h2 class="text-h2 text-white q-my-md">Get started</h2>
-            <div class="absolute-bottom-right q-pr-md" style="transform: translateY(50%);">
-              <q-btn fab icon="close" color="red-4" />
-            </div>
-          </q-card-section>
-          <q-card-section>
-            <q-form class="q-px-sm q-pt-xl q-pb-lg">
-  <div>Be the first to get access to Rebel Tools. Sign up for the waiting list:</div>
-    <q-input
-      label="🔤 First name"
-      v-model="waitingListItem.firstName"
-      :error="this.v$.waitingListItem.firstName.$error"
-      :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.firstName.$errors)"
-    />
-    <q-input
-      label="✉️ Email address"
-      v-model="waitingListItem.emailAddress"
-      :error="this.v$.waitingListItem.emailAddress.$error"
-      :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.emailAddress.$errors)"
-    />
-    <q-input
-      label="☎️ Phone number"
-      v-model="waitingListItem.phoneNumber"
-      :error="this.v$.waitingListItem.phoneNumber.$error"
-      :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.phoneNumber.$errors)"
-    />
-    <q-input
-      label="🔘 Organisation"
-      v-model="waitingListItem.organisation"
-      :error="this.v$.waitingListItem.organisation.$error"
-      :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.organisation.$errors)"
-    />
-    <q-btn
-      color="secondary"
-      no-caps
-      label="Join waiting list"
-      :disable="this.v$.waitingListItem.$invalid"
-      @click="saveToWaitingList()"
-    />
+      <q-input
+        label="✉️ Email address"
+        v-model="waitingListItem.emailAddress"
+        :error="this.v$.waitingListItem.emailAddress.$error"
+        errorMessage="test"
+        outlined
+        color="secondary"
+      />
+      <q-input
+        label="✉️ Email address"
+        v-model="waitingListItem.emailAddress"
+      />
 
-  -->
+      <q-btn
+        label="Join waiting list"
+        color="secondary"
+        no-caps
+        @click="saveToWaitingList()"
+        :disable="this.v$.waitingListItem.$invalid"
+      />
+
+    </q-card-section>
+
+  </q-card>
 
 </template>
 
 <script>
 // IMPORT EXTERNAL LIBRARIES LIKE THIS:
-// import useVuelidate from '@vuelidate/core'
-// import { helpers, required, email } from '@vuelidate/validators'
+import useVuelidate from '@vuelidate/core'
+import { helpers, required, email } from '@vuelidate/validators'
 
-// import { getFirestore, collection, addDoc } from 'firebase/firestore'
-// const db = getFirestore()
+import { getFirestore, collection, addDoc } from 'firebase/firestore'
+const db = getFirestore()
 
 export default {
 
   // ACTIVATE VUELIDATE LIKE BELOW
   // Documentation: https://vuelidate-next.netlify.app/#getting-started-1
 
-  // setup () {
-  //   return { v$: useVuelidate() }
-  // },
+  setup () {
+    return { v$: useVuelidate() }
+  },
 
   // SAVE YOUR VARIABLES BELOW
   // Documentation: https://v3.vuejs.org/guide/data-methods.html#data-properties
 
-  // data () {
-  //   return {
-  //     waitingListItem: {
-  //       emailAddress: ''
-  //     }
-  //   }
-  // },
+  data () {
+    return {
+      waitingListItem: {
+        emailAddress: '',
+        firstName: '',
+        phoneNumber: '',
+        organisation: ''
+      }
+    }
+  },
 
   // DEFINE HOW EACH VARIABLE SHOULD BE VALIDATED
   // Documentation: https://vuelidate-next.netlify.app/#getting-started-1
 
-  // validations () {
-  //   return {
-  //     waitingListItem: {
-  //       emailAddress: {
-  //         required: helpers.withMessage('Add your email address.', required),
-  //         email: helpers.withMessage('Not a valid email address.', email),
-  //         $autoDirty: true
-  //       }
-  //     }
-  //   }
-  // },
+  validations () {
+    return {
+      waitingListItem: {
+        emailAddress: {
+          required: helpers.withMessage('Add your email address.', required),
+          email: helpers.withMessage('Not a valid email address.', email),
+          $autoDirty: true
+        }
+      }
+    }
+  },
 
   // ADD YOUR METHOD FOR SAVING THE DATE IN FIRESTORE BELOW
   // Documentation: https://firebase.google.com/docs/firestore/manage-data/add-data#add_a_document
 
-  // methods: {
-  //   saveToWaitingList () {
-  //     const waitingListReference = collection(db, 'waitingList')
-  //     addDoc(waitingListReference, this.waitingListItem)
-  //   }
-  // }
+  methods: {
+    saveToWaitingList () {
+      const waitingListReference = collection(db, 'waitinglist')
+      addDoc(waitingListReference, this.waitingListItem)
+    }
+  }
 
   // Saving to the Firebase database won't actually work yet!
   // You still need to update the security rules (see firestore.rules file)
