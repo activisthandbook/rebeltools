@@ -24,110 +24,172 @@
 
 <template>
 
-  <div class="column q-pa-lg">
-      <div class="row">
-        <q-card square class="shadow-24" style="width:300px;height:485px;">
-          <q-card-section class="bg-deep-blue-7">
-            <h2 class="text-h2 text-white q-my-md">Get started</h2>
-            <div class="absolute-bottom-right q-pr-md" style="transform: translateY(50%);">
-              <q-btn fab icon="close" color="red-4" />
-            </div>
-          </q-card-section>
-          <q-card-section>
-            <q-form class="q-px-sm q-pt-xl q-pb-lg">
-  <div>Be the first to get access to Rebel Tools. Sign up for the waiting list:</div>
-    <q-input
-      label="🔤 First name"
-      v-model="waitingListItem.firstName"
-      :error="this.v$.waitingListItem.firstName.$error"
-      :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.firstName.$errors)"
+   <q-card>
+    <q-card-section class="q-gutter-y-sm">
+
+      <q-input
+        label="First name"
+        outlined
+        color="secondary"
+        v-model="waitingListItem.firstName"
+        @blur="v$.waitingListItem.firstName.$touch"
+
+        :error="v$.waitingListItem.firstName.$error"
+        :errorMessage="mixin_mergeErrorMessages(v$.waitingListItem.firstName.$errors)"
+      />
+
+      <q-input
+        label="Email address"
+        outlined
+        color="secondary"
+        v-model="waitingListItem.emailAddress"
+        @blur="v$.waitingListItem.emailAddress.$touch"
+
+        :error="v$.waitingListItem.emailAddress.$error"
+        :errorMessage="mixin_mergeErrorMessages(v$.waitingListItem.emailAddress.$errors)"
+      />
+
+      <q-input
+        label="Phone number"
+        outlined
+        color="secondary"
+        v-model="waitingListItem.phoneNumber"
+        @blur="v$.waitingListItem.phoneNumber.$touch"
+
+        :error="v$.waitingListItem.phoneNumber.$error"
+        :errorMessage="mixin_mergeErrorMessages(v$.waitingListItem.phoneNumber.$errors)"
+      />
+
+      <q-input
+        label="Organisation"
+        outlined
+        color="secondary"
+        v-model="waitingListItem.organisation"
+
+      />
+
+    </q-card-section>
+  </q-card>
+
+   <!--
+     ADD COMPONENTS HERE
+     Documentation: https://quasar.dev/vue-components
+    -->
+
+   <!-- EXAMPLE INPUT FIELD AND BUTTON WITH VALIDATION: -->
+   <!--
+     <q-input
+       label="✉️ First name"
+       v-model="waitingListItem.firstName"
+       :error="this.v$.waitingListItem.emailAddress.$error"
+       :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.emailAddress.$errors)"
     />
-    <q-input
-      label="✉️ Email address"
-      v-model="waitingListItem.emailAddress"
-      :error="this.v$.waitingListItem.emailAddress.$error"
-      :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.emailAddress.$errors)"
-    />
-    <q-input
-      label="☎️ Phone number"
-      v-model="waitingListItem.phoneNumber"
-      :error="this.v$.waitingListItem.phoneNumber.$error"
-      :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.phoneNumber.$errors)"
-    />
-    <q-input
-      label="🔘 Organisation"
-      v-model="waitingListItem.organisation"
-      :error="this.v$.waitingListItem.organisation.$error"
-      :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.organisation.$errors)"
-    />
-    <q-btn
-      color="secondary"
-      no-caps
+     <q-input
+       label="✉️ Email address"
+       v-model="waitingListItem.emailAddress"
+       :error="this.v$.waitingListItem.emailAddress.$error"
+       :errorMessage="mixin_mergeErrorMessages(this.v$.waitingListItem.emailAddress.$errors)"
+     />
+     <q-btn
+       color="secondary"
+       no-caps
       label="Join waiting list"
       :disable="this.v$.waitingListItem.$invalid"
       @click="saveToWaitingList()"
     />
-
   -->
-
 </template>
 
 <script>
 // IMPORT EXTERNAL LIBRARIES LIKE THIS:
-// import useVuelidate from '@vuelidate/core'
-// import { helpers, required, email } from '@vuelidate/validators'
+import useVuelidate from '@vuelidate/core'
+import { required, helpers, email } from '@vuelidate/validators'
 
 // import { getFirestore, collection, addDoc } from 'firebase/firestore'
 // const db = getFirestore()
 
 export default {
-
-  // ACTIVATE VUELIDATE LIKE BELOW
-  // Documentation: https://vuelidate-next.netlify.app/#getting-started-1
-
-  // setup () {
-  //   return { v$: useVuelidate() }
-  // },
-
-  // SAVE YOUR VARIABLES BELOW
-  // Documentation: https://v3.vuejs.org/guide/data-methods.html#data-properties
-
-  // data () {
-  //   return {
-  //     waitingListItem: {
-  //       emailAddress: ''
-  //     }
-  //   }
-  // },
-
-  // DEFINE HOW EACH VARIABLE SHOULD BE VALIDATED
-  // Documentation: https://vuelidate-next.netlify.app/#getting-started-1
-
-  // validations () {
-  //   return {
-  //     waitingListItem: {
-  //       emailAddress: {
-  //         required: helpers.withMessage('Add your email address.', required),
-  //         email: helpers.withMessage('Not a valid email address.', email),
-  //         $autoDirty: true
-  //       }
-  //     }
-  //   }
-  // },
-
-  // ADD YOUR METHOD FOR SAVING THE DATE IN FIRESTORE BELOW
-  // Documentation: https://firebase.google.com/docs/firestore/manage-data/add-data#add_a_document
-
-  // methods: {
-  //   saveToWaitingList () {
-  //     const waitingListReference = collection(db, 'waitingList')
-  //     addDoc(waitingListReference, this.waitingListItem)
-  //   }
-  // }
-
-  // Saving to the Firebase database won't actually work yet!
-  // You still need to update the security rules (see firestore.rules file)
-  // Documentation: https://firebase.google.com/docs/firestore/security/get-started
-
+  setup () {
+    return { v$: useVuelidate() }
+  },
+  data () {
+    return {
+      waitingListItem: {
+        firstName: '',
+        emailAddress: '',
+        phoneNumber: '',
+        organisation: ''
+      }
+    }
+  },
+  validations () {
+    return {
+      waitingListItem: {
+        firstName: {
+          required: helpers.withMessage('Add your first name.', required)
+        },
+        emailAddress: {
+          required: helpers.withMessage('Add your email address.', required),
+          email: helpers.withMessage('Add a valid email address.', email)
+        },
+        phoneNumber: {
+          required: helpers.withMessage('Add your phone number.', required)
+        }
+      }
+    }
+  }
 }
+
+// export default {
+
+// ACTIVATE VUELIDATE LIKE BELOW
+// Documentation: https://vuelidate-next.netlify.app/#getting-started-1
+
+// setup () {
+//   return { v$: useVuelidate() }
+// },
+
+// SAVE YOUR VARIABLES BELOW
+// Documentation: https://v3.vuejs.org/guide/data-methods.html#data-properties
+
+// data () {
+//   return {
+//     something: 'asdf',
+//     waitingListItem: {
+//         emailAddress: '',
+//         dfa: 'sdf'
+//     }
+//   }
+// },
+
+// DEFINE HOW EACH VARIABLE SHOULD BE VALIDATED
+// Documentation: https://vuelidate-next.netlify.app/#getting-started-1
+
+// validations () {
+//   return {
+//     waitingListItem: {
+//       emailAddress: {
+//         required: helpers.withMessage('Add your email address.', required),
+//         email: helpers.withMessage('Not a valid email address.', email),
+//         $autoDirty: true
+//       }
+//     }
+//   }
+// },
+
+// ADD YOUR METHOD FOR SAVING THE DATE IN FIRESTORE BELOW
+// Documentation: https://firebase.google.com/docs/firestore/manage-data/add-data#add_a_document
+
+// methods: {
+//   saveToWaitingList () {
+//     const waitingListReference = collection(db, 'waitingList')
+//     addDoc(waitingListReference, this.waitingListItem)
+//   }
+// }
+
+// Saving to the Firebase database won't actually work yet!
+// You still need to update the security rules (see firestore.rules file)
+// Documentation: https://firebase.google.com/docs/firestore/security/get-started
+
+// }
 </script>
