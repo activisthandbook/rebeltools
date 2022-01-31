@@ -27,6 +27,7 @@
    <q-card>
     <q-card-section class="q-gutter-y-sm">
       <h2>Get Started</h2>
+      <p>Be the first to get access to Rebel Tools. Sign up for the waiting list:</p>
       <q-input
         label="First name"
         outlined
@@ -104,13 +105,14 @@
       @click="saveToWaitingList()"
     />
   -->
+</template>
 <script>
 // IMPORT EXTERNAL LIBRARIES LIKE THIS:
 import useVuelidate from '@vuelidate/core'
 import { required, helpers, email } from '@vuelidate/validators'
 
-import { getFirestore, collection, addDoc } from 'firebase/firestore'
-const db = getFirestore()
+// import { getFirestore, collection, addDoc } from 'firebase/firestore'
+// const db = getFirestore()
 
 export default {
 
@@ -152,42 +154,42 @@ export default {
   }
 }
 
-export default {
+// export default {
 
 // ACTIVATE VUELIDATE LIKE BELOW
 // Documentation: https://vuelidate-next.netlify.app/#getting-started-1
 
-setup () {
-  return { v$: useVuelidate() }
-},
+// setup () {
+// return { v$: useVuelidate() }
+// },
 
 // SAVE YOUR VARIABLES BELOW
 // Documentation: https://v3.vuejs.org/guide/data-methods.html#data-properties
 
-data () {
-  return {
-    something: 'asdf',
-    waitingListItem: {
-        emailAddress: '',
-        dfa: 'sdf'
-    }
-  }
-},
+// data () {
+//   return {
+//     something: 'asdf',
+//     waitingListItem: {
+//         emailAddress: '',
+//         dfa: 'sdf'
+//     }
+//   }
+// },
 
 // DEFINE HOW EACH VARIABLE SHOULD BE VALIDATED
 // Documentation: https://vuelidate-next.netlify.app/#getting-started-1
 
-validations () {
-  return {
-    waitingListItem: {
-      emailAddress: {
-        required: helpers.withMessage('Add your email address.', required),
-        email: helpers.withMessage('Not a valid email address.', email),
-        $autoDirty: true
-      }
-    }
-  }
-},
+// validations () {
+//   return {
+//     waitingListItem: {
+//       emailAddress: {
+//         required: helpers.withMessage('Add your email address.', required),
+//         email: helpers.withMessage('Not a valid email address.', email),
+//         $autoDirty: true
+//       }
+//     }
+//   }
+// },
 
 // ADD YOUR METHOD FOR SAVING THE DATE IN FIRESTORE BELOW
 // Documentation: https://firebase.google.com/docs/firestore/manage-data/add-data#add_a_document
