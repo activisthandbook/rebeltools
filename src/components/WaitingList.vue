@@ -1,4 +1,5 @@
-<!-- TO-DO:
+<template>
+  <!-- TO-DO:
   STEP 1: ADD QUASAR COMPONENTS IN <TEMPLATE></TEMPLATE>
   Create a component that allows people to sign up for the Rebel Tools waiting list. This component will be shown on the homepage. It consists of the following elements:
   - A card, within which everything is wrapped.
@@ -105,18 +106,26 @@
 import useVuelidate from '@vuelidate/core'
 import { required, helpers, email } from '@vuelidate/validators'
 
-// import { getFirestore, collection, addDoc } from 'firebase/firestore'
-// const db = getFirestore()
+import { getFirestore, collection, addDoc } from 'firebase/firestore'
+const db = getFirestore()
 
 export default {
+
+  // ACTIVATE VUELIDATE LIKE BELOW
+  // Documentation: https://vuelidate-next.netlify.app/#getting-started-1
+
   setup () {
     return { v$: useVuelidate() }
   },
+
+  // SAVE YOUR VARIABLES BELOW
+  // Documentation: https://v3.vuejs.org/guide/data-methods.html#data-properties
+
   data () {
     return {
       waitingListItem: {
-        firstName: '',
         emailAddress: '',
+        firstName: '',
         phoneNumber: '',
         organisation: ''
       }
