@@ -2,10 +2,10 @@
 
   <q-card>
     <q-card-section class="q-gutter-y-sm" v-if="!userHasSignedUp">
-      <h2>Get Started</h2>
+      <h2>Get started</h2>
       <p>Be the first to get access to Rebel Tools. Sign up for the waiting list:</p>
       <q-input
-        label="First name"
+        label="👋 First name"
         outlined
         color="secondary"
         v-model="waitingListItem.firstName"
@@ -16,7 +16,7 @@
       />
 
       <q-input
-        label="Email address"
+        label="📧 Email address"
         outlined
         color="secondary"
         v-model="waitingListItem.emailAddress"
@@ -27,7 +27,7 @@
       />
 
       <q-input
-        label="Phone number"
+        label="☎️ Phone number"
         outlined
         color="secondary"
         v-model="waitingListItem.phoneNumber"
@@ -38,7 +38,7 @@
       />
 
       <q-input
-        label="Organisation"
+        label="🌊 Organisation"
         outlined
         color="secondary"
         v-model="waitingListItem.organisation"

@@ -13,7 +13,6 @@ const routes = [
     component: () => import('src/layouts/HomeLayout.vue'),
     children: [
       { path: '', name: 'Home', component: () => import('src/pages/Index.vue') },
-      { path: '2', name: 'Home2', component: () => import('src/pages/Index2.vue') },
       { path: 'campaigns/actionnetwork', name: 'Action Network', component: () => import('src/pages/campaigns/ActionNetwork.vue') },
       { path: 'start', name: 'Start', component: () => import('src/pages/Start.vue') },
       { path: 'privacy', name: 'Privacy', component: () => import('src/pages/Privacy.vue') },
