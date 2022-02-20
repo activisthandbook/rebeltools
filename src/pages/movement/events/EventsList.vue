@@ -6,6 +6,7 @@ Path: /:movementID/events
  -->
 <template>
   <h1>Events</h1>
+  <q-btn to="events/xyz" label="Placeholder button"/>
   <!-- <q-card v-ripple class="cursor-pointer">
     <q-img :ratio="16/9" src="https://source.unsplash.com/random?protesting"/>
       <q-item clickable class="q-pa-md">
@@ -28,7 +29,7 @@ Path: /:movementID/events
   </q-page-sticky>
 </template>
 <script>
-import EventList from '../../components/EventList.vue'
+import EventList from '../../../components/EventList.vue'
 
 export default {
   components: { EventList },

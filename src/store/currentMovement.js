@@ -90,7 +90,10 @@ export default {
         },
         (error) => {
           // In case of error
-          Notify.create({ message: error, icon: 'mdi-alert' })
+          Notify.create({
+            message: error + ' (currentMovement.js)',
+            icon: 'mdi-alert'
+          })
         }
       )
     },

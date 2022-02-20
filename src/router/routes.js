@@ -32,7 +32,8 @@ const routes = [
     component: () => import('src/layouts/MovementLayout.vue'),
     children: [
       { path: '', name: 'Movement', component: () => import('src/pages/movement/Index.vue') },
-      { path: 'events', name: 'Events', component: () => import('src/pages/movement/Events.vue') },
+      { path: 'events', name: 'Events', component: () => import('src/pages/movement/events/EventsList.vue') },
+      { path: 'events/:eventPath', name: 'Event', component: () => import('src/pages/movement/events/Event.vue') },
       { path: 'community', name: 'Community', component: () => import('src/pages/movement/Community.vue') },
       { path: 'vacancies', name: 'Vacant roles', component: () => import('src/pages/movement/Vacancies.vue') },
       { path: 'teams', name: 'Our teams', component: () => import('src/pages/movement/Teams.vue') },

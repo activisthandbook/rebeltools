@@ -7,7 +7,7 @@ This component allows users to sign up for movements and events.
 <template>
   <div>
     <q-card dark class="bg-secondary q-my-lg shadow-6">
-      <q-card-section v-if="!signupDataLoaded || (!$store.state.currentUser.dataLoaded && !$store.state.auth.data.isAnonymous)" class="q-gutter-y-sm">
+      <q-card-section v-if="!actionDataLoaded || (!$store.state.currentUser.dataLoaded && !$store.state.auth.data.isAnonymous)" class="q-gutter-y-sm">
         <q-skeleton type="rect" height="28.8px"/>
         <q-skeleton type="text" height="20px"/>
         <q-skeleton type="text" height="20px"/>
@@ -16,13 +16,14 @@ This component allows users to sign up for movements and events.
 
       <transition name="fade">
 
-        <q-card-section v-if="signupDataLoaded && ($store.state.currentUser.dataLoaded || $store.state.auth.data.isAnonymous)"  class="q-gutter-y-sm">
+        <q-card-section v-if="actionDataLoaded && ($store.state.currentUser.dataLoaded || $store.state.auth.data.isAnonymous)"  class="q-gutter-y-sm">
           <sign-up
-            v-if="!signupData"
-            :dataPath="signup.dataPath"
-            :title="signup.title"
-            :description="signup.description"
-            :buttonLabel="signup.buttonLabel"
+            v-if="!actionData[0]"
+            :actionType="action.actionType"
+            :actionID="action.actionID"
+            :title="action.title"
+            :description="action.description"
+            :buttonLabel="action.buttonLabel"
           />
 
           <create-profile v-else-if="!$store.state.currentUser.data.profileCreated"/>
@@ -76,7 +77,7 @@ This component allows users to sign up for movements and events.
   </div>
 </template>
 <script>
-import { getFirestore, doc, onSnapshot } from 'firebase/firestore'
+import { getFirestore, collection, onSnapshot, query, where } from 'firebase/firestore'
 const db = getFirestore()
 
 import SignUp from './actions/SignUp'
@@ -94,8 +95,12 @@ export default {
     SharePage
   },
   props: {
-    signup: {
-      dataPath: {
+    action: {
+      actionType: {
+        type: String,
+        required: true
+      },
+      actionID: {
         type: String,
         required: true
       },
@@ -115,16 +120,28 @@ export default {
   },
   data () {
     return {
-      signupDataLoaded: false,
-      signupData: null,
+      actionDataLoaded: false,
+      actionData: null,
       email: null
     }
   },
   mounted () {
     this.$nextTick(function () {
-      onSnapshot(doc(db, this.signup.dataPath + '/signups/', this.$store.state.auth.data.uid), (doc) => {
-        this.signupData = doc.data()
-        this.signupDataLoaded = true
+      // Define query
+      console.log(this.action.actionID)
+      const q = query(
+        collection(db, 'actions'),
+        where('userID', '==', this.$store.state.auth.data.uid), where('actionID', '==', this.action.actionID)
+      )
+
+      // Fetch action from database
+      onSnapshot(q, (querySnapshot) => {
+        const actions = []
+        querySnapshot.forEach((doc) => {
+          actions.push(doc.data())
+        })
+        this.actionData = actions
+        this.actionDataLoaded = true
       })
     })
   }

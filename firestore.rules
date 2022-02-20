@@ -21,15 +21,14 @@ service cloud.firestore {
     // 👋 USERS
     match /users/{userID} {
 
-      allow create: if
+      allow create, update: if
         verifiedUser() && // User is verified
         request.auth.uid == userID && // Users can only create a doc for themselves
         request.resource.data.isSuperADMIN == false; // New users cannot make themselves superADMIN
 
-      allow get, update, delete: if
+      allow get, delete: if
         verifiedUser() && // User is verified
-        request.auth.uid == userID && // Users can only edit their own doc
-        request.resource.data.isSuperADMIN == false; // New users cannot make themselves superADMIN
+        request.auth.uid == userID; // Users can only edit their own doc
 
       allow read, write, delete: if
         isSuperADMIN() // User is superADMIN 🔴
@@ -87,14 +86,13 @@ service cloud.firestore {
         isValidMovement() &&
         isSuperADMIN() // User is superADMIN 🔴
 
+    }
 
-      // 👋 SIGNUPS
-      match /signups/{userID} {
-        allow create: if verifiedUser();
+    // 👋 SIGNUPS
+    match /actions/{actionInstanceID} {
+      allow create: if verifiedUser();
 
-        allow read: if request.auth.uid == userID; // Users can only read their own doc
-      }
-
+      allow read: if request.auth.uid == resource.data.userID; // Users can only read their own doc
     }
 
     // 📆 EVENTS

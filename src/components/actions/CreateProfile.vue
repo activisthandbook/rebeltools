@@ -7,24 +7,23 @@
         <div class="text-bold">Finish your Rebel Tools profile.</div>
         <q-input
           label="👋 First name"
+          type="fname"
           outlined
           bg-color="white"
           color="black"
           class="q-mb-sm "
           v-model="firstName"
-          @blur="save()"
           :error="this.v$.firstName.$error"
           :errorMessage="mixin_mergeErrorMessages(this.v$.firstName.$errors)"
         />
         <q-input
           label="☎️ Phone number"
+          type="tel"
           outlined
           bg-color="white"
           color="black"
           class="q-mb-sm"
-          type="phone"
           v-model="phoneNumber"
-          @blur="save()"
           :error="this.v$.phoneNumber.$error"
           :errorMessage="mixin_mergeErrorMessages(this.v$.phoneNumber.$errors)"
         />
@@ -87,9 +86,6 @@ export default {
     }
   },
   methods: {
-    save () {
-      this.$store.dispatch('currentUser/pushToDatabase')
-    },
     finishAction () {
       this.$store.commit('currentUser/update', { profileCreated: true })
       this.$store.dispatch('currentUser/pushToDatabase')

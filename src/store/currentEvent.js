@@ -11,6 +11,7 @@ export default {
   state: {
     dataLoaded: false,
     data: {},
+    unsubscribe: null,
     /* 🔴 IMPORTANT SECURITY NOTICE!
     The following validations only happen front-end, to provide a pleasant user experience. Make sure to validate all user input with the Firestore security rules as well!
     */
@@ -19,7 +20,7 @@ export default {
         required: helpers.withMessage('Fill in a title for your event.', required),
         $autoDirty: true
       },
-      date: {
+      startDate: {
         required: helpers.withMessage('Add a date.', required),
         $autoDirty: true
       },
@@ -39,22 +40,37 @@ export default {
       // Only update the fields that were changed
       state.data = Object.assign(state.data, eventData)
       state.dataLoaded = true
+    },
+    addSubscription (state, subscription) {
+      state.unsubscribe = subscription
+    },
+    destroy (state) {
+      state.dataLoaded = false
+      state.data = {}
+      state.unsubscribe()
     }
   },
   actions: {
-    fetchFromDatabase ({ rootState, commit }, eventID) {
-      const q = query(collection(getFirestore(), 'calendar'), where('path', '==', eventID))
+    fetchFromDatabase ({ state, rootState, commit }, eventPath) {
+      const q = query(
+        collection(getFirestore(), 'calendar'),
+        where('movementID', '==', rootState.currentMovement.data.id),
+        where('path', '==', eventPath)
+      )
 
-      onSnapshot(q, (querySnapshot) => {
-        const events = []
-        querySnapshot.forEach((doc) => {
-          events.push({
-            ...doc.data(),
-            id: doc.id
+      commit('addSubscription', onSnapshot(
+        q,
+        (querySnapshot) => {
+          const events = []
+          querySnapshot.forEach((doc) => {
+            events.push({
+              ...doc.data(),
+              id: doc.id
+            })
           })
-        })
-        commit('update', events[0])
-      })
+          commit('update', events[0])
+        }
+      ))
     },
     async addToDatabase ({ commit }, event) {
       await addDoc(collection(getFirestore(), 'calendar'), {

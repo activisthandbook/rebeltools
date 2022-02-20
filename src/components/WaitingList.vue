@@ -1,56 +1,73 @@
 <template>
 
   <q-card>
-    <q-card-section class="q-gutter-y-sm" v-if="!userHasSignedUp">
-      <h2>Get started</h2>
-      <p>Be the first to get access to Rebel Tools. Sign up for the waiting list:</p>
-      <q-input
-        label="👋 First name"
-        outlined
-        color="secondary"
-        v-model="waitingListItem.firstName"
-        @blur="v$.waitingListItem.firstName.$touch"
+    <q-card-section v-if="!userHasSignedUp">
+      <div class="q-gutter-y-sm">
 
-        :error="v$.waitingListItem.firstName.$error"
-        :errorMessage="mixin_mergeErrorMessages(v$.waitingListItem.firstName.$errors)"
-      />
+        <h2>Sign up</h2>
+        <div>Be the first to get access to Rebel Tools. Sign up for the waiting list! Right now, we are only allowing a small group of beta testers.</div>
+        <q-input
+          label="💬 First name"
+          placeholder="Greta"
 
-      <q-input
-        label="📧 Email address"
-        outlined
-        color="secondary"
-        v-model="waitingListItem.emailAddress"
-        @blur="v$.waitingListItem.emailAddress.$touch"
+          outlined
+          stack-label
+          color="secondary"
+          v-model="waitingListItem.firstName"
+          @blur="v$.waitingListItem.firstName.$touch"
 
-        :error="v$.waitingListItem.emailAddress.$error"
-        :errorMessage="mixin_mergeErrorMessages(v$.waitingListItem.emailAddress.$errors)"
-      />
+          :error="v$.waitingListItem.firstName.$error"
+          :errorMessage="mixin_mergeErrorMessages(v$.waitingListItem.firstName.$errors)"
+        />
 
-      <q-input
-        label="☎️ Phone number"
-        outlined
-        color="secondary"
-        v-model="waitingListItem.phoneNumber"
-        @blur="v$.waitingListItem.phoneNumber.$touch"
+        <q-input
+          label="📧 Email address"
+          placeholder="my@email.com"
 
-        :error="v$.waitingListItem.phoneNumber.$error"
-        :errorMessage="mixin_mergeErrorMessages(v$.waitingListItem.phoneNumber.$errors)"
-      />
+          outlined
+          stack-label
+          color="secondary"
+          v-model="waitingListItem.emailAddress"
+          @blur="v$.waitingListItem.emailAddress.$touch"
 
-      <q-input
-        label="🌊 Organisation"
-        outlined
-        color="secondary"
-        v-model="waitingListItem.organisation"
+          :error="v$.waitingListItem.emailAddress.$error"
+          :errorMessage="mixin_mergeErrorMessages(v$.waitingListItem.emailAddress.$errors)"
+        />
 
-      />
-      <q-btn
-       color="secondary"
-       no-caps
-      label="Join waiting list"
-      :disable="this.v$.waitingListItem.$invalid"
-      @click="saveToWaitingList()"
-    />
+        <q-input
+          label="☎️ Phone number"
+          placeholder="+00 00 12345678"
+
+          outlined
+          stack-label
+          color="secondary"
+          v-model="waitingListItem.phoneNumber"
+          @blur="v$.waitingListItem.phoneNumber.$touch"
+
+          :error="v$.waitingListItem.phoneNumber.$error"
+          :errorMessage="mixin_mergeErrorMessages(v$.waitingListItem.phoneNumber.$errors)"
+        />
+
+        <q-input
+          label="👋 About you (optional)"
+          placeholder="Tell us a bit about yourself! Are you involved with any activist movements?"
+          type="textarea"
+
+          stack-label
+          outlined
+          color="secondary"
+          v-model="waitingListItem.organisation"
+
+        />
+        <q-btn
+          color="secondary"
+          no-caps
+          label="Join waiting list"
+          :disable="this.v$.waitingListItem.$invalid"
+          @click="saveToWaitingList()"
+        />
+
+      </div>
     </q-card-section>
     <q-card-section v-else>
       <h2>Thank you for signing up, {{waitingListItem.firstName}}!</h2>

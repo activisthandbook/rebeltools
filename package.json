@@ -17,8 +17,11 @@
     "babel-loader": "^8.2.3",
     "color-contrast-checker": "^2.1.0",
     "core-js": "^3.6.5",
+    "dayjs": "^1.10.7",
     "firebase": "^9.6.1",
     "quasar": "^2.4.3",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

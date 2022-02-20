@@ -45,7 +45,10 @@ export default {
         })
         .catch((error) => {
           /* ❌ ERROR: Notify user of error (as a last resort). */
-          Notify.create({ message: error.message, icon: 'mdi-alert' })
+          Notify.create({
+            message: error.message + ' (auth.js)',
+            icon: 'mdi-alert'
+          })
 
           throw new Error(error)
         })
@@ -94,7 +97,10 @@ export default {
           })
           .catch((error) => {
             /* ❌ ERROR: Common errors could be invalid email and invalid or expired OTPs. */
-            Notify.create({ message: error, icon: 'mdi-alert' })
+            Notify.create({
+              message: error + ' (auth.js)',
+              icon: 'mdi-alert'
+            })
           })
       }
     },
@@ -110,7 +116,10 @@ export default {
         window.location.reload()
       }).catch((error) => {
         // An error happened.
-        Notify.create({ message: error, icon: 'mdi-alert' })
+        Notify.create({
+          message: error + ' (auth.js)',
+          icon: 'mdi-alert'
+        })
       })
     }
 

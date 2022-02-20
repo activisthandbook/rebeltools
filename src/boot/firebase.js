@@ -66,8 +66,10 @@ export default boot(async ({ store }) => {
         })
         .catch((error) => {
           // const errorCode = error.code;
-          const errorMessage = error.message
-          Notify.create(errorMessage)
+          Notify.create({
+            message: error.message + ' (firebase.js)',
+            icon: 'mdi-alert'
+          })
         })
 
       // Log 'signout' event to analytics

@@ -11,8 +11,9 @@ Path: /:movementID/
   </div>
 
   <smart-action
-    :signup="{
-      dataPath: 'movements/' + id,
+    :action="{
+      actionType: 'movement',
+      actionID: $store.state.currentMovement.data.id,
       title: primaryAction.title,
       description: primaryAction.description,
       buttonLabel: 'Join movement'

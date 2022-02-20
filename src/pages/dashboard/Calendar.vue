@@ -45,6 +45,10 @@
       </div>
     </q-card-section>
 
+    <q-card-section v-else-if="!data.length" class="text-body2 text-center">
+      No events planned.
+    </q-card-section>
+
     <q-list separator v-else>
       <q-item clickable class="full-width q-pa-sm" v-for="event in data" :key="event.id">
         <div class="col-sm-3 col-4 overflow-hidden row items-center q-pr-md">
@@ -56,7 +60,7 @@
           </div>
           <div class="text-caption">
             <q-chip icon="mdi-calendar" square class="text-caption">
-              {{ toReadableTime(event.createdAt) }}
+              {{ toReadableTime(event.startDate) }}
             </q-chip>
           </div>
         </q-item-section>
@@ -96,6 +100,7 @@ export default {
   methods: {
     toReadableTime (timestamp) {
       const time = new Intl.DateTimeFormat('en', {
+        year: 'numeric',
         month: 'short',
         day: 'numeric',
         weekday: 'long',

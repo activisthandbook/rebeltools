@@ -65,12 +65,16 @@
 
 </template>
 <script>
-import { getFirestore, doc, setDoc, serverTimestamp } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore'
 const db = getFirestore()
 
 export default {
   props: {
-    dataPath: {
+    actionType: {
+      type: String,
+      required: true
+    },
+    actionID: {
       type: String,
       required: true
     },
@@ -107,7 +111,11 @@ export default {
         })
     },
     saveSignup () {
-      setDoc(doc(db, this.dataPath + '/signups/', this.$store.state.auth.data.uid), {
+      addDoc(collection(db, 'actions'), {
+        actionType: this.actionType,
+        actionID: this.actionID,
+        userID: this.$store.state.auth.data.uid,
+        movementID: this.$store.state.currentMovement.data.id,
         createdAt: serverTimestamp()
       })
     }

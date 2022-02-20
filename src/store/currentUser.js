@@ -11,7 +11,9 @@ export default {
   namespaced: true,
   state: {
     dataLoaded: false,
-    data: {},
+    data: {
+      isSuperADMIN: false
+    },
     validations: {
       firstName: {
         required: helpers.withMessage('Add your name.', required),
@@ -40,7 +42,10 @@ export default {
           commit('update', doc.data())
         },
         (error) => {
-          Notify.create({ message: error, icon: 'mdi-alert' })
+          Notify.create({
+            message: error + ' (currentUser.js)',
+            icon: 'mdi-alert'
+          })
         }
       )
     },
