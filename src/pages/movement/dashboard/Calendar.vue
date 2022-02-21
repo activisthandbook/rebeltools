@@ -2,36 +2,15 @@
   <q-header bordered class="bg-primary text-white">
     <q-toolbar>
       <q-toolbar-title>Calendar</q-toolbar-title>
-      <q-btn icon="mdi-plus" label="New event" no-caps color="white" text-color="black" :to="{name: 'Dashboard New Event'}" />
+      <q-btn icon="mdi-plus" label="Create" no-caps color="white" text-color="black" :to="{name: 'Dashboard New Event'}" />
     </q-toolbar>
   </q-header>
 
-  <!-- <q-toolbar class="bg-grey-4 rounded-borders q-mb-sm justify-center"> -->
-      <!-- <q-toolbar-title>Events</q-toolbar-title>
-      <q-space /> -->
-
-      <!--
-        notice shrink property since we are placing it
-        as child of QToolbar
-      -->
-      <q-tabs v-model="tab" inline-label no-caps class="bg-grey-3 rounded-borders q-mb-md">
-        <q-tab name="upcoming" icon="mdi-calendar" label="Upcoming" />
-        <q-tab name="past" icon="mdi-history" label="Past" />
-      </q-tabs>
-    <!-- </q-toolbar> -->
-
-  <!-- <q-tabs
-    v-model="tab"
-    no-caps
-    outside-arrows
-    mobile-arrows
-    active-color="secondary"
-    inline-label
-    class="q-mb-sm"
-  >
+  <q-tabs v-model="tab" inline-label no-caps class="bg-grey-3 rounded-borders q-mb-md">
     <q-tab name="upcoming" icon="mdi-calendar" label="Upcoming" />
     <q-tab name="past" icon="mdi-history" label="Past" />
-  </q-tabs> -->
+  </q-tabs>
+
   <q-card>
     <q-card-section v-if="!dataLoaded" class="text-center">
       <q-circular-progress
