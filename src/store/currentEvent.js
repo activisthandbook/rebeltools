@@ -48,6 +48,7 @@ export default {
       state.dataLoaded = false
       state.data = {}
       state.unsubscribe()
+      console.log('event destroyed')
     }
   },
   actions: {

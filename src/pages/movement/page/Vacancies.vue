@@ -11,7 +11,7 @@ Path: /:movementID/partners
   </div>
 </template>
 <script>
-import VacanciesList from '../../components/VacanciesList.vue'
+import VacanciesList from 'components/VacanciesList.vue'
 
 export default {
   components: { VacanciesList },

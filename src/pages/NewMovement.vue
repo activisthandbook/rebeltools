@@ -145,12 +145,12 @@ import { setCssVar } from 'quasar'
 import useVuelidate from '@vuelidate/core'
 
 // COMPONENTS
-import InputName from '../components/inputs/MovementName'
-import InputPath from '../components/inputs/MovementPath'
-import InputHeadline from '../components/inputs/MovementHeadline'
-import InputDescription from '../components/inputs/MovementDescription'
-import InputColor from '../components/inputs/MovementColor'
-import SmartAction from '../components/SmartAction'
+import InputName from 'components/inputs/MovementName'
+import InputPath from 'components/inputs/MovementPath'
+import InputHeadline from 'components/inputs/MovementHeadline'
+import InputDescription from 'components/inputs/MovementDescription'
+import InputColor from 'components/inputs/MovementColor'
+import SmartAction from 'components/SmartAction'
 
 export default {
   setup () {

@@ -59,43 +59,55 @@ export default {
       // Only update the fields that were changed
       state.data = Object.assign(state.data, movementData)
       state.dataLoaded = true
+    },
+    addSubscription (state, subscription) {
+      state.unsubscribe = subscription
+    },
+    destroy (state) {
+      state.dataLoaded = false
+      state.data = {}
+      state.unsubscribe()
+      console.log('movement destroyed')
     }
   },
   actions: {
-    async fetchFromDatabase ({ state, commit }, movementID) {
-      onSnapshot(
-        query(collection(getFirestore(), 'movements'), where('path', '==', movementID)),
+    async fetchFromDatabase ({ state, commit }, movementPath) {
+      // Only if we haven't yet loaded this movement's data, will we open up a new subscription
+      if (state.data.path !== movementPath) {
+        commit('addSubscription', onSnapshot(
+          query(collection(getFirestore(), 'movements'), where('path', '==', movementPath)),
 
-        (querySnapshot) => {
-          const movements = []
+          (querySnapshot) => {
+            const movements = []
 
-          if (querySnapshot.docs[0]) {
-            querySnapshot.forEach((doc) => {
-              movements.push({
-                ...doc.data(),
-                id: doc.id
+            if (querySnapshot.docs[0]) {
+              querySnapshot.forEach((doc) => {
+                movements.push({
+                  ...doc.data(),
+                  id: doc.id
+                })
               })
+
+              commit('update', movements[0])
+
+              // DYNAMICALLY CHANGE COLOURS
+              setCssVar('primary', state.data.primaryColor)
+              setCssVar('secondary', state.data.secondaryColor)
+              setCssVar('accent', '#FFF8DB')
+              setCssVar('dark', '#000000')
+            } else {
+              commit('update', { notFound: true })
+            }
+          },
+          (error) => {
+            // In case of error
+            Notify.create({
+              message: error + ' (currentMovement.js)',
+              icon: 'mdi-alert'
             })
-
-            commit('update', movements[0])
-
-            // DYNAMICALLY CHANGE COLOURS
-            setCssVar('primary', state.data.primaryColor)
-            setCssVar('secondary', state.data.secondaryColor)
-            setCssVar('accent', '#FFF8DB')
-            setCssVar('dark', '#000000')
-          } else {
-            commit('update', { notFound: true })
           }
-        },
-        (error) => {
-          // In case of error
-          Notify.create({
-            message: error + ' (currentMovement.js)',
-            icon: 'mdi-alert'
-          })
-        }
-      )
+        ))
+      }
     },
     async addToDatabase ({ commit }, movement) {
       await addDoc(collection(getFirestore(), 'movements'), {

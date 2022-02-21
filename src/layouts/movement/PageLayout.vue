@@ -2,7 +2,7 @@
 LAYOUT: MOVEMENT 🌊
 This layout is used for all public movement pages (their homepage, events, community, etc).
 
-Path: /:movementID/*
+Path: /:movementPath/*
  -->
 <template>
 

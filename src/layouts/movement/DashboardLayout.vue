@@ -2,7 +2,7 @@
 LAYOUT: DASHBOARD 📝
 The dashboard layout is used by activists to manage their movement. Only people with admin rights for that movement can access it.
 
-Path: /:movementID/dashboard/*
+Path: /:movementPath/dashboard/*
  -->
 <template>
   <div v-if="!this.$store.state.auth.dataLoaded || !this.$store.state.currentMovement.dataLoaded" class="fixed-center text-center">

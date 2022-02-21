@@ -29,7 +29,7 @@ Path: /:movementID/events
   </q-page-sticky>
 </template>
 <script>
-import EventList from '../../../components/EventList.vue'
+import EventList from 'components/EventList'
 
 export default {
   components: { EventList },

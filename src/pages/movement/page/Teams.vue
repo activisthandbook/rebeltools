@@ -8,7 +8,7 @@ Path: /:movementID/teams
   <teams-list/>
 </template>
 <script>
-import TeamsList from '../../components/TeamsList.vue'
+import TeamsList from 'components/TeamsList.vue'
 
 export default {
   components: { TeamsList }

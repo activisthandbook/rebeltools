@@ -69,11 +69,11 @@
 import useVuelidate from '@vuelidate/core'
 
 // COMPONENTS
-import InputName from '../../components/inputs/MovementName'
-import InputPath from '../../components/inputs/MovementPath'
-import InputHeadline from '../../components/inputs/MovementHeadline'
-import InputDescription from '../../components/inputs/MovementDescription'
-import InputColor from '../../components/inputs/MovementColor'
+import InputName from 'components/inputs/MovementName'
+import InputPath from 'components/inputs/MovementPath'
+import InputHeadline from 'components/inputs/MovementHeadline'
+import InputDescription from 'components/inputs/MovementDescription'
+import InputColor from 'components/inputs/MovementColor'
 
 export default {
   setup () {

@@ -128,7 +128,6 @@ export default {
   mounted () {
     this.$nextTick(function () {
       // Define query
-      console.log(this.action.actionID)
       const q = query(
         collection(db, 'actions'),
         where('userID', '==', this.$store.state.auth.data.uid), where('actionID', '==', this.action.actionID)

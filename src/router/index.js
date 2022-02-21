@@ -38,9 +38,6 @@ export default route(function ({ store }) {
   })
 
   Router.beforeEach((to, from, next) => {
-    if (to.params.movementID) {
-      store.dispatch('currentMovement/fetchFromDatabase', to.params.movementID)
-    }
     next()
   })
 

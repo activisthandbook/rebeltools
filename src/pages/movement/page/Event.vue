@@ -49,7 +49,7 @@
   <!-- <h1>Event title</h1> -->
 </template>
 <script>
-import SmartAction from '../../../components/SmartAction'
+import SmartAction from 'components/SmartAction'
 
 import dayjs from 'dayjs'
 import calendar from 'dayjs/plugin/calendar'
@@ -77,8 +77,9 @@ export default {
     this.$watch(
       () => this.$route.params,
       () => {
-        console.log(this.$route.params.eventPath)
+        console.log(this.$route)
         if (this.$route.params.eventPath) {
+          console.log('event load')
           this.$store.dispatch('currentEvent/fetchFromDatabase', this.$route.params.eventPath)
         }
       },
@@ -88,7 +89,7 @@ export default {
     )
   },
   unmounted () {
-    this.$store.dispatch('currentEvent/destroy')
+    this.$store.commit('currentEvent/destroy')
   },
   methods: {
     // a computed getter

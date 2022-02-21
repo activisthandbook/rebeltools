@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /*
 ROUTER: ROUTES 🔗
 In this file, all routes for the Rebel Tools app are defined.
@@ -7,6 +8,23 @@ Documentation:
 - https://quasar.dev/layout/routing-with-layouts-and-pages
 */
 
+// IMPORTS: Lazy loaded (https://router.vuejs.org/guide/advanced/lazy-loading.html)
+const MovementPage_Home = () => import('src/pages/movement/page/Home')
+const MovementPage_Events = () => import('src/pages/movement/page/Events')
+const MovementPage_Event = () => import('src/pages/movement/page/Event')
+const MovementPage_Community = () => import('src/pages/movement/page/Community')
+const MovementPage_Vacancies = () => import('src/pages/movement/page/Vacancies')
+const MovementPage_Teams = () => import('src/pages/movement/page/Teams')
+const MovementPage_Partners = () => import('src/pages/movement/page/Partners')
+
+const MovementDashboard_Home = () => import('src/pages/movement/dashboard/Home')
+const MovementDashboard_Calendar = () => import('src/pages/movement/dashboard/Calendar')
+const MovementDashboard_NewEvent = () => import('src/pages/movement/dashboard/NewEvent')
+const MovementDashboard_Page = () => import('src/pages/movement/dashboard/Page')
+const MovementDashboard_Community = () => import('src/pages/movement/dashboard/Community')
+const MovementDashboard_Apps = () => import('src/pages/movement/dashboard/Apps')
+
+// ROUTES
 const routes = [
   {
     path: '/',
@@ -28,28 +46,34 @@ const routes = [
     ]
   },
   {
-    path: '/:movementID/',
-    component: () => import('src/layouts/MovementLayout.vue'),
+    path: '/:movementPath/',
+    component: () => import('src/layouts/movement/MovementLayout.vue'),
     children: [
-      { path: '', name: 'Movement', component: () => import('src/pages/movement/Index.vue') },
-      { path: 'events', name: 'Events', component: () => import('src/pages/movement/events/EventsList.vue') },
-      { path: 'events/:eventPath', name: 'Event', component: () => import('src/pages/movement/events/Event.vue') },
-      { path: 'community', name: 'Community', component: () => import('src/pages/movement/Community.vue') },
-      { path: 'vacancies', name: 'Vacant roles', component: () => import('src/pages/movement/Vacancies.vue') },
-      { path: 'teams', name: 'Our teams', component: () => import('src/pages/movement/Teams.vue') },
-      { path: 'partners', name: 'Partners', component: () => import('src/pages/movement/Partners.vue') }
-    ]
-  },
-  {
-    path: '/:movementID/dashboard',
-    component: () => import('layouts/DashboardLayout.vue'),
-    children: [
-      { path: '', name: 'Dashboard', component: () => import('src/pages/dashboard/Index.vue') },
-      { path: 'calendar', name: 'Dashboard Calendar', component: () => import('pages/dashboard/Calendar.vue') },
-      { path: 'calendar/new-event', name: 'Dashboard New Event', component: () => import('pages/dashboard/dialogs/NewEvent.vue') },
-      { path: 'community', name: 'Dashboard Community', component: () => import('pages/dashboard/Community.vue') },
-      { path: 'page', name: 'Dashboard Page', component: () => import('pages/dashboard/Page.vue') },
-      { path: 'apps', name: 'Dashboard Apps', component: () => import('pages/dashboard/Apps.vue') }
+      {
+        path: '',
+        component: () => import('src/layouts/movement/PageLayout.vue'),
+        children: [
+          { path: '', name: 'Movement', component: MovementPage_Home },
+          { path: 'events', name: 'Events', component: MovementPage_Events },
+          { path: 'events/:eventPath', name: 'Event', component: MovementPage_Event },
+          { path: 'community', name: 'Community', component: MovementPage_Community },
+          { path: 'vacancies', name: 'Vacant roles', component: MovementPage_Vacancies },
+          { path: 'teams', name: 'Our teams', component: MovementPage_Teams },
+          { path: 'partners', name: 'Partners', component: MovementPage_Partners }
+        ]
+      },
+      {
+        path: 'dashboard/',
+        component: () => import('src/layouts/movement/DashboardLayout.vue'),
+        children: [
+          { path: '', name: 'Dashboard', component: MovementDashboard_Home },
+          { path: 'calendar', name: 'Dashboard Calendar', component: MovementDashboard_Calendar },
+          { path: 'calendar/new-event', name: 'Dashboard New Event', component: MovementDashboard_NewEvent },
+          { path: 'community', name: 'Dashboard Community', component: MovementDashboard_Community },
+          { path: 'page', name: 'Dashboard Page', component: MovementDashboard_Page },
+          { path: 'apps', name: 'Dashboard Apps', component: MovementDashboard_Apps }
+        ]
+      }
     ]
   },
 

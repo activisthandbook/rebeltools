@@ -43,9 +43,9 @@ Path: /:movementID/
 </template>
 
 <script>
-import SmartAction from 'src/components/SmartAction.vue'
-import EventList from '../../components/EventList.vue'
-import VacanciesList from '../../components/VacanciesList.vue'
+import SmartAction from 'components/SmartAction.vue'
+import EventList from 'components/EventList.vue'
+import VacanciesList from 'components/VacanciesList.vue'
 
 export default {
   name: 'PageIndex',
