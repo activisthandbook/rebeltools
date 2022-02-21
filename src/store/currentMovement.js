@@ -17,6 +17,7 @@ export default {
   namespaced: true,
   state: {
     dataLoaded: false,
+    loadingError: null,
     data: {},
     /* 🔴 IMPORTANT SECURITY NOTICE!
     The following validations only happen front-end, to provide a pleasant user experience. Make sure to validate all user input with the Firestore security rules as well!
@@ -60,14 +61,18 @@ export default {
       state.data = Object.assign(state.data, movementData)
       state.dataLoaded = true
     },
+    storeError (state, error) {
+      state.error = error
+      state.dataLoaded = true
+    },
     addSubscription (state, subscription) {
       state.unsubscribe = subscription
     },
     destroy (state) {
       state.dataLoaded = false
+      state.loadingError = null
       state.data = {}
       state.unsubscribe()
-      console.log('movement destroyed')
     }
   },
   actions: {
@@ -96,11 +101,17 @@ export default {
               setCssVar('accent', '#FFF8DB')
               setCssVar('dark', '#000000')
             } else {
+              commit('storeError', 'movement-not-found')
               commit('update', { notFound: true })
+              Notify.create({
+                message: 'Movement not found',
+                icon: 'mdi-alert'
+              })
             }
           },
           (error) => {
             // In case of error
+            commit('storeError', error)
             Notify.create({
               message: error + ' (currentMovement.js)',
               icon: 'mdi-alert'

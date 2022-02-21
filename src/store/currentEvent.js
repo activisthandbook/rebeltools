@@ -2,6 +2,7 @@
 STORE MODULE: CURRENT EVENT 🌊
 In this module, data is stored on the current event that is viewed by the user.
 */
+import { Notify } from 'quasar'
 
 import { getFirestore, collection, query, where, onSnapshot, addDoc, serverTimestamp } from 'firebase/firestore'
 import { required, helpers } from '@vuelidate/validators'
@@ -41,6 +42,10 @@ export default {
       state.data = Object.assign(state.data, eventData)
       state.dataLoaded = true
     },
+    storeError (state, error) {
+      state.error = error
+      state.dataLoaded = true
+    },
     registerSubscription (state, subscription) {
       state.unsubscribe = subscription
     },
@@ -62,13 +67,30 @@ export default {
         q,
         (querySnapshot) => {
           const events = []
-          querySnapshot.forEach((doc) => {
-            events.push({
-              ...doc.data(),
-              id: doc.id
+
+          if (querySnapshot.docs[0]) {
+            querySnapshot.forEach((doc) => {
+              events.push({
+                ...doc.data(),
+                id: doc.id
+              })
             })
+            commit('update', events[0])
+          } else {
+            commit('storeError', 'event-not-found')
+            Notify.create({
+              message: 'Event not found',
+              icon: 'mdi-alert'
+            })
+          }
+        },
+        (error) => {
+          // In case of error
+          commit('storeError', error)
+          Notify.create({
+            message: error + ' (currentEvent.js)',
+            icon: 'mdi-alert'
           })
-          commit('update', events[0])
         }
       ))
     },

@@ -30,7 +30,8 @@ export default {
   watch: {
     movementNotFound: function (result) {
       if (result) {
-        this.$router.push({ name: '404', params: { catchAll: 404 } })
+        // console.log(result)
+        // this.$router.push({ name: '404', params: { catchAll: 404 } })
       }
     }
   }

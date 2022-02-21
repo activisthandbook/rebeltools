@@ -3,10 +3,11 @@
     <q-img :ratio="1920/1080" class="bg-grey-4"/>
     <q-skeleton type="text"/>
   </div>
-  <div v-else-if="!Object.keys($store.state.currentEvent.data).length" class="text-center q-py-xl">
-    <div style="font-size:64px">😕</div>
-    Event not found.
-  </div>
+  <oops-error
+    title="Event not found."
+    description="This event was deleted or hidden."
+    v-else-if="$store.state.currentEvent.error"
+  />
   <div v-else>
     <q-card flat>
       <q-img src="https://source.unsplash.com/random/608x342" :ratio="1920/1080" class="bg-grey-4"/>
@@ -49,6 +50,8 @@
   <!-- <h1>Event title</h1> -->
 </template>
 <script>
+import OopsError from 'components/OopsError'
+
 import SmartAction from 'components/SmartAction'
 
 import dayjs from 'dayjs'
@@ -70,16 +73,17 @@ dayjs.updateLocale('en', {
 
 export default {
   components: {
-    SmartAction
+    SmartAction,
+    OopsError
   },
   created () {
     // watch the params of the route to fetch the data again
     this.$watch(
       () => this.$route.params,
       () => {
-        console.log(this.$route)
+        // console.log(this.$route)
         if (this.$route.params.eventPath) {
-          console.log('event load')
+          // console.log('event load')
           this.$store.dispatch('currentEvent/subscribeToDatabase', this.$route.params.eventPath)
         }
       },

@@ -6,16 +6,26 @@ Path: /:movementPath/*
  -->
 <template>
 
-  <div v-if="!this.$store.state.currentMovement.dataLoaded" class="fixed-center text-center">
-    <q-circular-progress
-      color="grey"
-      indeterminate
-      size="50px"
-      class="q-ma-md"
-    />
-    <div class="text-grey">
-      Loading movement...
-    </div>
+  <div v-if="!this.$store.state.currentMovement.dataLoaded">
+    <q-layout>
+      <q-header class="bg-grey-2" bordered>
+        <q-toolbar>
+        </q-toolbar>
+      </q-header>
+      <q-page-container>
+        <div class="fixed-center text-center">
+          <q-circular-progress
+            color="grey"
+            indeterminate
+            size="50px"
+            class="q-ma-md"
+          />
+          <div class="text-grey">
+            Loading movement...
+          </div>
+        </div>
+      </q-page-container>
+    </q-layout>
   </div>
 
   <q-layout view="hHr lpR fFr" v-else>

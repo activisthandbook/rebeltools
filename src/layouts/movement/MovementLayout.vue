@@ -1,8 +1,16 @@
 <template>
-  <router-view />
+  <oops-error
+    title="Movement not found."
+    description="This page was deleted or hidden."
+    v-if="$store.state.currentMovement.error"
+  />
+  <router-view v-else/>
 </template>
 <script>
+import OopsError from 'components/OopsError'
+
 export default {
+  components: { OopsError },
   created () {
     // watch the params of the route to fetch the data again
     this.$watch(

@@ -14,6 +14,7 @@ export default {
     data: {
       isSuperADMIN: false
     },
+    unsubscribe: null,
     validations: {
       firstName: {
         required: helpers.withMessage('Add your name.', required),
@@ -30,6 +31,14 @@ export default {
       // Only update the fields that were changed
       state.data = Object.assign(state.data, userData)
       state.dataLoaded = true
+    },
+    addSubscription (state, subscription) {
+      state.unsubscribe = subscription
+    },
+    destroy (state) {
+      state.dataLoaded = false
+      state.data = {}
+      state.unsubscribe()
     }
   },
   actions: {
