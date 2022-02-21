@@ -3,7 +3,7 @@ STORE MODULE: CURRENT EVENT 🌊
 In this module, data is stored on the current event that is viewed by the user.
 */
 
-import { getFirestore, collection, query, where, onSnapshot, addDoc, serverTimestamp, doc, setDoc } from 'firebase/firestore'
+import { getFirestore, collection, query, where, onSnapshot, addDoc, serverTimestamp } from 'firebase/firestore'
 import { required, helpers } from '@vuelidate/validators'
 
 export default {
@@ -41,25 +41,24 @@ export default {
       state.data = Object.assign(state.data, eventData)
       state.dataLoaded = true
     },
-    addSubscription (state, subscription) {
+    registerSubscription (state, subscription) {
       state.unsubscribe = subscription
     },
     destroy (state) {
       state.dataLoaded = false
       state.data = {}
       state.unsubscribe()
-      console.log('event destroyed')
     }
   },
   actions: {
-    fetchFromDatabase ({ state, rootState, commit }, eventPath) {
+    subscribeToDatabase ({ state, rootState, commit }, eventPath) {
       const q = query(
         collection(getFirestore(), 'calendar'),
         where('movementID', '==', rootState.currentMovement.data.id),
         where('path', '==', eventPath)
       )
 
-      commit('addSubscription', onSnapshot(
+      commit('registerSubscription', onSnapshot(
         q,
         (querySnapshot) => {
           const events = []
@@ -80,11 +79,6 @@ export default {
       }).then(() => {
         return true
       })
-    },
-    async pushToDatabase ({ state }) {
-      const currentEventRef = doc(getFirestore(), 'calendar', state.data.id)
-
-      await setDoc(currentEventRef, state.data, { merge: true })
     }
   }
 }

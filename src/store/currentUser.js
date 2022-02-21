@@ -33,7 +33,7 @@ export default {
     }
   },
   actions: {
-    fetchFromDatabase ({ rootState, commit }) {
+    subscribeToDatabase ({ rootState, commit }) {
       const currentUserRef = doc(getFirestore(), 'users', rootState.auth.data.uid)
 
       onSnapshot(

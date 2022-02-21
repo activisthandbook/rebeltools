@@ -80,7 +80,7 @@ export default {
         console.log(this.$route)
         if (this.$route.params.eventPath) {
           console.log('event load')
-          this.$store.dispatch('currentEvent/fetchFromDatabase', this.$route.params.eventPath)
+          this.$store.dispatch('currentEvent/subscribeToDatabase', this.$route.params.eventPath)
         }
       },
       // fetch the data when the view is created and the data is

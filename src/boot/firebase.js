@@ -51,7 +51,7 @@ export default boot(async ({ store }) => {
 
       if (!store.state.auth.data.isAnonymous) {
         // Fetch additional data from database
-        store.dispatch('currentUser/fetchFromDatabase')
+        store.dispatch('currentUser/subscribeToDatabase')
       }
 
       /* Future logged events will be linked to the user ID:

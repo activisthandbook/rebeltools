@@ -71,7 +71,7 @@ export default {
     }
   },
   actions: {
-    async fetchFromDatabase ({ state, commit }, movementPath) {
+    async subscribeToDatabase ({ state, commit }, movementPath) {
       // Only if we haven't yet loaded this movement's data, will we open up a new subscription
       if (state.data.path !== movementPath) {
         commit('addSubscription', onSnapshot(

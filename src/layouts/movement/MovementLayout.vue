@@ -9,7 +9,7 @@ export default {
       () => this.$route.params,
       () => {
         if (this.$route.params.movementPath) {
-          this.$store.dispatch('currentMovement/fetchFromDatabase', this.$route.params.movementPath)
+          this.$store.dispatch('currentMovement/subscribeToDatabase', this.$route.params.movementPath)
         }
       },
       // fetch the data when the view is created and the data is
