@@ -3,10 +3,11 @@
     <q-toolbar>
       <q-btn flat round dense icon="mdi-close" :to="{name: 'Dashboard Calendar'}" />
       <q-toolbar-title class="gt-xs">Create event</q-toolbar-title>
+      <q-toolbar-title class="lt-sm">Event</q-toolbar-title>
       <q-space/>
       <div class="q-gutter-x-sm">
         <q-btn label="Save draft" no-caps color="white" text-color="black" @click="createEvent()" :loading="loading"/>
-        <q-btn label="Publish event" no-caps color="white" text-color="black" @click="createEvent()" :loading="loading" :disable="this.v$.newEvent.$invalid"/>
+        <q-btn label="Publish" no-caps color="white" text-color="black" @click="createEvent()" :loading="loading" :disable="this.v$.newEvent.$invalid"/>
       </div>
     </q-toolbar>
   </q-header>
