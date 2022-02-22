@@ -28,7 +28,7 @@
 
     <!-- BUTTON: Show if the user is already signed in. -->
     <div class="q-gutter-sm items-center q-mt-md" v-if="$store.state.auth.dataLoaded && $store.state.auth.data.emailVerified">
-      <q-btn :label="buttonLabel" color="white" text-color="primary" unelevated class="shadow-12 q-my-none" icon="mdi-check-circle-outline" rounded no-caps @click="saveSignup()"/>
+      <q-btn :label="buttonLabel" color="white" text-color="primary" unelevated class="shadow-12 q-my-none" icon="mdi-check-circle-outline" rounded no-caps @click="saveSignup()" :loading="loading"/>
       <q-chip color="white" icon="mdi-account-group" class="text-bold q-my-sm" size="sm" outline square>
         24 others
       </q-chip>
@@ -94,7 +94,8 @@ export default {
   data () {
     return {
       email: null,
-      verificationEmailSent: false
+      verificationEmailSent: false,
+      loading: false
     }
   },
   mounted () {
@@ -110,13 +111,18 @@ export default {
           this.verificationEmailSent = true
         })
     },
-    saveSignup () {
-      addDoc(collection(db, 'actions'), {
+    async saveSignup () {
+      this.loading = true
+
+      await addDoc(collection(db, 'actions'), {
         actionType: this.actionType,
         actionID: this.actionID,
         userID: this.$store.state.auth.data.uid,
         movementID: this.$store.state.currentMovement.data.id,
         createdAt: serverTimestamp()
+      }).then(() => {
+        this.loading = false
+        this.$q.notify({ message: 'Signup succesful', icon: 'mdi-check' })
       })
     }
 
