@@ -54,7 +54,7 @@ Path: /:movementID/community
     <people-list/>
   </div> -->
   <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="admins.includes(userUID)">
-    <q-btn icon="mdi-account-edit" color="primary" fab :to="{name: 'Dashboard Community'}"/>
+    <q-btn icon="mdi-pencil" color="primary" fab :to="{name: 'Dashboard Community'}"/>
   </q-page-sticky>
 </template>
 <script>

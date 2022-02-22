@@ -38,7 +38,7 @@ Path: /:movementID/
     </div>
   </div>
   <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="admins.includes(userUID)">
-    <q-btn icon="mdi-file-document-edit" color="primary" fab :to="{name: 'Dashboard Page'}"/>
+    <q-btn icon="mdi-pencil" color="primary" fab :to="{name: 'Dashboard Page'}"/>
   </q-page-sticky>
 </template>
 

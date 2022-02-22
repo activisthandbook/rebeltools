@@ -25,7 +25,7 @@ Path: /:movementID/events
   </q-card> -->
   <event-list/>
   <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="admins.includes(userUID)">
-    <q-btn icon="mdi-calendar-edit" color="primary" fab :to="{name: 'Dashboard Calendar'}"/>
+    <q-btn icon="mdi-pencil" color="primary" fab :to="{name: 'Dashboard Calendar'}"/>
   </q-page-sticky>
 </template>
 <script>
