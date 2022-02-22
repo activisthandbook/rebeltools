@@ -8,48 +8,63 @@
     description="This event was deleted or hidden."
     v-else-if="$store.state.currentEvent.error"
   />
-  <div v-else>
+  <div v-else class="q-gutter-y-md">
+    <q-banner inline-actions class="bg-grey-3" v-if="!$store.state.currentEvent.data.published">
+      This event has not been published yet.
+      <template v-slot:action>
+        <q-btn label="Edit" no-caps color="secondary" disable/>
+      </template>
+    </q-banner>
     <q-card flat>
       <q-img src="https://source.unsplash.com/random/608x342" :ratio="1920/1080" class="bg-grey-4"/>
       <span class="absolute-bottom-left q-ma-md">
-        <q-chip color="white" class="text-bold" square icon="mdi-map-marker">
+        <q-chip color="white" class="text-bold" square icon="mdi-video" v-if="$store.state.currentEvent.data.onlineLink">
           Online
-        </q-chip><br>
+        </q-chip>
+        <q-chip color="white" class="text-bold" square icon="mdi-map-marker" v-if="$store.state.currentEvent.data.address">
+          {{ $store.state.currentEvent.data.address }}
+        </q-chip>
+        <br>
         <q-chip color="white" class="text-bold" square size="xl">
           <q-avatar icon="mdi-calendar" color="primary" text-color="white" />
           {{humanDate($store.state.currentEvent.data.startDate)}}
         </q-chip>
       </span>
     </q-card>
+    <h1>{{$store.state.currentEvent.data.title}}</h1>
     <smart-action
       :action="{
         actionType: 'event',
         actionID: $store.state.currentEvent.data.id,
-        title: $store.state.currentEvent.data.title,
-        description: 'Event signup description...',
-        buttonLabel: 'Sign up for event'
+        title: 'Sign up for event',
+        description: $store.state.currentEvent.data.callToAction,
+        buttonLabel: 'Join event'
       }"
     />
-    <div class="text-caption text-bold">Sign up for this event to get access to additional info.</div>
-
     <q-card bordered flat>
       <q-card-section>
         <div class="q-gutter-y-sm">
-          <h2>Info for participants</h2>
-          <div>Lorem ipsum dolor sit amet, consectetur. Maxime doloremque impedit repellendus adipisci ducimus ut a aliquam.</div>
+          <div class="text-bold">Info for participants</div>
+          <div v-if="$store.state.currentEvent.data.prepare">{{ $store.state.currentEvent.data.prepare }}</div>
           <div class="q-gutter-sm">
-            <q-btn label="Join video call" no-caps icon="mdi-video" color="secondary"/>
-            <!-- <q-btn label="Directions" no-caps icon="mdi-map" color="secondary"/> -->
-            <q-btn label="Meeting document" no-caps icon="mdi-file-document" color="secondary"/>
+            <q-btn label="Join online" no-caps icon="mdi-video" color="black" v-if="$store.state.currentEvent.data.onlineLink" :href="$store.state.currentEvent.data.onlineLink" target="_blank"/>
+            <q-btn label="Map directions" no-caps icon="mdi-directions" color="black" :href="'https://www.google.com/maps/dir//' + $store.state.currentEvent.data.address" target="_blank" v-if="$store.state.currentEvent.data.address"/>
+            <q-btn label="Document" no-caps icon="mdi-file-document" color="black" :href="$store.state.currentEvent.data.document" v-if="$store.state.currentEvent.data.document"/>
           </div>
         </div>
+
       </q-card-section>
     </q-card>
     <div style="white-space:pre-wrap;">{{ $store.state.currentEvent.data.description }}</div>
+    <div class="text-caption text-bold">Sign up for this event to get access to additional info.</div>
   </div>
-  <!-- <h1>Event title</h1> -->
+  <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="admins.includes(userUID)">
+    <q-btn icon="mdi-pencil" color="primary" fab disable/>
+  </q-page-sticky>
 </template>
 <script>
+import { openURL } from 'quasar'
+
 import OopsError from 'components/OopsError'
 
 import SmartAction from 'components/SmartAction'
@@ -100,6 +115,18 @@ export default {
     humanDate: function (firestoreTimestamp) {
       // `this` points to the vm instance
       return dayjs(firestoreTimestamp.toDate()).calendar()
+    },
+    openExternal: (link) => {
+      console.log('r')
+      openURL(link)
+    }
+  },
+  computed: {
+    admins: {
+      get () { return this.$store.state.currentMovement.data.admins }
+    },
+    userUID: {
+      get () { return this.$store.state.auth.data.uid }
     }
   }
 }
