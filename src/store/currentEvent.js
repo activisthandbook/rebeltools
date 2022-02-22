@@ -21,8 +21,20 @@ export default {
         required: helpers.withMessage('Fill in a title for your event.', required),
         $autoDirty: true
       },
+      address: {
+        required: helpers.withMessage('Add an address', required),
+        $autoDirty: true
+      },
+      onlineLink: {
+        required: helpers.withMessage('Add a video call link', required),
+        $autoDirty: true
+      },
       startDate: {
-        required: helpers.withMessage('Add a date.', required),
+        required: helpers.withMessage('Add a starting date.', required),
+        $autoDirty: true
+      },
+      endDate: {
+        required: helpers.withMessage('Add a ending date.', required),
         $autoDirty: true
       },
       path: {
@@ -30,8 +42,22 @@ export default {
         isPath: helpers.withMessage('Only use lowercase letters and numbers, with hyphens in between: my-event-path', helpers.regex(/^[a-z|0-9]+(-[a-z|0-9]+)*$/)),
         $autoDirty: true
       },
+      callToAction: {
+        required: helpers.withMessage('Add a call to action.', required),
+        $autoDirty: true
+      },
       description: {
         required: helpers.withMessage('Add a description.', required),
+        $autoDirty: true
+      },
+      prepare: {
+        $autoDirty: true
+      },
+      followUp: {
+        $autoDirty: true
+      },
+      document: {
+        // TO DO: Validate that it is link
         $autoDirty: true
       }
     }
