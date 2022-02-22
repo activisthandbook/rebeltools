@@ -11,9 +11,10 @@
             color="white"
             text-color="black"
             no-caps
-            icon-right="mdi-open-in-new"
             :href="article.link + '?utm_source=rebeltools&utm_medium=admin_banner&utm_campaign=' + campaign"
             target="_blank"
+            unelevated
+
           />
         </div>
       </div>
@@ -25,3 +26,6 @@ export default {
   props: ['title', 'description', 'articles', 'campaign']
 }
 </script>
+<style scoped>
+.q-card{font-size: .9em}
+</style>

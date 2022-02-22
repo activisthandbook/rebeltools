@@ -25,14 +25,9 @@
           <q-btn flat v-close-popup round dense icon="mdi-close" />
           <q-toolbar-title>Image selector</q-toolbar-title>
           <q-btn no-caps v-close-popup label="Save" color="secondary" v-if="uploadedFile"/>
-          <q-btn label="Upload image" no-caps color="secondary" icon="mdi-upload" v-if="!uploadedFile"/>
+          <q-btn label="Upload" no-caps color="secondary" icon="mdi-upload" v-if="!uploadedFile"/>
         </q-toolbar>
       </q-header>
-      <q-footer class="bg-white text-black" reveal v-if="!uploadedFile">
-        <q-toolbar>
-          <span class="text-caption">Photos from <a href="https://www.pexels.com">Pexels</a></span>
-        </q-toolbar>
-      </q-footer>
 
       <q-page-container>
         <q-page padding v-if="!uploadedFile">
@@ -45,8 +40,10 @@
               </template>
             </q-input>
 
+            <div class="text-caption">Search photos from <a href="https://www.pexels.com">Pexels</a></div>
+
             <!-- RESULTS NATIGATION -->
-            <div class="flex items-center justify-between q-gutter-sm direction-links" v-if="searchResults">
+            <div class="flex items-center justify-between q-gutter-sm direction-links" v-if="searchResults && !emptySearch">
               <span class="text-caption">{{ searchResults.total_results }} results</span>
               <q-pagination
                 v-model="resultsPage"
@@ -58,13 +55,13 @@
             </div>
 
             <!-- SEARCH RESULTS -->
-            <div v-if="searchResults && !resultsLoading" class="row q-col-gutter-xs">
-              <div class="col-4" v-for="photo in searchResults.photos" :key="photo.id" >
+            <div v-if="searchResults && !resultsLoading && !emptySearch" class="row q-col-gutter-xs">
+              <div class="col-6 col-sm-4" v-for="photo in searchResults.photos" :key="photo.id" >
                 <q-img :src="photo.src.tiny" :ratio="16/9" no-spinner :style="'background-color:' + photo.avg_color"/>
               </div>
             </div>
 
-            <div v-if="defaultCollection && !searchResults && !resultsLoading">
+            <div v-if="defaultCollection && (!searchResults || emptySearch) && !resultsLoading">
 
               <!-- ACTIVIST HANDBOOK GUIDES -->
               <activist-handbook
@@ -80,7 +77,7 @@
 
               <!-- DEFAULT IMAGE SUGGESTIONS -->
               <div class="row q-col-gutter-xs q-mt-sm">
-                <div class="col-4" v-for="photo in defaultCollection.media" :key="photo.id" >
+                <div class="col-6 col-sm-4" v-for="photo in defaultCollection.media" :key="photo.id" >
                   <q-img :src="photo.src.tiny" :ratio="16/9" no-spinner :style="'background-color:' + photo.avg_color"/>
                 </div>
               </div>
@@ -105,6 +102,12 @@
           </div>
         </q-page>
       </q-page-container>
+
+      <!-- <q-footer class="bg-white text-black" v-if="!uploadedFile">
+        <q-toolbar>
+          <div class="text-caption">Photos from <a href="https://www.pexels.com">Pexels</a></div>
+        </q-toolbar>
+      </q-footer> -->
     </q-layout>
   </q-dialog>
 </template>
@@ -120,6 +123,7 @@ export default {
       fileURL: '',
       dropboxActive: false,
       defaultCollection: null,
+      emptySearch: true,
       searchQuery: '',
       resultsLoading: false,
       searchResults: null,
@@ -175,6 +179,7 @@ export default {
     },
     searchPexels () {
       this.resultsLoading = true
+      this.emptySearch = false
       fetch('https://api.pexels.com/v1/search?per_page=21&page=' + this.resultsPage + '&query=' + this.searchQuery, {
         headers: {
           Authorization: '563492ad6f9170000100000190a4e6732b3c43a3a2d9009518c8f26e'
@@ -191,6 +196,11 @@ export default {
     // whenever question changes, this function will run
     resultsPage: function () {
       this.searchPexels()
+    },
+    searchQuery: function (newVal) {
+      if (!newVal) {
+        this.emptySearch = true
+      }
     }
   }
 }

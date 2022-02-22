@@ -182,7 +182,7 @@
       campaign="new_event"
       :articles="[
         {title: 'How to organise actions', link: 'https://activisthandbook.org/en/organising/action'},
-        {title: 'Explore tactic', link: 'https://activisthandbook.org/en/tactics'}
+        {title: 'Explore tactics', link: 'https://activisthandbook.org/en/tactics'}
       ]"
     />
   </div>
