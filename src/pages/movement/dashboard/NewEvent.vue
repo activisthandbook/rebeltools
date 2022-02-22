@@ -13,6 +13,7 @@
 
   <div class="q-gutter-y-md">
 
+    <!-- ℹ️ BASIC INFO -->
     <q-card>
       <q-card-section>
         <div class="q-gutter-y-sm">
@@ -53,6 +54,7 @@
       </q-card-section>
     </q-card>
 
+    <!-- 📆 DATE AND TIME -->
     <q-card>
       <q-card-section>
         <div class="q-gutter-y-sm">
@@ -81,6 +83,8 @@
         </div>
       </q-card-section>
     </q-card>
+
+    <!-- 📍 LOCATION -->
     <q-card>
       <q-card-section>
         <div class="q-gutter-y-sm">
@@ -107,20 +111,11 @@
         </div>
       </q-card-section>
     </q-card>
-    <q-card>
-      <q-card-section>
-        <div class="q-gutter-y-sm">
-          <div class="text-bold">Visuals</div>
-          <q-item clickable class="q-pa-none bg-grey-3 rounded-borders" v-ripple>
-            <q-img :ratio="16/9">
 
-            <q-chip class="q-ma-lg" icon="mdi-image" color="white" text-color="black">Select image</q-chip>
+    <!-- 🏞 VISUALS -->
+    <image-selector/>
 
-            </q-img>
-          </q-item>
-        </div>
-      </q-card-section>
-    </q-card>
+    <!-- 🛠 ADVANCED TOOLS -->
     <q-card>
       <q-expansion-item expand-separator icon="mdi-information" label="Info for participants">
         <q-card>
@@ -160,7 +155,7 @@
                     <q-item-label>Google Calendar</q-item-label>
                   </q-item-section>
                   <q-item-section avatar>
-                    <q-toggle color="secondary"/>
+                    <q-toggle color="secondary" v-model="newEvent.sync.GoogleCalendar"/>
                   </q-item-section>
                 </q-item>
                 <q-item tag="label" v-ripple disable>
@@ -171,7 +166,7 @@
                     <q-item-label>Facebook Event</q-item-label>
                   </q-item-section>
                   <q-item-section avatar>
-                    <q-toggle color="secondary"/>
+                    <q-toggle color="secondary" v-model="newEvent.sync.FacebookPage"/>
                   </q-item-section>
                 </q-item>
           </q-list>
@@ -195,6 +190,7 @@
 </template>
 <script>
 import ActivistHandbook from 'components/ActivistHandbook'
+import ImageSelector from 'components/ImageSelector'
 
 import { Timestamp, serverTimestamp } from 'firebase/firestore'
 import { getAnalytics, logEvent } from 'firebase/analytics'
@@ -203,8 +199,7 @@ const analytics = getAnalytics()
 import useVuelidate from '@vuelidate/core'
 
 export default {
-  props: ['open'],
-  components: { ActivistHandbook },
+  components: { ActivistHandbook, ImageSelector },
   setup () {
     return { v$: useVuelidate() }
   },
@@ -222,7 +217,11 @@ export default {
         description: '',
         document: '',
         prepare: '',
-        followUp: ''
+        followUp: '',
+        sync: {
+          googleCalendar: false,
+          facebookPage: false
+        }
       }
     }
   },
@@ -241,6 +240,7 @@ export default {
       }
       this.newEvent.onlineLink = 'https://meet.jit.si/' + this.$store.state.currentMovement.data.path + '-' + result
       this.jitsiLinkGenerated = true
+      this.$q.notify({ message: 'Jitsi video call link generated', icon: 'mdi-check', timeout: 2500 })
     },
     async createEvent () {
       this.loading = true
