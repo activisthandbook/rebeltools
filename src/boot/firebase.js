@@ -8,7 +8,7 @@ import { getPerformance } from 'firebase/performance'
 
 import { Notify } from 'quasar'
 
-// When hosting yourself, make sure to edit this configuration
+// SELF-HOSTING CONFIG: When hosting yourself, make sure to edit this configuration
 const firebaseConfig = {
   apiKey: 'AIzaSyAcEwD4BWj11X_sHNX8WMntp_XgiblsVk0',
   authDomain: 'rebel-tools.firebaseapp.com',
