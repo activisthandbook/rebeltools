@@ -18,19 +18,19 @@
   <!-- <div class="fullscreen" :class="{ 'bg-grey-4': dropboxActive, 'invisible': !dropboxActive }" @dragover="dragover" @dragleave="dragleave" @drop="drop"> -->
 
   <!-- </div> -->
-  <q-dialog v-model="dialogOpen" :maximized="$q.screen.lt.sm" persistent @dragover="dragover" @dragleave="dragleave" @drop="drop" >
-    <q-layout view="hHh lpR fFf" container class="bg-white">
+  <q-dialog v-model="dialogOpen" :maximized="$q.screen.lt.sm" persistent @dragover="dragover" @dragleave="dragleave" @drop="drop">
+    <q-layout view="hHh lpR fFf" container class="bg-white" style="max-width:640px;">
       <q-header class="bg-white text-black" bordered>
         <q-toolbar>
           <q-btn flat v-close-popup round dense icon="mdi-close" />
           <q-toolbar-title>Image selector</q-toolbar-title>
-          <q-btn no-caps v-close-popup label="Save" color="secondary" v-if="uploadedFile"/>
-          <q-btn label="Upload" no-caps color="secondary" icon="mdi-upload" v-if="!uploadedFile"/>
+          <q-btn no-caps v-close-popup label="Save" color="secondary" v-if="fileURL"/>
+          <q-btn label="Upload" no-caps color="secondary" icon="mdi-upload" v-if="!fileURL"/>
         </q-toolbar>
       </q-header>
 
       <q-page-container>
-        <q-page padding v-if="!uploadedFile">
+        <q-page padding v-if="!fileURL">
           <div class="q-gutter-y-sm">
 
             <!-- PEXELS SEARCH & UPLOAD BUTTON -->
@@ -57,7 +57,7 @@
             <!-- SEARCH RESULTS -->
             <div v-if="searchResults && !resultsLoading && !emptySearch" class="row q-col-gutter-xs">
               <div class="col-6 col-sm-4" v-for="photo in searchResults.photos" :key="photo.id" >
-                <q-img :src="photo.src.tiny" :ratio="16/9" no-spinner :style="'background-color:' + photo.avg_color"/>
+                <q-img :src="photo.src.tiny" :ratio="16/9" no-spinner :style="'background-color:' + photo.avg_color" @click="selectPexelsPhoto(photo.id)" class="cursor-pointer"/>
               </div>
             </div>
 
@@ -78,7 +78,7 @@
               <!-- DEFAULT IMAGE SUGGESTIONS -->
               <div class="row q-col-gutter-xs q-mt-sm">
                 <div class="col-6 col-sm-4" v-for="photo in defaultCollection.media" :key="photo.id" >
-                  <q-img :src="photo.src.tiny" :ratio="16/9" no-spinner :style="'background-color:' + photo.avg_color"/>
+                  <q-img :src="photo.src.tiny" :ratio="16/9" no-spinner :style="'background-color:' + photo.avg_color" @click="selectPexelsPhoto(photo.id)" class="cursor-pointer"/>
                 </div>
               </div>
 
@@ -94,9 +94,11 @@
 
           </div>
         </q-page>
+
+        <!-- PREVIEW -->
         <q-page padding v-else>
           <q-input type="textarea" autogrow label="Describe this image" color="secondary" outlined hint="Important for people using screen readers"/>
-          <q-img :src="fileURL" :ratio="16/9" class="bg-grey q-my-md"/>
+          <q-img :src="fileURL" :ratio="16/9" class="q-my-md" :style="'background-color: ' + fileAvgColor"/>
           <div class="text-center">
             <q-btn icon="mdi-delete" color="black" label="Delete" outline @click="deleteFile()"/>
           </div>
@@ -114,6 +116,9 @@
 <script>
 import ActivistHandbook from 'components/ActivistHandbook'
 
+// SELF-HOSTING CONFIG: When hosting yourself, make sure to edit this configuration
+const PexelsAuth = '563492ad6f9170000100000190a4e6732b3c43a3a2d9009518c8f26e'
+
 export default {
   components: { ActivistHandbook },
   data () {
@@ -121,6 +126,7 @@ export default {
       dialogOpen: false,
       uploadedFile: null, // Store our uploaded file
       fileURL: '',
+      fileAvgColor: '#eee',
       dropboxActive: false,
       defaultCollection: null,
       emptySearch: true,
@@ -168,7 +174,7 @@ export default {
 
       fetch(url, {
         headers: {
-          Authorization: '563492ad6f9170000100000190a4e6732b3c43a3a2d9009518c8f26e'
+          Authorization: PexelsAuth
         }
       }).then(resp => {
         return resp.json()
@@ -182,12 +188,29 @@ export default {
       this.emptySearch = false
       fetch('https://api.pexels.com/v1/search?per_page=21&page=' + this.resultsPage + '&query=' + this.searchQuery, {
         headers: {
-          Authorization: '563492ad6f9170000100000190a4e6732b3c43a3a2d9009518c8f26e'
+          Authorization: PexelsAuth
         }
       }).then(resp => {
         return resp.json()
       }).then(data => {
         this.searchResults = data
+        this.resultsLoading = false
+      })
+    },
+    selectPexelsPhoto (id) {
+      this.resultsLoading = true
+
+      fetch('https://api.pexels.com/v1/photos/' + id, {
+        headers: {
+          Authorization: PexelsAuth
+        }
+      }).then(resp => {
+        return resp.json()
+      }).then(data => {
+        console.log(data)
+        this.fileURL = data.src.large
+        this.fileAvgColor = data.avg_color
+        console.log(this.fileAvgColor)
         this.resultsLoading = false
       })
     }
