@@ -124,10 +124,14 @@ export default {
     }
   },
   methods: {
-    saveToWaitingList () {
-      const waitingListReference = collection(db, 'waitinglist')
-      addDoc(waitingListReference, this.waitingListItem)
-      this.userHasSignedUp = true
+    async saveToWaitingList () {
+      const waitingListReference = collection(db, 'waitingList')
+      await addDoc(waitingListReference, this.waitingListItem).then(() => {
+        this.$q.notify({ message: 'Signed up for waiting list', icon: 'mdi-check' })
+        this.userHasSignedUp = true
+      }).catch(() => {
+        this.$q.notify({ message: 'Oops, something went wrong', icon: 'mdi-alert' })
+      })
     }
   }
 }
