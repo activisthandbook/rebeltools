@@ -98,7 +98,7 @@
             :errorMessage="mixin_mergeErrorMessages(this.v$.newEvent.address.$errors)"
           />
           <q-input
-            label="🔗 Link to join online"
+            label="🔗 Online link"
             outlined color="secondary"
             hint="Video call, livestream or other online space"
             v-model="newEvent.onlineLink"

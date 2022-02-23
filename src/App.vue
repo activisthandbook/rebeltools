@@ -37,3 +37,8 @@ export default {
   }
 }
 </script>
+<style>
+body.platform-ios.q-body--prevent-scroll {
+  position: relative !important;
+}
+</style>
