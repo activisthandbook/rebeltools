@@ -18,6 +18,7 @@ exports.createUser = functions.firestore
     // access a particular field as you would any JS property
     // const name = newValue.name
 
+    functions.logger.info('Hello world!', { structuredData: true })
     functions.logger.info(newValue, { structuredData: true })
 
     // perform desired operations ...
