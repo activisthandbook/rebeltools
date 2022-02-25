@@ -126,7 +126,7 @@ Path: /new-movement
 
         <div class="text-bold">
           <div class="text-caption">Rebel Tools is built for activists, by activists.</div>
-          <q-chip icon="mdi-currency-usd-off" label="Forever free" color="secondary" text-color="white" size="sm"/>
+          <q-chip icon="mdi-currency-usd-off" label="Free up to 1K rebels" color="secondary" text-color="white" size="sm"/>
           <q-chip icon="mdi-github" label="Open source" color="secondary" text-color="white" size="sm"/>
           <q-chip icon="mdi-lightning-bolt" label="Powerful tools, easy to use" color="secondary" text-color="white" size="sm"/>
         </div>
