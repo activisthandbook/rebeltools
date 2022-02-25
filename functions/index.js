@@ -10,7 +10,7 @@ const functions = require('firebase-functions')
 
 exports.createUser = functions.firestore
   .document('actions/{actId}')
-  .onCreate((snap, context) => {
+  .onCreate((snap) => {
     // Get an object representing the document
     // e.g. {'name': 'Marie', 'age': 66}
     const newValue = snap.data()
