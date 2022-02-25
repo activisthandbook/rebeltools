@@ -36,6 +36,18 @@ Path: /super-admin
       </q-item>
     </q-list>
   </q-card>
+  <h1>Waiting list</h1>
+  <q-card>
+    <q-list separator>
+      <q-item v-for="(waitingUser, index) in waitingList" :key="index">
+        <q-item-section>
+          <q-item-label>{{ waitingUser.firstName }} <span v-if="waitingUser.organisation">from {{ waitingUser.organisation }}</span></q-item-label>
+          <q-item-label caption>{{ waitingUser.emailAddress }}</q-item-label>
+          <q-item-label caption>{{ waitingUser.phoneNumber }}</q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-list>
+  </q-card>
 </template>
 <script>
 import { getFirestore, collection, query, onSnapshot, doc, deleteDoc } from 'firebase/firestore'
@@ -46,13 +58,15 @@ export default {
   data () {
     return {
       movements: [],
-      users: []
+      users: [],
+      waitingList: []
     }
   },
   mounted () {
     this.$nextTick(function () {
       this.fetchMovementsFromDatabase()
       this.fetchUsersFromDatabase()
+      this.fetchWaitingListFromDatabase()
     })
   },
   methods: {
@@ -102,6 +116,15 @@ export default {
       onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
           this.users.push(doc.data())
+        })
+      })
+    },
+    fetchWaitingListFromDatabase () {
+      const q = query(collection(db, 'waitingList'))
+
+      onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          this.waitingList.push(doc.data())
         })
       })
     }
