@@ -10,4 +10,5 @@ module.exports = {
   rules: {
     // quotes: ["error", "double"],
   },
+  "ignorePatterns": ["distributed_counter.js"]
 };
