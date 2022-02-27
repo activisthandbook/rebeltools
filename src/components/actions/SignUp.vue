@@ -29,8 +29,9 @@
     <!-- BUTTON: Show if the user is already signed in. -->
     <div class="q-gutter-sm items-center q-mt-md" v-if="$store.state.auth.dataLoaded && $store.state.auth.data.emailVerified">
       <q-btn :label="buttonLabel" color="white" text-color="primary" unelevated class="shadow-12 q-my-none" icon="mdi-check-circle-outline" rounded no-caps @click="saveSignup()" :loading="loading"/>
-      <q-chip color="white" icon="mdi-account-group" class="text-bold q-my-sm" size="sm" outline square>
-        24 others
+      <q-chip color="secondary" text-color="white" icon="mdi-account-group" class="q-ma-sm text-bold"  v-if="actionCount">
+        <span class="q-mx-xs">{{ actionCount }}</span>
+        <span>going</span>
       </q-chip>
       <div class="text-caption items-center flex" style="opacity:0.7">
         <q-btn icon="mdi-information" round flat dense size="sm" class="q-mr-xs">
@@ -89,6 +90,10 @@ export default {
     buttonLabel: {
       type: String,
       default: 'Join us'
+    },
+    actionCount: {
+      type: Number,
+      default: 0
     }
   },
   data () {

@@ -13,17 +13,48 @@ exports.logAction = functions.region('europe-west1').firestore
     // Get an object representing the document
     const actionInstance = snap.data()
 
-    functions.logger.info(actionInstance, { structuredData: true })
+    // UPDATE SIGNUP COUNT
+    let collection = ''
 
-    if(actionInstance.actionType === 'event') {
-
-      const signupCount = new Counter(db.collection("calendar").doc(actionInstance.actionID), "signupCount")
-
-      // Increment the field "visits" of the document "pages/hello-world".
-      signupCount.incrementBy(1);
-
-      functions.logger.info('Incremented!!')
-
+    switch(actionInstance.actionType) {
+      case 'movement':
+        collection = 'movements'
+        break;
+      case 'event':
+        collection = 'calendar'
+        break;
     }
 
+    const signupCount = new Counter(db.collection(collection).doc(actionInstance.actionID), "signupCount")
+    signupCount.incrementBy(1)
+
+    // UPDATE USER & MOVEMENT MEMBER PROFILE
+    const userProfileRef = db.collection('users').doc(actionInstance.userID)
+    const memberProfileRef = db.collection('movements').doc(actionInstance.movementID).collection('userProfiles').doc(actionInstance.userID)
+
+    let dataForMemberProfile = {}
+
+    switch(actionInstance.actionType) {
+        case 'movement':
+          dataForMemberProfile = {
+              member: true,
+              timestampLastAction: db.FieldValue.serverTimestamp()
+          }
+
+          // Add movement to personal user profile
+          userProfileRef.set({
+            movements: db.FieldValue.arrayUnion(actionInstance.movementID)
+          }, {merge: true})
+
+          break;
+        case 'event':
+          dataForMemberProfile = {
+              eventSignups: db.FieldValue.arrayUnion(actionInstance.actionID),
+              timestampLastAction: db.FieldValue.serverTimestamp()
+          }
+          break;
+    }
+
+    // Update the members profile
+    memberProfileRef.set(dataForMemberProfile, {merge: true})
   })

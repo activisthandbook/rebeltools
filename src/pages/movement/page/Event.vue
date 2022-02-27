@@ -38,7 +38,8 @@
         actionID: $store.state.currentEvent.data.id,
         title: 'Sign up for event',
         description: $store.state.currentEvent.data.callToAction,
-        buttonLabel: 'Join event'
+        buttonLabel: 'Join event',
+        actionCount: $store.state.currentEvent.data.signupCount
       }"
     />
     <q-card bordered flat>

@@ -24,6 +24,7 @@ This component allows users to sign up for movements and events.
             :title="action.title"
             :description="action.description"
             :buttonLabel="action.buttonLabel"
+            :actionCount="action.actionCount"
           />
 
           <create-profile v-else-if="!$store.state.currentUser.data.profileCreated"/>
@@ -115,6 +116,10 @@ export default {
       buttonLabel: {
         type: String,
         default: 'Join us'
+      },
+      actionCount: {
+        type: Number,
+        default: 0
       }
     }
   },
