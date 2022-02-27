@@ -8,8 +8,9 @@ const functions = require('firebase-functions')
 //   response.send("Hello from Firebase!");
 // });
 
-exports.createUser = functions.firestore
-  .region('europe-west1')
+
+
+exports.createUser = functions.region('europe-west1').firestore
   .document('actions/{actId}')
   .onCreate((snap) => {
     // Get an object representing the document
