@@ -17,7 +17,7 @@ exports.logAction = functions.region('europe-west1').firestore
 
     if(actionInstance.actionType === 'event') {
 
-      const signupCount = new Counter(db.collection("events").doc(actionInstance.actionID), "signupCount")
+      const signupCount = new Counter(db.collection("calendar").doc(actionInstance.actionID), "signupCount")
 
       // Increment the field "visits" of the document "pages/hello-world".
       signupCount.incrementBy(1);
