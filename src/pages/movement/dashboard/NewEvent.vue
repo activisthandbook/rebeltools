@@ -118,6 +118,25 @@
 
     <!-- 🛠 ADVANCED TOOLS -->
     <q-card>
+      <q-expansion-item expand-separator icon="mdi-comment-question-outline" label="Attach form">
+        <q-card>
+          <q-card-section>
+            <div class="q-gutter-sm">
+              <div>Attach a form to ask additional questions to participants, after they have signed up.</div>
+              <q-input
+                label="📄 Search forms"
+                outlined color="secondary"
+              >
+                <template v-slot:append>
+                  <q-btn icon="mdi-comment-question-outline" label="Create new" no-caps color="grey" flat dense>
+                    <q-tooltip>Forms coming soon</q-tooltip>
+                  </q-btn>
+                </template>
+              </q-input>
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
       <q-expansion-item expand-separator icon="mdi-information" label="Info for participants">
         <q-card>
           <q-card-section>
