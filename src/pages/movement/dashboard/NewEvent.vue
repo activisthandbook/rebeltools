@@ -241,7 +241,8 @@ export default {
         sync: {
           googleCalendar: false,
           facebookPage: false
-        }
+        },
+        signupCount: 0
       }
     }
   },

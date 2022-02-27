@@ -1,27 +1,29 @@
 const functions = require('firebase-functions')
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+ // Initialize Firebase.
+const admin = require('firebase-admin');
+admin.initializeApp();
+const db = admin.firestore();
 
+const Counter = require("./distributed_counter")
 
-
-exports.createUser = functions.region('europe-west1').firestore
-  .document('actions/{actId}')
+exports.logAction = functions.region('europe-west1').firestore
+  .document('actions/{actionId}')
   .onCreate((snap) => {
     // Get an object representing the document
-    // e.g. {'name': 'Marie', 'age': 66}
-    const newValue = snap.data()
+    const actionInstance = snap.data()
 
-    // access a particular field as you would any JS property
-    // const name = newValue.name
+    functions.logger.info(actionInstance, { structuredData: true })
 
-    functions.logger.info('Hello world!', { structuredData: true })
-    functions.logger.info(newValue, { structuredData: true })
+    if(actionInstance.actionType === 'event') {
 
-    // perform desired operations ...
+      const signupCount = new Counter(db.collection("events").doc(actionInstance.actionID), "signupCount")
+
+      // Increment the field "visits" of the document "pages/hello-world".
+      signupCount.incrementBy(1);
+
+      functions.logger.info('Incremented!!')
+
+    }
+
   })
