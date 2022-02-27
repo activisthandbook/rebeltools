@@ -9,6 +9,7 @@ const functions = require('firebase-functions')
 // });
 
 exports.createUser = functions.firestore
+  .region('europe-west1')
   .document('actions/{actId}')
   .onCreate((snap) => {
     // Get an object representing the document
