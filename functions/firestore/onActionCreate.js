@@ -76,7 +76,9 @@ function updateMemberProfile (actionInstance) {
     let dataForMemberProfile = {}
 
     if (doc.exists) {
-      dataForMemberProfile = doc.data()
+      const user = doc.data()
+      if (user.emailAddress) dataForMemberProfile.emailAddress = user.emailAddress
+      if (user.phoneNumber) dataForMemberProfile.phoneNumber = user.phoneNumber
     }
     dataForMemberProfile.timestampLastAction = FieldValue.serverTimestamp()
 
