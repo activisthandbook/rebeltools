@@ -73,31 +73,32 @@ function updateMemberProfile (actionInstance) {
   const userProfileRef = db.collection('users').doc(actionInstance.userID)
   const memberProfileRef = db.collection('movements').doc(actionInstance.movementID).collection('members').doc(actionInstance.userID)
 
-  let dataForMemberProfile = {}
-
   userProfileRef.get().then(doc => {
     functions.logger.info('Fetched user info', doc)
+
+    let dataForMemberProfile = {}
+
     if (doc.exists) {
       dataForMemberProfile = doc.data()
     }
+    dataForMemberProfile.timestampLastAction = FieldValue.serverTimestamp()
+
+    switch(actionInstance.actionType) {
+        case 'movement':
+          dataForMemberProfile.member = true
+          break;
+        case 'event':
+          dataForMemberProfile.eventSignups = FieldValue.arrayUnion(actionInstance.actionID)
+          break;
+    }
+
+    // Update the members profile
+    functions.logger.info('About to update member profile...', dataForMemberProfile)
+    memberProfileRef.set(dataForMemberProfile, {merge: true}).catch((error) => {
+      functions.logger.error('Error in updateMemberProfile function', error)
+    })
+
   }).catch(error => {
     functions.logger.error('Error in ferching user profile', error)
-  })
-
-  dataForMemberProfile.timestampLastAction = FieldValue.serverTimestamp()
-
-  switch(actionInstance.actionType) {
-      case 'movement':
-        dataForMemberProfile.member = true
-        break;
-      case 'event':
-        dataForMemberProfile.eventSignups = FieldValue.arrayUnion(actionInstance.actionID)
-        break;
-  }
-
-  // Update the members profile
-  functions.logger.info('About to update member profile...', dataForMemberProfile)
-  memberProfileRef.set(dataForMemberProfile, {merge: true}).catch((error) => {
-    functions.logger.error('Error in updateMemberProfile function', error)
   })
 }
