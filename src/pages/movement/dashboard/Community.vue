@@ -4,13 +4,16 @@
       <q-toolbar-title>Community</q-toolbar-title>
     </q-toolbar>
   </q-header>
-
-  <q-banner class="bg-grey-3 text-grey-9">
-    <template v-slot:avatar>
-      <q-icon name="mdi-star-shooting-outline" color="grey"/>
-    </template>
-    Coming soon
-  </q-banner>
+  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum inventore expedita dicta, nobis itaque facere soluta cum illum dolorum velit perferendis, quod quasi animi nesciunt quaerat, voluptate error quas minus.
+  <q-card>
+    <q-list separator>
+      <q-item v-for="(member, index) in members" :key="index">
+        <q-item-section>
+          <q-item-label>{{ member }}</q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-list>
+  </q-card>
   <!-- <q-card class="text-bold">
     <q-list>
       <q-item clickable v-ripple :to="{name:'Vacant roles'}">
@@ -147,3 +150,35 @@
   </div> -->
 
 </template>
+<script>
+import { query, onSnapshot, getFirestore, collection } from 'firebase/firestore'
+const db = getFirestore()
+
+export default {
+  data () {
+    return {
+      members: []
+    }
+  },
+  mounted () {
+    this.$nextTick(function () {
+      this.fetchMembersFromDatabase()
+    })
+  },
+  methods: {
+    fetchMembersFromDatabase () {
+      const memberProfilesRef = collection(db, 'movements', this.$store.state.currentMovement.data.id, 'members')
+      const q = query(memberProfilesRef)
+
+      const memberList = []
+
+      onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          memberList.push(doc.data())
+        })
+      })
+      this.members = memberList
+    }
+  }
+}
+</script>

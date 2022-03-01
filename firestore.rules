@@ -84,7 +84,12 @@ service cloud.firestore {
 
       allow write: if
         isValidMovement() &&
-        isSuperADMIN() // User is superADMIN 🔴
+        isSuperADMIN(); // User is superADMIN 🔴
+
+      match /members/{memberID} {
+        allow read, delete: if
+          isSuperADMIN(); // User is superADMIN 🔴
+      }
 
     }
 

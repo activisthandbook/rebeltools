@@ -69,7 +69,7 @@ The 'members profile' is stored as a subcollection of a specific movement.
 function updateMemberProfile (actionInstance) {
   functions.logger.info('🌊 Function started: updateMemberProfile')
 
-  const memberProfileRef = db.collection('movements').doc(actionInstance.movementID).collection('userProfiles').doc(actionInstance.userID)
+  const memberProfileRef = db.collection('movements').doc(actionInstance.movementID).collection('members').doc(actionInstance.userID)
 
   let dataForMemberProfile = {}
 
