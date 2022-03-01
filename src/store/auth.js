@@ -7,8 +7,6 @@ import { getAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailL
 
 import { getAnalytics, logEvent } from 'firebase/analytics'
 
-import router from '../router/index'
-
 export default {
   namespaced: true,
   state: {
