@@ -7,6 +7,8 @@ import { getAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailL
 
 import { getAnalytics, logEvent } from 'firebase/analytics'
 
+import router from '../router/index'
+
 export default {
   namespaced: true,
   state: {
@@ -85,6 +87,9 @@ export default {
 
             // Clear email from storage.
             window.localStorage.removeItem('emailForSignIn')
+
+            // Remove query from url
+            router.replace({ query: null })
 
             // Notify the user that the login was succesful.
             Notify.create({ message: 'You are now signed in', icon: 'mdi-account-check' })
