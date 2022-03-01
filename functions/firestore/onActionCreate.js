@@ -8,7 +8,7 @@ const Counter = require("../distributed_counter")
 const FieldValue = admin.firestore.FieldValue;
 
 // 🔥 FIRESTORE TRIGGER
-exports.logAction = functions.region('europe-west1').firestore
+exports.onActionCreate = functions.region('europe-west1').firestore
   .document('actions/{actionId}')
   .onCreate((snap) => {
     functions.logger.info('🔥 Firestore triggered: action created', snap.data())
