@@ -77,7 +77,7 @@ function updateMemberProfile (actionInstance) {
 
   userProfileRef.get().then(doc => {
     functions.logger.info('Fetched user info', doc)
-    if (doc.exists()) {
+    if (doc.exists) {
       dataForMemberProfile = doc.data()
     }
   }).catch(error => {
