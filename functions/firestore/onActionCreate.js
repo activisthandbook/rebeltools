@@ -2,9 +2,6 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin');
 
-// 🔄 INITIALISATIONS
-admin.initializeApp();
-
 // ⏺  DEFINE CONSTANTS
 const db = admin.firestore();
 const Counter = require("../distributed_counter")
