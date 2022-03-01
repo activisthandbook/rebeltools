@@ -6,7 +6,7 @@ const admin = require('firebase-admin');
 const db = admin.firestore()
 const FieldValue = admin.firestore.FieldValue;
 
-exports.onAuthCreate = functions.auth.user().onCreate((user) => {
+exports.onAuthCreate = functions.region('europe-west1').auth.user().onCreate((user) => {
   functions.logger.info('🛡 Auth triggered: user created', user)
 
   const userProfileRef = db.collection('users').doc(user.uid)
