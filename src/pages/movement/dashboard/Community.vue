@@ -9,7 +9,10 @@
     <q-list separator>
       <q-item v-for="(member, index) in members" :key="index">
         <q-item-section>
-          <q-item-label>{{ member }}</q-item-label>
+          <q-item-label>{{ member.firstName }} {{ member.lastName }}</q-item-label>
+          <q-item-label caption>{{ member.emailAddress }}</q-item-label>
+          <q-item-label caption>{{ member.phoneNumber }}</q-item-label>
+          <q-item-label caption>{{ member }}</q-item-label>
         </q-item-section>
       </q-item>
     </q-list>

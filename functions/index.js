@@ -1,3 +1,5 @@
-const logAction = require('./firestore/logAction');
+const onActionCreate = require('./firestore/onActionCreate')
+const onAuthCreate = require('./firestore/onAuthCreate')
 
-exports.logAction = logAction.logAction;
+exports.onActionCreate = onActionCreate.onActionCreate
+exports.onAuthCreate = onAuthCreate.onAuthCreate
