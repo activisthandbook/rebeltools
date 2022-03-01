@@ -13,12 +13,16 @@ export default {
   namespaced: true,
   state: {
     dataLoaded: false,
-    data: null
+    data: null,
+    emailVerificationStarted: false
   },
   mutations: {
     signin (state, newUser) {
       state.data = newUser
       state.dataLoaded = true
+    },
+    startEmailVerification (state) {
+      state.emailVerificationStarted = true
     }
   },
   actions: {
@@ -59,54 +63,54 @@ export default {
     /* 🔐 SIGN IN USING EMAIL LINK
     Docs: https://firebase.google.com/docs/auth/web/email-link-auth#completing_sign-in_in_a_web_page
     */
-    async signInWithEmailLink () {
-      const auth = getAuth()
+    async signInWithEmailLink ({ state, commit }) {
+      if (!state.emailVerificationStarted) {
+        commit('startEmailVerification')
+        const auth = getAuth()
 
-      // Confirm the link is a sign-in with email link.
-      if (isSignInWithEmailLink(auth, window.location.href)) {
-        /* Additional state parameters can also be passed via URL. This can be used to continue the user's intended action before triggering the sign-in operation. */
+        // Confirm the link is a sign-in with email link.
+        if (isSignInWithEmailLink(auth, window.location.href)) {
+          /* Additional state parameters can also be passed via URL. This can be used to continue the user's intended action before triggering the sign-in operation. */
 
-        /* Get the email. This should be available if the user completes the flow on the same device where they started it. */
-        let email = window.localStorage.getItem('emailForSignIn')
+          /* Get the email. This should be available if the user completes the flow on the same device where they started it. */
+          let email = window.localStorage.getItem('emailForSignIn')
 
-        if (!email) {
-          /* LINK OPENED ON NEW DEVICE
-          User opened the link on a different device. To prevent session fixation attacks, ask the user to provide the associated email again. For example: */
-          email = window.prompt('Please provide your email for confirmation')
+          if (!email) {
+            /* LINK OPENED ON NEW DEVICE
+            User opened the link on a different device. To prevent session fixation attacks, ask the user to provide the associated email again. For example: */
+            email = window.prompt('Please provide your email for confirmation')
 
-          // 👉 TO-DO: Make this more user friendly using Quasar dialog
+            // 👉 TO-DO: Make this more user friendly using Quasar dialog
+          }
+
+          // The client SDK will parse the code from the link for you.
+          await signInWithEmailLink(auth, email, window.location.href)
+            .then((result) => {
+              /* ✅ SUCCESS
+              - You can access the new user via result.user.
+              - Additional user info profile not available via: result.additionalUserInfo.profile == null
+              - You can check if the user is new or existing: result.additionalUserInfo.isNewUser */
+
+              // Clear email from storage.
+              window.localStorage.removeItem('emailForSignIn')
+
+              // Notify the user that the login was succesful.
+              Notify.create({ message: 'You are now signed in', icon: 'mdi-account-check' })
+
+              logEvent(getAnalytics(), 'signin', {
+                with: 'email-link'
+              })
+
+              return true
+            })
+            .catch((error) => {
+              /* ❌ ERROR: Common errors could be invalid email and invalid or expired OTPs. */
+              Notify.create({
+                message: error + ' (auth.js)',
+                icon: 'mdi-alert'
+              })
+            })
         }
-
-        // The client SDK will parse the code from the link for you.
-        await signInWithEmailLink(auth, email, window.location.href)
-          .then((result) => {
-            /* ✅ SUCCESS
-            - You can access the new user via result.user.
-            - Additional user info profile not available via: result.additionalUserInfo.profile == null
-            - You can check if the user is new or existing: result.additionalUserInfo.isNewUser */
-
-            // Clear email from storage.
-            window.localStorage.removeItem('emailForSignIn')
-
-            // Remove query from url
-            router.replace({ query: null })
-
-            // Notify the user that the login was succesful.
-            Notify.create({ message: 'You are now signed in', icon: 'mdi-account-check' })
-
-            logEvent(getAnalytics(), 'signin', {
-              with: 'email-link'
-            })
-
-            return true
-          })
-          .catch((error) => {
-            /* ❌ ERROR: Common errors could be invalid email and invalid or expired OTPs. */
-            Notify.create({
-              message: error + ' (auth.js)',
-              icon: 'mdi-alert'
-            })
-          })
       }
     },
 
