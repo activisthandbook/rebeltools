@@ -8,6 +8,7 @@ admin.initializeApp();
 // ⏺  DEFINE CONSTANTS
 const db = admin.firestore();
 const Counter = require("../distributed_counter")
+const FieldValue = admin.firestore.FieldValue;
 
 // 🔥 FIRESTORE TRIGGER
 exports.logAction = functions.region('europe-west1').firestore
@@ -55,7 +56,7 @@ function updateUserProfile (actionInstance) {
     const userProfileRef = db.collection('users').doc(actionInstance.userID)
 
     userProfileRef.set({
-      movements: db.FieldValue.arrayUnion(actionInstance.movementID)
+      movements: FieldValue.arrayUnion(actionInstance.movementID)
     }, {merge: true}).catch((error) => {
         functions.logger.error('Error in updateUserProfile function', error)
     })
@@ -76,13 +77,13 @@ function updateMemberProfile (actionInstance) {
       case 'movement':
         dataForMemberProfile = {
             member: true,
-            timestampLastAction: db.FieldValue.serverTimestamp()
+            timestampLastAction: FieldValue.serverTimestamp()
         }
         break;
       case 'event':
         dataForMemberProfile = {
-            eventSignups: db.FieldValue.arrayUnion(actionInstance.actionID),
-            timestampLastAction: db.FieldValue.serverTimestamp()
+            eventSignups: FieldValue.arrayUnion(actionInstance.actionID),
+            timestampLastAction: FieldValue.serverTimestamp()
         }
         break;
   }
