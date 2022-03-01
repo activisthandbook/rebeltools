@@ -7,7 +7,7 @@ admin.initializeApp();
 
 // ⏺  DEFINE CONSTANTS
 const db = admin.firestore();
-const Counter = require("./distributed_counter")
+const Counter = require("../distributed_counter")
 
 // 🔥 FIRESTORE TRIGGER
 exports.logAction = functions.region('europe-west1').firestore
