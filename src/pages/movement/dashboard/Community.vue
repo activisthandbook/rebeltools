@@ -4,8 +4,10 @@
       <q-toolbar-title>Community</q-toolbar-title>
     </q-toolbar>
   </q-header>
-  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Earum inventore expedita dicta, nobis itaque facere soluta cum illum dolorum velit perferendis, quod quasi animi nesciunt quaerat, voluptate error quas minus.
   <q-card>
+    <q-card-section v-if="!members[0]">
+      Nobody has signed up for your movement yet!
+    </q-card-section>
     <q-list separator>
       <q-item v-for="(member, index) in members" :key="index">
         <q-item-section>
