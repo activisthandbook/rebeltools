@@ -267,7 +267,7 @@ export default {
       this.loading = true
 
       const serverData = {
-        createdOn: serverTimestamp(),
+        timestampCreated: serverTimestamp(),
         published: true,
         movementID: this.$store.state.currentMovement.data.id,
         ...this.newEvent
