@@ -72,13 +72,13 @@ function updateMemberProfile (actionInstance) {
   const userProfileRef = db.collection('users').doc(actionInstance.userID)
   const memberProfileRef = db.collection('movements').doc(actionInstance.movementID).collection('members').doc(actionInstance.userID)
 
-  const userProfile = db.getDoc(userProfileRef)
-
   let dataForMemberProfile = {}
 
-  if (userProfile.exists()) {
-    dataForMemberProfile = userProfile.data()
-  }
+  userProfileRef.get().then(doc => {
+    if (doc.exists()) {
+      dataForMemberProfile = doc.data()
+    }
+  })
 
   dataForMemberProfile.timestampLastAction = FieldValue.serverTimestamp()
 
