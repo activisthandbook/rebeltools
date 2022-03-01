@@ -14,7 +14,7 @@ const FieldValue = admin.firestore.FieldValue;
 exports.logAction = functions.region('europe-west1').firestore
   .document('actions/{actionId}')
   .onCreate((snap) => {
-    functions.logger.info('🔥 Firestore triggered: action created')
+    functions.logger.info('🔥 Firestore triggered: action created', snap.data())
 
     // Get an object representing the document
     const actionInstance = snap.data()
@@ -24,6 +24,7 @@ exports.logAction = functions.region('europe-west1').firestore
     updateUserProfile(actionInstance)
     updateMemberProfile(actionInstance)
 
+    return 0
   })
 
 // 🔢 UPDATE SIGNUP COUNT
@@ -75,9 +76,12 @@ function updateMemberProfile (actionInstance) {
   let dataForMemberProfile = {}
 
   userProfileRef.get().then(doc => {
+    functions.logger.info('Fetched user info', doc)
     if (doc.exists()) {
       dataForMemberProfile = doc.data()
     }
+  }).catch(error => {
+    functions.logger.error('Error in ferching user profile', error)
   })
 
   dataForMemberProfile.timestampLastAction = FieldValue.serverTimestamp()
@@ -92,6 +96,7 @@ function updateMemberProfile (actionInstance) {
   }
 
   // Update the members profile
+  functions.logger.info('About to update member profile...', dataForMemberProfile)
   memberProfileRef.set(dataForMemberProfile, {merge: true}).catch((error) => {
     functions.logger.error('Error in updateMemberProfile function', error)
   })
