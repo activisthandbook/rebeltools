@@ -20,4 +20,6 @@ exports.onAuthCreate = functions.region('europe-west1').auth.user().onCreate((us
         functions.logger.error('Error in setting user data', error)
     })
   }
+
+  return 0
 });
