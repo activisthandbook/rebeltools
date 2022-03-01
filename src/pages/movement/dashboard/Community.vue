@@ -176,8 +176,8 @@ export default {
         querySnapshot.forEach((doc) => {
           memberList.push(doc.data())
         })
+        this.members = memberList
       })
-      this.members = memberList
     }
   }
 }

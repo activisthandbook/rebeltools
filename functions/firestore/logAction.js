@@ -69,22 +69,25 @@ The 'members profile' is stored as a subcollection of a specific movement.
 function updateMemberProfile (actionInstance) {
   functions.logger.info('🌊 Function started: updateMemberProfile')
 
+  const userProfileRef = db.collection('users').doc(actionInstance.userID)
   const memberProfileRef = db.collection('movements').doc(actionInstance.movementID).collection('members').doc(actionInstance.userID)
+
+  const userProfile = db.getDoc(userProfileRef)
 
   let dataForMemberProfile = {}
 
+  if (userProfile.exists()) {
+    dataForMemberProfile = userProfile.data()
+  }
+
+  dataForMemberProfile.timestampLastAction = FieldValue.serverTimestamp()
+
   switch(actionInstance.actionType) {
       case 'movement':
-        dataForMemberProfile = {
-            member: true,
-            timestampLastAction: FieldValue.serverTimestamp()
-        }
+        dataForMemberProfile.member = true
         break;
       case 'event':
-        dataForMemberProfile = {
-            eventSignups: FieldValue.arrayUnion(actionInstance.actionID),
-            timestampLastAction: FieldValue.serverTimestamp()
-        }
+        dataForMemberProfile.eventSignups = FieldValue.arrayUnion(actionInstance.actionID)
         break;
   }
 
