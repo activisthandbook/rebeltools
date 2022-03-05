@@ -13,6 +13,7 @@ export default {
     dataLoaded: false,
     data: {},
     unsubscribe: null,
+    error: null,
     /* 🔴 IMPORTANT SECURITY NOTICE!
     The following validations only happen front-end, to provide a pleasant user experience. Make sure to validate all user input with the Firestore security rules as well!
     */
