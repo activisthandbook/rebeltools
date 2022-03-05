@@ -14,6 +14,7 @@ exports.onAuthCreate = functions.region('europe-west1').auth.user().onCreate((us
   if (user.email) {
     userProfileRef.set({
       emailAddress: user.email,
+      id: user.uid,
       timestampCreated: FieldValue.serverTimestamp(),
       timestampLastUpdated: FieldValue.serverTimestamp()
     }).catch((error) => {
