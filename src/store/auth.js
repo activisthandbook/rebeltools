@@ -18,9 +18,14 @@ export default {
     signin (state, newUser) {
       state.data = newUser
       state.dataLoaded = true
+      console.log(newUser)
     },
     startEmailVerification (state) {
       state.emailVerificationStarted = true
+    },
+    destroy (state) {
+      state.dataLoaded = false
+      state.data = null
     }
   },
   actions: {
@@ -28,12 +33,15 @@ export default {
     /* 💌 SEND VERIFICATION EMAIL
     Docs: https://firebase.google.com/docs/auth/web/email-link-auth#send_an_authentication_link_to_the_users_email_address
     */
-    sendVerificationEmail ({ state, commit }, email) {
+    sendVerificationEmail ({ state, commit }, email, actionID) {
       const auth = getAuth()
+
+      console.log(window.location.origin + '/verify?continue=' + window.location.pathname)
 
       const actionCodeSettings = {
         /* URL you want to redirect back to. The domain (www.example.com) for this URL must be in the authorized domains list in the Firebase Console. */
-        url: window.location.href,
+        // url: window.location.href,
+        url: window.location.origin + '/verify?continue=' + window.location.pathname + '&action=' + actionID,
         handleCodeInApp: true
       }
 
@@ -120,7 +128,8 @@ export default {
       signOut(auth).then(() => {
         // Sign-out successful.
         logEvent(getAnalytics(), 'signout')
-        window.location.reload()
+        commit('destroy')
+        // window.location.reload()
       }).catch((error) => {
         // An error happened.
         Notify.create({
