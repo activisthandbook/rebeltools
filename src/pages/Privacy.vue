@@ -16,7 +16,7 @@ Path: /privacy
     <div>You can use some parts of Rebel Tools without being signed in. For most parts, however, you need to be signed in. You sign in by filling in your email address and clicking the verification link in your inbox.</div>
     <div>When you are signed in, we link some personal identifiable information to your account:</div>
     <q-list bordered separator padding class="rounded-borders">
-      <q-item-label header>Personal identifiable information</q-item-label>
+      <q-item-label header>Data linked to your account</q-item-label>
       <q-item>
         <q-item-section avatar>
           <q-icon name="mdi-account" />
@@ -35,16 +35,20 @@ Path: /privacy
         </q-item-section>
         <q-item-section>Phone number</q-item-section>
       </q-item>
-    </q-list>
-    <div>When you are signed in, we also link other data to your account:</div>
-    <q-list bordered separator padding class="rounded-borders">
-      <q-item-label header>Other data linked to your account</q-item-label>
+      <q-item>
+        <q-item-section avatar>
+          <q-icon name="mdi-map" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Geographical area (based on IP address)</q-item-label>
+        </q-item-section>
+      </q-item>
       <q-item>
         <q-item-section avatar>
           <q-icon name="mdi-check-circle" />
         </q-item-section>
         <q-item-section>
-          <q-item-label>Signups and other actions taken</q-item-label>
+          <q-item-label>Signups</q-item-label>
           <q-item-label caption>For example: Registering for movements or events</q-item-label>
         </q-item-section>
       </q-item>
