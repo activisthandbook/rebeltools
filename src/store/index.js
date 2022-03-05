@@ -14,6 +14,7 @@ import auth from './auth'
 import currentUser from './currentUser'
 import currentMovement from './currentMovement'
 import currentEvent from './currentEvent'
+import currentAction from './currentAction'
 
 /*
  * If not building with SSR mode, you can
@@ -30,7 +31,8 @@ export default store(function (/* { ssrContext } */) {
       auth,
       currentUser,
       currentMovement,
-      currentEvent
+      currentEvent,
+      currentAction
     },
 
     // enable strict mode (adds overhead!)

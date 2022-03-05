@@ -66,8 +66,7 @@
 
 </template>
 <script>
-import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore'
-const db = getFirestore()
+import { serverTimestamp } from 'firebase/firestore'
 
 export default {
   props: {
@@ -103,31 +102,23 @@ export default {
       loading: false
     }
   },
-  mounted () {
-    this.$nextTick(function () {
-      this.$store.dispatch('auth/signInWithEmailLink')
-    })
-  },
   methods: {
     sendVerificationEmail () {
       this.phase = 'verify-email'
-      this.$store.dispatch('auth/sendVerificationEmail', this.email)
-        .then((success) => {
+      this.$store.dispatch('auth/sendVerificationEmail', this.email, this.actionID)
+        .then(() => {
           this.verificationEmailSent = true
         })
     },
     async saveSignup () {
-      this.loading = true
+      // this.loading = true
 
-      await addDoc(collection(db, 'actions'), {
+      this.$store.dispatch('currentAction/addToDatabase', {
         actionType: this.actionType,
         actionID: this.actionID,
         userID: this.$store.state.auth.data.uid,
         movementID: this.$store.state.currentMovement.data.id,
         createdAt: serverTimestamp()
-      }).then(() => {
-        this.loading = false
-        this.$q.notify({ message: 'Signup succesful', icon: 'mdi-check' })
       })
     }
 

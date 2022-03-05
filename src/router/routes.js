@@ -39,6 +39,10 @@ const routes = [
     ]
   },
   {
+    path: '/verify',
+    component: () => import('src/pages/VerifyEmail.vue')
+  },
+  {
     path: '/super-admin/',
     component: () => import('src/layouts/SuperAdminLayout.vue'),
     children: [

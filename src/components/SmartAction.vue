@@ -7,7 +7,7 @@ This component allows users to sign up for movements and events.
 <template>
   <div>
     <q-card dark class="bg-secondary q-my-lg shadow-6">
-      <q-card-section v-if="!actionDataLoaded || (!$store.state.currentUser.dataLoaded && !$store.state.auth.data.isAnonymous)" class="q-gutter-y-sm">
+      <q-card-section v-if="!$store.state.currentAction.dataLoaded || (!$store.state.currentUser.dataLoaded && !$store.state.auth.data.isAnonymous)" class="q-gutter-y-sm">
         <q-skeleton type="rect" height="28.8px"/>
         <q-skeleton type="text" height="20px"/>
         <q-skeleton type="text" height="20px"/>
@@ -16,9 +16,9 @@ This component allows users to sign up for movements and events.
 
       <transition name="fade">
 
-        <q-card-section v-if="actionDataLoaded && ($store.state.currentUser.dataLoaded || $store.state.auth.data.isAnonymous)"  class="q-gutter-y-sm">
+        <q-card-section v-if="$store.state.currentAction.dataLoaded && ($store.state.currentUser.dataLoaded || $store.state.auth.data.isAnonymous)"  class="q-gutter-y-sm">
           <sign-up
-            v-if="!actionData[0]"
+            v-if="$store.state.currentAction.error === 'action-not-found'"
             :actionType="action.actionType"
             :actionID="action.actionID"
             :title="action.title"
@@ -78,8 +78,8 @@ This component allows users to sign up for movements and events.
   </div>
 </template>
 <script>
-import { getFirestore, collection, onSnapshot, query, where } from 'firebase/firestore'
-const db = getFirestore()
+// import { getFirestore, collection, onSnapshot, query, where } from 'firebase/firestore'
+// const db = getFirestore()
 
 import SignUp from './actions/SignUp'
 import CreateProfile from './actions/CreateProfile'
@@ -132,21 +132,31 @@ export default {
   },
   mounted () {
     this.$nextTick(function () {
-      // Define query
-      const q = query(
-        collection(db, 'actions'),
-        where('userID', '==', this.$store.state.auth.data.uid), where('actionID', '==', this.action.actionID)
-      )
+      this.$store.dispatch('currentAction/subscribeToDatabase', this.action.actionID)
+      // // Define query
+      // const q = query(
+      //   collection(db, 'actions'),
+      //   where('userID', '==', this.$store.state.auth.data.uid), where('actionID', '==', this.action.actionID)
+      // )
 
-      // Fetch action from database
-      onSnapshot(q, (querySnapshot) => {
-        const actions = []
-        querySnapshot.forEach((doc) => {
-          actions.push(doc.data())
-        })
-        this.actionData = actions
-        this.actionDataLoaded = true
-      })
+      // // Fetch action from database
+      // onSnapshot(
+      //   q,
+      //   querySnapshot => {
+      //     const actions = []
+      //     querySnapshot.forEach((doc) => {
+      //       actions.push(doc.data())
+      //     })
+      //     this.actionData = actions
+      //     this.actionDataLoaded = true
+      //     console.log('smartaction success')
+      //   },
+      //   error => {
+      //     console.log('smartaction error')
+      //     console.log(this.$store.state.auth.data.uid)
+      //     this.$q.notify({ message: error + '(SmartAction.vue)', icon: 'mdi-alert' })
+      //   }
+      // )
     })
   }
 }
