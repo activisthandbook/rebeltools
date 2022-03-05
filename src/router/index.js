@@ -38,6 +38,10 @@ export default route(function ({ store }) {
   })
 
   Router.beforeEach((to, from, next) => {
+    if (!to.params.movementPath) {
+      // Reset title to Rebel Tools
+      document.title = 'Rebel Tools'
+    }
     next()
   })
 

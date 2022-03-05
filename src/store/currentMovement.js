@@ -100,6 +100,7 @@ export default {
               setCssVar('secondary', state.data.secondaryColor)
               setCssVar('accent', '#FFF8DB')
               setCssVar('dark', '#000000')
+              document.title = state.data.name
             } else {
               commit('storeError', 'movement-not-found')
               commit('update', { notFound: true })
