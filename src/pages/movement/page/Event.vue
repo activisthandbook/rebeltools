@@ -118,7 +118,7 @@ export default {
       return dayjs(firestoreTimestamp.toDate()).calendar()
     },
     openExternal: (link) => {
-      console.log('r')
+      // console.log('r')
       openURL(link)
     }
   },

@@ -207,10 +207,10 @@ export default {
       }).then(resp => {
         return resp.json()
       }).then(data => {
-        console.log(data)
+        // console.log(data)
         this.fileURL = data.src.large
         this.fileAvgColor = data.avg_color
-        console.log(this.fileAvgColor)
+        // console.log(this.fileAvgColor)
         this.resultsLoading = false
       })
     }
