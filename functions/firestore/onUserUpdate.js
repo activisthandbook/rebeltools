@@ -38,8 +38,8 @@ function updateMemberProfile (userData) {
       if (userData.firstName) updatedMemberProfile.firstName = userData.firstName
       if (userData.lastName) updatedMemberProfile.firstName = userData.lastName
 
-      memberProfileRef.set(userData, {merge: true}).then(() => {
-        functions.logger.error('🟢 Setting member profile succesful', userData)
+      memberProfileRef.set(updatedMemberProfile, {merge: true}).then(() => {
+        functions.logger.error('🟢 Setting member profile succesful', updatedMemberProfile)
       }).catch((error) => {
         functions.logger.error('🔴 Failed to set member profile', error)
       })
