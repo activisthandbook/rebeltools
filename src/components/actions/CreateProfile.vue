@@ -27,6 +27,14 @@
           :error="this.v$.phoneNumber.$error"
           :errorMessage="mixin_mergeErrorMessages(this.v$.phoneNumber.$errors)"
         />
+        <!-- TO-DO: In the future, we might want to allow users to provide the city they live in. -->
+        <!-- <q-input
+          label="📍 City"
+          outlined
+          bg-color="white"
+          color="black"
+          class="q-mb-sm"
+        /> -->
       </div>
       <div class="q-mt-sm q-gutter-sm items-center flex">
         <q-btn label="Save profile" no-caps color="secondary" class="q-my-xs q-mr-sm" :disable="this.v$.firstName.$invalid || this.v$.phoneNumber.$invalid" @click="finishAction()"/>
@@ -34,10 +42,10 @@
         <div class="text-caption q-my-xs text-bold">
           <q-btn icon="mdi-lock" round flat color="black" dense size="sm">
             <q-menu :offset="[0, 6]" class="q-pa-md">
-              <div style="max-width:210px">
+              <div style="max-width:240px">
                 <div class="text-bold">How profiles work</div>
-                <div>Your profile is only shared with movements your sign up for. You can always edit your profile later.</div>
-                <q-btn :to="{name: 'Privacy'}" label="Learn more" color="black" outline no-caps size="sm" class="q-mt-md" :disable="this.v$.firstName.$invalid || this.v$.phoneNumber.$invalid"/>
+                <div>Your profile is only shared with admins of the movements your sign up for. You can always edit your profile later.</div>
+                <q-btn :to="{name: 'Privacy'}" label="Privacy policy" color="black" outline no-caps size="sm" class="q-mt-md"/>
               </div>
             </q-menu>
           </q-btn>
