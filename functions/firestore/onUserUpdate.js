@@ -8,11 +8,11 @@ const db = admin.firestore();
 // 🔥 FIRESTORE TRIGGER
 exports.onUserUpdate = functions.region('europe-west1').firestore
   .document('users/{userId}')
-  .onUpdate((snap) => {
-    functions.logger.info('🔥 Firestore triggered: user updated', snap.data())
+  .onUpdate((change) => {
+    functions.logger.info('🔥 Firestore triggered: user updated', change.after.data())
 
     // Get an object representing the document
-    const userData = snap.data()
+    const userData = change.after.data()
 
     // UPDATE ACTIONS
     updateMemberProfile(userData)
