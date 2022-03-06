@@ -24,23 +24,27 @@ exports.onUserUpdate = functions.region('europe-west1').firestore
 The 'members profile' is stored as a subcollection of a specific movement.
 */
 function updateMemberProfile (userData) {
-  functions.logger.info('🌊 Function started: updateMemberProfile')
+  functions.logger.info('🔵 Function started: updateMemberProfile', userData)
 
-  userData.movements.array.forEach(movementID => {
-    const memberProfileRef = db.collection('movements').doc(movementID).collection('members').doc(userData.id)
+  if(userData.movements[0]) {
+    userData.movements.forEach(movementID => {
+      const memberProfileRef = db.collection('movements').doc(movementID).collection('members').doc(userData.id)
 
-    let updatedMemberProfile = {}
+      let updatedMemberProfile = {}
 
-    // We don't want to share everything from the user document, so we only share the data relevant for their profile.
-    if (userData.emailAddress) updatedMemberProfile.emailAddress = userData.emailAddress
-    if (userData.phoneNumber) updatedMemberProfile.phoneNumber = userData.phoneNumber
-    if (userData.firstName) updatedMemberProfile.firstName = userData.firstName
-    if (userData.lastName) updatedMemberProfile.firstName = userData.lastName
+      // We don't want to share everything from the user document, so we only share the data relevant for their profile.
+      if (userData.emailAddress) updatedMemberProfile.emailAddress = userData.emailAddress
+      if (userData.phoneNumber) updatedMemberProfile.phoneNumber = userData.phoneNumber
+      if (userData.firstName) updatedMemberProfile.firstName = userData.firstName
+      if (userData.lastName) updatedMemberProfile.firstName = userData.lastName
 
-    memberProfileRef.set(userData, {merge: true}).catch((error) => {
-      functions.logger.error('Error in updateMemberProfile function', error)
+      memberProfileRef.set(userData, {merge: true}).then(() => {
+        functions.logger.error('🟢 Setting member profile succesful', userData)
+      }).catch((error) => {
+        functions.logger.error('🔴 Failed to set member profile', error)
+      })
+
     })
-
-  })
+  }
 
 }
