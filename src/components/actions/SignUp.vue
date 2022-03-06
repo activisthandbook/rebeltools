@@ -66,7 +66,6 @@
 
 </template>
 <script>
-import { serverTimestamp } from 'firebase/firestore'
 
 export default {
   props: {
@@ -105,20 +104,24 @@ export default {
   methods: {
     sendVerificationEmail () {
       this.phase = 'verify-email'
-      this.$store.dispatch('auth/sendVerificationEmail', this.email, this.actionID)
+      this.$store.dispatch('auth/sendVerificationEmail', {
+        email: this.email,
+        actionType: this.actionType,
+        actionID: this.actionID,
+        movementID: this.$store.state.currentMovement.data.id
+      })
         .then(() => {
           this.verificationEmailSent = true
         })
     },
     async saveSignup () {
       // this.loading = true
-
+      console.log(this.actionType)
+      console.log(this.actionID)
       this.$store.dispatch('currentAction/addToDatabase', {
         actionType: this.actionType,
         actionID: this.actionID,
-        userID: this.$store.state.auth.data.uid,
-        movementID: this.$store.state.currentMovement.data.id,
-        createdAt: serverTimestamp()
+        movementID: this.$store.state.currentMovement.data.id
       })
     }
 

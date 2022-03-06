@@ -1,5 +1,5 @@
 import { Notify } from 'quasar'
-import { getFirestore, collection, addDoc, onSnapshot, query, where } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, onSnapshot, query, where, serverTimestamp } from 'firebase/firestore'
 
 // const db = getFirestore()
 
@@ -56,7 +56,7 @@ export default {
       //     this.$q.notify({ message: error + '(SmartAction.vue)', icon: 'mdi-alert' })
       //   }
       // )
-      console.log('subscribed')
+      // console.log('subscribed')
       const q = query(
         collection(getFirestore(), 'actions'),
         where('userID', '==', rootState.auth.data.uid),
@@ -92,12 +92,24 @@ export default {
         }
       ))
     },
-    async addToDatabase ({ commit }, action) {
-      await addDoc(collection(getFirestore(), 'actions'), action).then(() => {
+    async addToDatabase ({ commit, rootState }, data) {
+      console.log('FROM CURRENTACTION.JS')
+      console.log(data)
+      console.log(rootState.auth.data.uid)
+
+      await addDoc(collection(getFirestore(), 'actions'), {
+        actionType: data.actionType,
+        actionID: data.actionID,
+        movementID: data.movementID,
+        userID: rootState.auth.data.uid,
+        createdAt: serverTimestamp()
+      }).then(() => {
         this.loading = false
         Notify.create({ message: 'Signup succesful', icon: 'mdi-check' })
+        return true
       }).catch(error => {
         Notify.create({ message: error + '(currentAction.js)', icon: 'mdi-alert' })
+        return true
       })
     }
   }
