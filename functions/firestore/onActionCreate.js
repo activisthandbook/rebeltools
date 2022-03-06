@@ -26,7 +26,7 @@ exports.onActionCreate = functions.region('europe-west1').firestore
 
 // 🔢 UPDATE SIGNUP COUNT
 function updateSignupCount (actionInstance) {
-  functions.logger.info('🔢 Function started: updateSignupCount')
+  functions.logger.info('🔵 Function started: updateSignupCount', actionInstance)
 
     let collection = ''
 
@@ -47,16 +47,20 @@ function updateSignupCount (actionInstance) {
 The 'user profile' is stored in the 'users' collection.
 */
 function updateUserProfile (actionInstance) {
-  functions.logger.info('👋 Function started: updateUserProfile')
+  functions.logger.info('🔵 Function started: updateUserProfile', actionInstance)
 
   if(actionInstance.actionType === 'movement') {
     // Add movement to personal user profile
     const userProfileRef = db.collection('users').doc(actionInstance.userID)
 
-    userProfileRef.set({
+    const userProfileData = {
       movements: FieldValue.arrayUnion(actionInstance.movementID)
-    }, {merge: true}).catch((error) => {
-        functions.logger.error('Error in updateUserProfile function', error)
+    }
+
+    userProfileRef.set(userProfileData, {merge: true}).then(() => {
+      functions.logger.info('🟢 Setting user profile succesful', userProfileData)
+    }).catch((error) => {
+        functions.logger.error('🔴 Error in updateUserProfile function', error)
     })
   }
 }
@@ -65,13 +69,13 @@ function updateUserProfile (actionInstance) {
 The 'members profile' is stored as a subcollection of a specific movement.
 */
 function updateMemberProfile (actionInstance) {
-  functions.logger.info('🌊 Function started: updateMemberProfile')
+  functions.logger.info('🔵 Function started: updateMemberProfile', actionInstance)
 
   const userProfileRef = db.collection('users').doc(actionInstance.userID)
   const memberProfileRef = db.collection('movements').doc(actionInstance.movementID).collection('members').doc(actionInstance.userID)
 
   userProfileRef.get().then(doc => {
-    functions.logger.info('Fetched user info', doc)
+    functions.logger.info('🟢 Fetching user profile succesful', doc)
 
     let dataForMemberProfile = {}
 
@@ -94,12 +98,14 @@ function updateMemberProfile (actionInstance) {
     }
 
     // Update the members profile
-    functions.logger.info('About to update member profile...', dataForMemberProfile)
-    memberProfileRef.set(dataForMemberProfile, {merge: true}).catch((error) => {
-      functions.logger.error('Error in updateMemberProfile function', error)
+
+    memberProfileRef.set(dataForMemberProfile, {merge: true}).then(() => {
+      functions.logger.info('🟢 Setting member profile succesful', dataForMemberProfile)
+    }).catch((error) => {
+      functions.logger.error('🔴 Error in updateMemberProfile function', error)
     })
 
   }).catch(error => {
-    functions.logger.error('Error in ferching user profile', error)
+    functions.logger.error('🔴 Error in ferching user profile', error)
   })
 }
