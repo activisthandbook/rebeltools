@@ -126,7 +126,6 @@ export default {
       signOut(auth).then(() => {
         // Sign-out successful.
         logEvent(getAnalytics(), 'signout')
-        commit('destroy')
         // window.location.reload()
       }).catch((error) => {
         // An error happened.
