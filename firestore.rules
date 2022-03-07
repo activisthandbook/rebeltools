@@ -124,9 +124,13 @@ service cloud.firestore {
           request.auth.uid in get(/databases/$(database)/documents/movements/$(request.resource.data.movementID)).data.admins;
       }
 
+      // function adminInOrPublic() {
+      //   return resource.data.visibility == 'public' || request.auth.uid in get(/databases/$(database)/documents/movements/$(resource.data.movementID)).data.admins;
+      // }
+
       allow read: if
-        resource != null &&
-        (resource.data.published || request.auth.uid in get(/databases/$(database)/documents/movements/$(resource.data.movementID)).data.admins);
+        true;
+        // adminInOrPublic();
 
       allow create: if
         verifiedUser() &&
