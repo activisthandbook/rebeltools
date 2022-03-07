@@ -33,7 +33,15 @@ h6,.text-h6{
   font-size:1em
 }
 .q-btn{
-  font-weight:700
+  font-weight:700;
+
+  &:not(.q-btn--round, .q-btn--fab){
+    border-radius: 6px;
+  }
+}
+.q-card{
+  border-radius: 8px;
+  overflow:hidden
 }
 .q-field--with-bottom {
   padding-bottom: 0;
