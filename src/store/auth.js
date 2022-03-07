@@ -11,7 +11,7 @@ export default {
   namespaced: true,
   state: {
     dataLoaded: false,
-    data: null,
+    data: {},
     signedInWithEmailLink: false
   },
   mutations: {
