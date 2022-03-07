@@ -78,15 +78,15 @@ Path: /:movementPath/*
 
         <q-separator inset class="q-mt-lg"/>
 
-        <div class="q-mx-md q-mt-lg" v-if="$store.state.auth.dataLoaded && isAnonymous">
+        <div class="q-mx-md q-mt-lg" v-if="$store.state.auth.data && isAnonymous">
           <div class="q-mb-md text-bold">Already a member?</div>
           <q-btn label="Sign in" no-caps color="primary" :to="{name: 'Start'}"/>
         </div>
 
-        <div class="q-mx-md q-my-lg" v-else>
-          <div class="q-mb-md text-bold">Welcome back, {{ $store.state.currentUser.data.firstName }}!</div>
+        <div class="q-mx-md q-my-lg" v-else-if="$store.state.auth.dataLoaded">
+          <div class="q-mb-md text-bold">Welcome back<span v-if="$store.state.currentUser.data.firstName">, {{ $store.state.currentUser.data.firstName }}</span>!</div>
           <div class="q-gutter-sm">
-            <q-btn label="Dashboard" icon="mdi-rocket-launch" color="primary" :to="{name: 'Dashboard'}" v-if="movementAdmins.includes(userUID)" no-caps/>
+            <q-btn label="Dashboard" icon="mdi-rocket-launch" color="primary" :to="{name: 'Dashboard'}" v-if="movementAdmins.includes($store.state.auth.data.uid)" no-caps/>
 
             <q-btn label="Sign out" color="primary" outline no-caps @click="$store.dispatch('auth/signOut')"/>
           </div>
@@ -123,9 +123,6 @@ export default defineComponent({
     },
     movementAdmins: {
       get () { return this.$store.state.currentMovement.data.admins }
-    },
-    userUID: {
-      get () { return this.$store.state.auth.data.uid }
     },
     isAnonymous: {
       get () { return this.$store.state.auth.data.isAnonymous }
