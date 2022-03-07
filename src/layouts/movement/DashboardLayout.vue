@@ -108,7 +108,8 @@ export default {
         'Rebel for life 🐛',
         'By activists, for activists 🙌',
         'Climate justice now 🌏',
-        "You can't sink a rainbow 🌈"
+        "You can't sink a rainbow 🌈",
+        'With love, rage & solidarity 💚'
       ],
       randomMessage: ''
     }
