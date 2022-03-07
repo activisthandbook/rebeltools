@@ -1,7 +1,12 @@
 <template>
-  <div v-if="!$store.state.currentEvent.dataLoaded">
-    <q-img :ratio="1920/1080" class="bg-grey-4"/>
-    <q-skeleton type="text"/>
+  <div v-if="!$store.state.currentEvent.dataLoaded" class="q-gutter-y-md">
+    <q-card flat>
+      <q-img :ratio="1920/1080" class="bg-grey-4"/>
+    </q-card>
+    <q-skeleton height="49.59px"/>
+    <q-card>
+      <q-skeleton height="192.8px" class="bg-secondary"/>
+    </q-card>
   </div>
   <oops-error
     title="Event not found."
@@ -42,7 +47,7 @@
         actionCount: $store.state.currentEvent.data.signupCount
       }"
     />
-    <q-card bordered flat>
+    <q-card bordered flat v-if="$store.state.currentAction.dataLoaded && !$store.state.currentAction.error">
       <q-card-section>
         <div class="q-gutter-y-sm">
           <div class="text-bold">Info for participants</div>
@@ -57,7 +62,7 @@
       </q-card-section>
     </q-card>
     <div style="white-space:pre-wrap;">{{ $store.state.currentEvent.data.description }}</div>
-    <div class="text-caption text-bold">Sign up for this event to get access to additional info.</div>
+    <div class="text-caption text-bold" v-if="$store.state.currentAction.dataLoaded && $store.state.currentAction.error == 'action-not-found'">Sign up for this event to get access to additional info.</div>
   </div>
   <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="admins.includes(userUID)">
     <q-btn icon="mdi-pencil" color="primary" fab disable/>
