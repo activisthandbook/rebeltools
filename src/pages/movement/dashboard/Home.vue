@@ -18,7 +18,7 @@
           <q-icon name="mdi-file-document" />
         </q-item-section>
         <q-item-section>
-          Customise your page
+          Customise page
         </q-item-section>
         <q-item-section side>
           <q-icon name="mdi-arrow-right" />
@@ -30,7 +30,7 @@
           <q-icon name="mdi-calendar" />
         </q-item-section>
         <q-item-section>
-          Add events to calendar
+          Add events
         </q-item-section>
         <q-item-section side>
           <q-icon name="mdi-arrow-right" />
@@ -42,7 +42,7 @@
           <q-icon name="mdi-account-group" />
         </q-item-section>
         <q-item-section>
-          View community members
+          View community
         </q-item-section>
         <q-item-section side>
           <q-icon name="mdi-arrow-right" />
