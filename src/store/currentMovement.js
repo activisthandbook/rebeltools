@@ -4,7 +4,7 @@ In this module, data is stored on the current movement that is viewed by the use
 */
 
 import { Notify, setCssVar } from 'quasar'
-import { getFirestore, collection, query, where, onSnapshot, addDoc, serverTimestamp, doc, setDoc } from 'firebase/firestore'
+import { getFirestore, collection, query, where, onSnapshot, addDoc, serverTimestamp, doc, setDoc, limit } from 'firebase/firestore'
 import { required, helpers } from '@vuelidate/validators'
 
 import ColorContrastChecker from 'color-contrast-checker'
@@ -80,7 +80,11 @@ export default {
       // Only if we haven't yet loaded this movement's data, will we open up a new subscription
       if (state.data.path !== movementPath) {
         commit('addSubscription', onSnapshot(
-          query(collection(getFirestore(), 'movements'), where('path', '==', movementPath)),
+          query(
+            collection(getFirestore(), 'movements'),
+            where('path', '==', movementPath),
+            limit(1)
+          ),
 
           (querySnapshot) => {
             const movements = []

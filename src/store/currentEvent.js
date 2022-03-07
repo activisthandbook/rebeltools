@@ -4,7 +4,7 @@ In this module, data is stored on the current event that is viewed by the user.
 */
 import { Notify } from 'quasar'
 
-import { getFirestore, collection, query, where, onSnapshot, addDoc, serverTimestamp } from 'firebase/firestore'
+import { getFirestore, collection, query, where, onSnapshot, addDoc, serverTimestamp, limit } from 'firebase/firestore'
 import { required, helpers } from '@vuelidate/validators'
 
 export default {
@@ -87,9 +87,10 @@ export default {
       const q = query(
         collection(getFirestore(), 'calendar'),
         where('movementID', '==', rootState.currentMovement.data.id),
-        where('path', '==', eventPath)
+        where('path', '==', eventPath),
+        limit(1)
       )
-
+      console.log(q)
       commit('registerSubscription', onSnapshot(
         q,
         (querySnapshot) => {
@@ -113,6 +114,7 @@ export default {
         },
         (error) => {
           // In case of error
+          console.log(error)
           commit('storeError', error)
           Notify.create({
             message: error + ' (currentEvent.js)',

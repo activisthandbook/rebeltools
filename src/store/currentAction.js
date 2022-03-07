@@ -1,5 +1,5 @@
 import { Notify } from 'quasar'
-import { getFirestore, collection, addDoc, onSnapshot, query, where, serverTimestamp } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, onSnapshot, query, where, serverTimestamp, limit } from 'firebase/firestore'
 
 // const db = getFirestore()
 
@@ -60,7 +60,8 @@ export default {
       const q = query(
         collection(getFirestore(), 'actions'),
         where('userID', '==', rootState.auth.data.uid),
-        where('actionID', '==', actionID)
+        where('actionID', '==', actionID),
+        limit(1)
       )
 
       commit('registerSubscription', onSnapshot(
