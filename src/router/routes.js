@@ -22,6 +22,7 @@ const MovementDashboard_Calendar = () => import('src/pages/movement/dashboard/Ca
 const MovementDashboard_NewEvent = () => import('src/pages/movement/dashboard/NewEvent')
 const MovementDashboard_Page = () => import('src/pages/movement/dashboard/Page')
 const MovementDashboard_Community = () => import('src/pages/movement/dashboard/Community')
+const MovementDashboard_Rebel = () => import('src/pages/movement/dashboard/Rebel')
 const MovementDashboard_Apps = () => import('src/pages/movement/dashboard/Apps')
 
 // ROUTES
@@ -74,6 +75,7 @@ const routes = [
           { path: 'calendar', name: 'Dashboard Calendar', component: MovementDashboard_Calendar },
           { path: 'calendar/new-event', name: 'Dashboard New Event', component: MovementDashboard_NewEvent },
           { path: 'community', name: 'Dashboard Community', component: MovementDashboard_Community },
+          { path: 'community/:userID', name: 'Dashboard Rebel', component: MovementDashboard_Rebel },
           { path: 'page', name: 'Dashboard Page', component: MovementDashboard_Page },
           { path: 'apps', name: 'Dashboard Apps', component: MovementDashboard_Apps }
         ]
