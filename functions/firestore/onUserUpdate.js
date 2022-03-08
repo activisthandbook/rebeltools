@@ -36,7 +36,7 @@ function updateMemberProfile (userData) {
       if (userData.emailAddress) updatedMemberProfile.emailAddress = userData.emailAddress
       if (userData.phoneNumber) updatedMemberProfile.phoneNumber = userData.phoneNumber
       if (userData.firstName) updatedMemberProfile.firstName = userData.firstName
-      if (userData.lastName) updatedMemberProfile.firstName = userData.lastName
+      if (userData.lastName) updatedMemberProfile.lastName = userData.lastName
 
       memberProfileRef.set(updatedMemberProfile, {merge: true}).then(() => {
         functions.logger.error('🟢 Setting member profile succesful', updatedMemberProfile)
