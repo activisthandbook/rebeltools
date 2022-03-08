@@ -89,18 +89,20 @@
     </div>
     <div>
       <q-input outlined color="secondary" label="🔍 Search rebels" class="q-mb-sm q-mt-lg"/>
-      <q-chip label="All" color="secondary" dark/>
-      <q-chip label="Online last month" icon="mdi-check-all"/>
-      <q-chip label="High online engagement" icon="mdi-cursor-default-click"/>
-      <!-- <q-chip label="Actively involved" icon="mdi-lightning-bolt-circle"/> -->
-      <q-chip label="Inactive" icon="mdi-sleep"/>
-      <q-chip label="Recently joined"  icon="mdi-star"/>
-      <q-chip label="Volunteers"  icon="mdi-badge-account"/>
-      <q-chip label="Custom tag"  icon="mdi-tag"/>
+      <q-chip
+        v-for="(filter, index) in filters"
+        :key="index"
+        :label="filter.label"
+        v-model:selected="filter.model"
+        :class="{'bg-secondary': filter.model}"
+        :dark="filter.model"
+        :icon="filter.icon"
+        :icon-selected="filter.icon"
+      />
     </div>
     <q-card>
       <q-card-section v-if="!members[0]">
-        Nobody has signed up for your movement yet!
+        No rebels found.
       </q-card-section>
       <q-list separator>
         <q-item v-for="(member, index) in members" :key="index" class="q-py-md" clickable>
@@ -108,52 +110,118 @@
             <q-avatar color="grey-4" text-color="white" icon="mdi-account" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>
-              {{ member.firstName }}
-              {{ member.lastName }}
-              <!-- <q-chip icon="mdi-lightning-bolt-circle" size="sm" color="grey" dark>1</q-chip> -->
-              <q-chip v-if="member.eventSignups" icon="mdi-cursor-default-click" size="sm" outline color="grey">{{ member.eventSignups.length }}</q-chip>
+            <q-item-label class="row no-wrap items-center">
+              <span class="ellipsis q-mr-xs">
+                {{ member.firstName }}
+                {{ member.lastName }}
+              </span>
+              <q-icon name="mdi-badge-account" size="xs" color="grey-9" dark class="q-my-none"/>
+              <q-chip icon="mdi-lightning-bolt-circle" size="sm" color="grey-9" dark class="q-my-none">1</q-chip>
+              <q-chip v-if="member.eventSignups" icon="mdi-cursor-default-click" size="sm" outline color="grey-9" class="q-my-none">{{ member.eventSignups.length }}</q-chip>
+              <!-- <q-chip icon="mdi-chat" size="sm" color="grey-9" dark class="q-my-none">Send welcome message!</q-chip> -->
+              <!-- <q-chip icon="mdi-heart" label="Help them integrate!" color="secondary" dark size="sm" class="q-my-none"/> -->
             </q-item-label>
             <q-item-label caption class="q-gutter-sm">
               <span style="white-space: nowrap"><q-icon name="mdi-email"/> {{ member.emailAddress }}</span>
               <span style="white-space: nowrap"><q-icon name="mdi-phone"/> {{ member.phoneNumber }}</span>
             </q-item-label>
           </q-item-section>
-          <!-- <q-item-section side top>
-            <q-chip icon="mdi-lightning-bolt-circle" size="sm" color="black" dark>16</q-chip>
-            <q-chip v-if="member.eventSignups" icon="mdi-cursor-default-click" size="sm" outline color="black">{{ member.eventSignups.length }}</q-chip>
-          </q-item-section> -->
         </q-item>
       </q-list>
     </q-card>
   </div>
 </template>
 <script>
-import { query, onSnapshot, getFirestore, collection } from 'firebase/firestore'
+import { query, onSnapshot, getFirestore, collection, where, orderBy } from 'firebase/firestore'
 const db = getFirestore()
 
 export default {
   data () {
     return {
-      members: []
+      members: [],
+      filters: [
+        { label: 'All', model: true, icon: 'mdi-account-group' },
+        { label: 'Recently active', model: false, icon: 'mdi-check-all' },
+        { label: 'High online engagement', model: false, icon: 'mdi-cursor-default-click' },
+        { label: 'Actively involved', model: false, icon: 'mdi-lightning-bolt-circle' },
+        { label: 'Inactive', model: false, icon: 'mdi-sleep' },
+        { label: 'Recently joined', model: false, icon: 'mdi-star' },
+        { label: 'Volunteers', model: false, icon: 'mdi-badge-account' },
+        { label: 'Custom tag', model: false, icon: 'mdi-tag' }
+      ]
+    }
+  },
+  computed: {
+    memberProfilesRef: function () {
+      return collection(db, 'movements', this.$store.state.currentMovement.data.id, 'members')
     }
   },
   mounted () {
     this.$nextTick(function () {
-      this.fetchMembersFromDatabase()
+      this.fetchMembersFromDatabase('All')
+
+      // Switch between filters, don't allow selecting multiple ones at once.
+      for (const watchLoopIndex in this.filters) {
+        this.$watch('filters.' + watchLoopIndex, (newFilter) => {
+          // Only do something if the newFilter model is true
+          if (newFilter.model) {
+            // Loop through all filters, to set all others to false
+            this.filters.forEach((filterLoop, filterIndex) => {
+              if (parseInt(watchLoopIndex) !== filterIndex) {
+                // Set all others to false
+                filterLoop.model = false
+              } else {
+                // This one runs once
+                this.fetchMembersFromDatabase(newFilter.label)
+              }
+            })
+          }
+        }, { deep: true })
+      }
     })
   },
   methods: {
-    fetchMembersFromDatabase () {
-      const memberProfilesRef = collection(db, 'movements', this.$store.state.currentMovement.data.id, 'members')
-      const q = query(memberProfilesRef)
+    fetchMembersFromDatabase (filter) {
+      let q = null
+      const date = new Date()
 
-      const memberList = []
+      switch (filter) {
+        case 'All':
+          q = query(
+            this.memberProfilesRef,
+            orderBy('timestampLastAction', 'desc')
+          )
+          break
+        case 'Recently active':
+          date.setMonth(date.getMonth() - 2)
+          q = query(
+            this.memberProfilesRef,
+            where('timestampLastAction', '>', date),
+            orderBy('timestampLastAction', 'desc')
+          )
+          break
+        case 'Inactive':
+          date.setMonth(date.getMonth() - 2)
+          q = query(
+            this.memberProfilesRef,
+            where('timestampLastAction', '<', date),
+            orderBy('timestampLastAction', 'asc')
+          )
+          break
+        default:
+          q = query(
+            this.memberProfilesRef,
+            orderBy('timestampLastAction', 'desc')
+          )
+          break
+      }
 
       onSnapshot(q, (querySnapshot) => {
+        const memberList = []
         querySnapshot.forEach((doc) => {
           memberList.push(doc.data())
         })
+        console.log(memberList)
         this.members = memberList
       })
     }
