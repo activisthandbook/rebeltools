@@ -8,16 +8,18 @@
   <div class="q-gutter-y-md">
     <div>
       <q-input outlined color="secondary" label="🔍 Search rebels" class="q-mb-sm q-mt-lg"/>
-      <q-chip
-        v-for="(filter, index) in filters"
-        :key="index"
-        :label="filter.label"
-        v-model:selected="filter.model"
-        :class="{'bg-secondary': filter.model}"
-        :dark="filter.model"
-        :icon="filter.icon"
-        :icon-selected="filter.icon"
-      />
+      <span v-for="(filter, index) in filters" :key="index">
+        <q-chip
+          v-show="allFiltersShown || index < 6"
+          :label="filter.label"
+          v-model:selected="filter.model"
+          :class="{'bg-secondary': filter.model}"
+          :dark="filter.model"
+          :icon="filter.icon"
+          :icon-selected="filter.icon"
+        />
+      </span>
+      <q-chip v-show="!allFiltersShown" icon="mdi-dots-horizontal" label="Show all filters" class="text-black text-bold" clickable @click="allFiltersShown = true"/>
     </div>
     <transition
       name="slide-fade"
@@ -130,6 +132,7 @@ export default {
       membersLoaded: false,
       members: [],
       currentDescription: '',
+      allFiltersShown: false,
       filters: [
         {
           label: 'All',
@@ -164,7 +167,7 @@ export default {
           icon: 'mdi-cursor-default-click',
           guide: {
             emoji: '📱',
-            title: 'High engagement online',
+            title: 'High online engagement',
             description: 'These people interact with your page a lot. They might be interested taking up a more active role.',
             campaign: 'community_high_engagement'
           }
