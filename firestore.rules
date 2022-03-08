@@ -88,6 +88,7 @@ service cloud.firestore {
 
       match /members/{memberID} {
         allow read, delete: if
+          request.auth.uid in get(/databases/$(database)/documents/movements/$(resource.data.movementID)).data.admins ||
           isSuperADMIN(); // User is superADMIN 🔴
       }
 
