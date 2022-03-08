@@ -2,9 +2,9 @@
   <q-card flat class="bg-secondary" dark>
     <q-card-section>
       <div class="q-gutter-y-sm">
-        <h2>{{ title }}</h2>
+        <h2><span v-if="emoji" style="font-style:normal">{{emoji}}</span> {{ title }}</h2>
         <div>{{ description }}</div>
-        <div class="q-gutter-sm">
+        <div class="q-gutter-sm" v-if="articles">
           <q-btn
             v-for="article in articles" :key="article.title"
             :label="article.title"
@@ -23,7 +23,7 @@
 </template>
 <script>
 export default {
-  props: ['title', 'description', 'articles', 'campaign']
+  props: ['emoji', 'title', 'description', 'articles', 'campaign']
 }
 </script>
 <style scoped>
