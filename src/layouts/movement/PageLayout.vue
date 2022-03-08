@@ -78,7 +78,7 @@ Path: /:movementPath/*
 
         <q-separator inset class="q-mt-lg"/>
 
-        <div class="q-mx-md q-mt-lg" v-if="$store.state.auth.data && isAnonymous">
+        <div class="q-mx-md q-mt-lg" v-if="$store.state.auth.dataLoaded && isAnonymous">
           <div class="q-mb-md text-bold">Already a member?</div>
           <q-btn label="Sign in" no-caps color="primary" :to="{name: 'Start'}"/>
         </div>
