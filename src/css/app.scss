@@ -35,7 +35,7 @@ h6,.text-h6{
 .q-btn{
   font-weight:700;
 
-  &:not(.q-btn--round, .q-btn--fab){
+  &:not(.q-btn--round, .q-btn--fab, .q-btn--rounded){
     border-radius: 6px;
   }
 }
