@@ -6,7 +6,7 @@ This component allows users to sign up for movements and events.
  -->
 <template>
   <div>
-    <q-card dark class="bg-secondary q-my-lg shadow-6">
+    <q-card dark class="bg-secondary shadow-6">
       <q-card-section v-if="!$store.state.currentAction.dataLoaded || (!$store.state.currentUser.dataLoaded && !$store.state.auth.data.isAnonymous)" class="q-gutter-y-sm">
         <q-skeleton type="rect" height="28.8px"/>
         <q-skeleton type="text" height="20px"/>
