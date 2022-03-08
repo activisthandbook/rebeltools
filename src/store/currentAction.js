@@ -32,31 +32,6 @@ export default {
   },
   actions: {
     subscribeToDatabase ({ state, rootState, commit }, actionID) {
-      // Define query
-      // const q = query(
-      //   collection(getFirestore(), 'actions'),
-      //   where('userID', '==', this.$store.state.auth.data.uid), where('actionID', '==', this.action.actionID)
-      // )
-
-      // Fetch action from database
-      // onSnapshot(
-      //   q,
-      //   querySnapshot => {
-      //     const actions = []
-      //     querySnapshot.forEach((doc) => {
-      //       actions.push(doc.data())
-      //     })
-      //     this.actionData = actions
-      //     this.actionDataLoaded = true
-      //     console.log('smartaction success')
-      //   },
-      //   error => {
-      //     console.log('smartaction error')
-      //     console.log(this.$store.state.auth.data.uid)
-      //     this.$q.notify({ message: error + '(SmartAction.vue)', icon: 'mdi-alert' })
-      //   }
-      // )
-      // console.log('subscribed')
       const q = query(
         collection(getFirestore(), 'actions'),
         where('userID', '==', rootState.auth.data.uid),
