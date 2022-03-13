@@ -7,15 +7,15 @@ const functions = require('firebase-functions');
 // https://cloud.google.com/appengine/docs/standard/go/reference/request-response-headers#app_engine-specific_headers
 exports.getLocation = functions.region('europe-west1').https.onCall((data, context) => {
 
-  functions.logger.info('getLocation rawRequest', context.rawRequest)
+  functions.logger.info('🧭 getLocation rawRequest', context.rawRequest.headers)
 
-  const response = {
-    city: context.rawRequest.headers['X-Appengine-City'],
-    country: context.rawRequest.headers['X-Appengine-Country'],
-    LatLong: context.rawRequest.headers['X-Appengine-CityLatLong']
-  }
+  // const response = {
+  //   "city": context.rawRequest.headers['X-Appengine-City'],
+  //   "country": context.rawRequest.headers['X-Appengine-Country'],
+  //   "CityLatLong": req.headers['X-Appengine-CityLatLong']
+  // }
 
-  return response
+  return context.rawRequest.headers
 
   // cors(req, res, () => {
 
