@@ -109,7 +109,9 @@ export default {
         'By activists, for activists 🙌',
         'Climate justice now 🌏',
         "You can't sink a rainbow 🌈",
-        'With love, rage & solidarity 💚'
+        'With love, rage & solidarity 💚',
+        'Change is coming, whether you like it or not ✊',
+        'Keep your carbon in the soil 🔥'
       ],
       randomMessage: ''
     }

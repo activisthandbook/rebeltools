@@ -26,8 +26,8 @@ This component allows users to sign up for movements and events.
             :buttonLabel="action.buttonLabel"
             :actionCount="action.actionCount"
           />
-
-          <create-profile v-else-if="!$store.state.currentUser.data.profileCreated"/>
+          <create-profile v-else-if="true"/>
+          <!-- <create-profile v-else-if="!$store.state.currentUser.data.profileCreated"/> -->
           <share-page v-else/>
           <!-- <enable-notifications v-else-if="!actions['enable-notifications'].completed"/> -->
         </q-card-section>

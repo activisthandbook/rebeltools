@@ -32,9 +32,33 @@ Path: /:movementPath/*
     <q-header class="bg-primary" bordered>
       <q-toolbar class="justify-between">
 
-        <q-toolbar-title @click="$router.push({name: 'Movement'})" class="cursor-pointer">
+        <q-toolbar-title @click="$router.push({name: 'Movement'})" class="cursor-pointer ellipsis" style="overflow:hidden!important;flex:0 0 auto" v-ripple>
           {{ movementName }}
         </q-toolbar-title>
+        <q-space/>
+
+        <span class="cursor-pointer non-selectable" v-if="$store.state.auth.dataLoaded && !isAnonymous">
+          <span v-if="$store.state.currentUser.data.firstName" class="text-bold ellipsis" style="max-width:120px">{{ $store.state.currentUser.data.firstName }}</span>
+          <q-btn round icon="mdi-account" dense unelevated color="white" text-color="black" class="q-mx-sm">
+          </q-btn>
+          <q-menu :offset="[0, 6]" transition-show="jump-down"
+          transition-hide="fade">
+            <q-list style="min-width: 180px">
+              <q-item clickable v-close-popup :to="{name: 'Settings'}">
+                <q-item-section avatar>
+                  <q-icon name="mdi-cog" />
+                </q-item-section>
+                <q-item-section>Settings</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup @click="$store.dispatch('auth/signOut')">
+                <q-item-section avatar>
+                  <q-icon name="mdi-exit-to-app" />
+                </q-item-section>
+                <q-item-section>Sign out</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </span>
 
         <q-btn dense flat round icon="mdi-menu" @click="rightDrawerOpen = true"/>
 
@@ -84,11 +108,9 @@ Path: /:movementPath/*
         </div>
 
         <div class="q-mx-md q-my-lg" v-else-if="$store.state.auth.dataLoaded">
-          <div class="q-mb-md text-bold">Welcome back<span v-if="$store.state.currentUser.data.firstName">, {{ $store.state.currentUser.data.firstName }}</span>!</div>
           <div class="q-gutter-sm">
             <q-btn label="Dashboard" icon="mdi-rocket-launch" color="primary" :to="{name: 'Dashboard'}" v-if="movementAdmins.includes($store.state.auth.data.uid)" no-caps/>
 
-            <q-btn label="Sign out" color="primary" outline no-caps @click="$store.dispatch('auth/signOut')"/>
           </div>
           <div class="q-mt-lg" v-if="isSuperADMIN">
             <div class="q-mb-sm">You have superpowers, use them wisely 🌟</div>

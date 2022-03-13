@@ -4,14 +4,37 @@
       <q-toolbar-title>Dashboard</q-toolbar-title>
     </q-toolbar>
   </q-header>
-  <p>Welcome back, Rebel! Here's how to get your day started:</p>
+  <div class="q-gutter-y-md">
+    <div>Here's how to get your day started<span v-if="$store.state.currentUser.data.firstName">, {{ $store.state.currentUser.data.firstName }}</span>:</div>
+    <div class="row q-col-gutter-md q-py-md">
+      <div class="col-12 col-sm-6" v-for="(suggestion, index) in suggestions" :key="index">
+        <q-card class="cursor-pointer">
+          <q-item clickable class="q-pa-none" :to="suggestion.to">
+            <div class="full-width">
+
+              <!-- Load in illustration, with dynamically changing colors -->
+              <component v-bind:is="suggestion.illustration"/>
+
+              <q-item class="q-py-md">
+                <q-item-section>
+                  <q-item-label class="text-bold">{{ suggestion.title }}</q-item-label>
+                  <q-item-label caption>{{ suggestion.description }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </div>
+          </q-item>
+        </q-card>
+      </div>
+    </div>
+  </div>
+
   <q-card class="text-bold">
 
     <!--
     RECOMMENDATION LIST
     Show a maximum of 4 recommendations at a time, not to overwhelm people. Order them based on priority.
      -->
-    <q-list separator>
+    <!-- <q-list separator>
 
       <q-item clickable v-ripple class="q-py-md" @click="$router.push({name: 'Dashboard Page'})">
         <q-item-section avatar>
@@ -47,7 +70,7 @@
         <q-item-section side>
           <q-icon name="mdi-arrow-right" />
         </q-item-section>
-      </q-item>
+      </q-item> -->
 
       <!-- When people send a message, show this recommendation (priority: super high) -->
       <!-- <q-item clickable v-ripple class="q-py-md">
@@ -204,6 +227,26 @@
         </q-item-section>
       </q-item> -->
 
-    </q-list>
+    <!-- </q-list> -->
   </q-card>
 </template>
+<script>
+import IllustrationDraw from '../../../illustrations/draw'
+import IllustrationCalendar from '../../../illustrations/calendar'
+import IllustrationGroup from '../../../illustrations/group'
+
+export default {
+  components: { IllustrationDraw, IllustrationCalendar },
+  computed: {
+    // We're  not changing these, so we can make them computed instead of reactive data, to improve performance
+    suggestions: function () {
+      return [
+        { title: '🎨 Customise page', description: 'Make it look your own', illustration: IllustrationDraw, to: { name: 'Dashboard Page' } },
+        { title: '📆 Add events', description: 'Promote your actions', illustration: IllustrationCalendar, to: { name: 'Dashboard Calendar' } },
+        { title: '📢 Start campaign', description: 'Create a collection of events', illustration: IllustrationGroup, to: { name: 'Dashboard Community' } },
+        { title: '⚡️ Organise community', description: 'List of all rebels', illustration: IllustrationGroup, to: { name: 'Dashboard Community' } }
+      ]
+    }
+  }
+}
+</script>

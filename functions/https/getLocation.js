@@ -5,14 +5,18 @@ const cors = require('cors')({
 });
 
 // https://cloud.google.com/appengine/docs/standard/go/reference/request-response-headers#app_engine-specific_headers
-exports.getLocation = functions.https.onRequest((req, res) => {
+exports.getLocation = functions.region('europe-west1').https.onRequest((req, res) => {
+  if (req.method === 'PUT') {
+    res.status(403).send('Forbidden!');
+    return;
+  }
+
   cors(req, res, () => {
     res.status(200).send({
       "data": {
         "city": req.headers['X-Appengine-City'],
         "country": req.headers['X-Appengine-Country'],
-        "lat": req.headers['X-Appengine-CityLatLong'].split(',')[0],
-        "lgn": req.headers['X-Appengine-CityLatLong'].split(',')[1]
+        "CityLatLong": req.headers['X-Appengine-CityLatLong']
       }
     });
     res.end();

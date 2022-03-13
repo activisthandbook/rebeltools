@@ -31,7 +31,7 @@
         <div class="q-gutter-sm q-mt-sm">
           <q-btn icon="mdi-phone" label="Call" no-caps color="secondary"/>
           <q-btn icon="mdi-chat" label="Chat" no-caps color="secondary"/>
-          <q-btn label="Send email" icon="mdi-email" no-caps color="secondary"/>
+          <q-btn label="Email" icon="mdi-email" no-caps color="secondary"/>
           <!-- <q-btn no-caps color="secondary" outline size="12px" padding="4px 4px">
             <span class="q-mx-sm">Boost</span>
             <q-chip icon="mdi-lightning-bolt-circle" color="secondary" text-color="white" class="q-my-none q-mx-none cursor-pointer" label="1" size="sm"/>
@@ -69,10 +69,10 @@
           <q-item-section>
             <q-item-label class="row no-wrap items-center justify-between">
               <span class="ellipsis q-pa-xs">Project facilitator</span>
-              <div class="q-gutter-sm">
-                <q-btn icon="mdi-pencil" label="Edit" no-caps flat color="secondary" size="14px" padding="4px 8px"/>
-              </div>
             </q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-btn icon="mdi-pencil" label="Edit" no-caps flat size="14px" color="black" padding="4px 8px"/>
           </q-item-section>
         </q-item>
         <q-item>
@@ -110,7 +110,7 @@
         </q-item-section>
 
       </q-item>
-      <q-expansion-item v-model="eventsExpanded">
+      <q-expansion-item v-model="eventsExpanded" expand-separator>
         <template v-slot:header>
           <q-item-section avatar>
             <q-avatar icon="mdi-calendar" />
@@ -132,7 +132,7 @@
           </q-item>
         </q-list>
       </q-expansion-item>
-      <q-expansion-item v-model="eventsExpanded">
+      <q-expansion-item v-model="campaignsExpanded" expand-separator>
         <template v-slot:header>
           <q-item-section avatar>
             <q-avatar icon="mdi-bullhorn" />
@@ -174,6 +174,7 @@ export default {
   data () {
     return {
       eventsExpanded: false,
+      campaignsExpanded: false,
       tags: null
     }
   },

@@ -10,16 +10,17 @@ Path: /super-admin
     <q-list separator>
     <q-item v-for="(movement, index) in movements" :key="index">
       <q-item-section>
-        <q-item-label>{{ movement.name }}</q-item-label>
-        <q-item-label caption lines="2">/{{ movement.path }}</q-item-label>
+        <q-item-label @click="$router.push({ name: 'Movement', params: { movementPath: movement.path } })" class="cursor-pointer">{{ movement.name }}<q-chip icon="mdi-account-group" size="sm" :label="movement.signupCount"/></q-item-label>
+        <q-item-label caption class="text-bold">{{ movement.headline }}</q-item-label>
+        <q-item-label caption>{{ movement.description }}</q-item-label>
+        <q-item-label caption>
+          <span @click="$router.push({ name: 'Movement', params: { movementPath: movement.path } })" class="cursor-pointer"><q-icon name="mdi-link"/> rebel.tools/{{ movement.path }}</span>
+        </q-item-label>
       </q-item-section>
-      <q-item-section side>
-        <q-btn icon="mdi-link" round flat no-caps :to="'/' + movement.path" dense/>
+      <q-item-section side top>
+        <q-btn icon="mdi-pencil" round flat no-caps @click="$router.push({ name: 'Dashboard', params: { movementPath: movement.path } })" dense/>
       </q-item-section>
-      <q-item-section side>
-        <q-btn icon="mdi-pencil" round flat no-caps @click="$router.push({ name: 'Dashboard', params: { movementID: movement.path } })" dense/>
-      </q-item-section>
-      <q-item-section side>
+      <q-item-section side top>
         <q-btn icon="mdi-delete" flat round @click="deleteMovement(movement)" dense/>
       </q-item-section>
     </q-item>
@@ -114,18 +115,22 @@ export default {
       const q = query(collection(db, 'users'))
 
       onSnapshot(q, (querySnapshot) => {
+        const users = []
         querySnapshot.forEach((doc) => {
-          this.users.push(doc.data())
+          users.push(doc.data())
         })
+        this.users = users
       })
     },
     fetchWaitingListFromDatabase () {
       const q = query(collection(db, 'waitingList'))
 
       onSnapshot(q, (querySnapshot) => {
+        const waitingList = []
         querySnapshot.forEach((doc) => {
-          this.waitingList.push(doc.data())
+          waitingList.push(doc.data())
         })
+        this.waitingList = waitingList
       })
     }
   }
