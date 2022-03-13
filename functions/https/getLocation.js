@@ -12,8 +12,8 @@ exports.getLocation = functions.region('europe-west1').https.onCall((data, conte
   const response = {
     "city": context.rawRequest.headers['x-appengine-city'],
     "country": context.rawRequest.headers['x-appengine-country'],
-    "lat": parseFloat(context.rawRequest.headers['x-appengine-citylatlong'].split(',')[0]),
-    "long": parseFloat(context.rawRequest.headers['x-appengine-citylatlong'].split(',')[1])
+    "lat": Number(context.rawRequest.headers['x-appengine-citylatlong'].split(',')[0]),
+    "long": Number(context.rawRequest.headers['x-appengine-citylatlong'].split(',')[1])
   }
 
   return response
