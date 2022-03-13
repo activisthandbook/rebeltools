@@ -12,13 +12,13 @@ exports.getLocation = functions.region('europe-west1').https.onRequest((req, res
   }
 
   cors(req, res, () => {
-    res.status(200).send({
-      "data": {
-        "city": req.headers['X-Appengine-City'],
-        "country": req.headers['X-Appengine-Country'],
-        "CityLatLong": req.headers['X-Appengine-CityLatLong']
-      }
-    });
-    res.end();
+    const response = {
+      "city": req.headers['X-Appengine-City'],
+      "country": req.headers['X-Appengine-Country'],
+      "CityLatLong": req.headers['X-Appengine-CityLatLong']
+    }
+    res.status(200).send(response);
+    functions.logger.log('Sending location:', response);
   })
+
 });
