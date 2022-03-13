@@ -83,6 +83,7 @@
   </q-card> -->
 </template>
 <script>
+import { geohashForLocation } from 'geofire-common'
 import { getAnalytics, logEvent } from 'firebase/analytics'
 const analytics = getAnalytics()
 
@@ -138,10 +139,12 @@ export default {
       const getLocation = httpsCallable(this.$store.state.firebase.functions, 'getLocation')
       getLocation({ text: 'test' })
         .then((result) => {
-          const data = result.data
-          console.log(data)
+          const locationData = result.data
           this.$store.commit('currentUser/update', {
-            location: data
+            location: {
+              ...locationData,
+              geohash: geohashForLocation([locationData.lat, locationData.lng])
+            }
           })
         })
       // const url = 'https://europe-west1-rebel-tools.cloudfunctions.net/getLocation'
