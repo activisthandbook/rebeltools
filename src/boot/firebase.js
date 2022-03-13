@@ -3,6 +3,8 @@ import { initializeApp } from 'firebase/app'
 import { getAnalytics, logEvent, setUserId } from 'firebase/analytics'
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore'
+import { getFunctions } from 'firebase/functions'
+
 // import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
 import { getPerformance } from 'firebase/performance'
 
@@ -29,6 +31,8 @@ export default boot(async ({ store }) => {
   Docs: https://firebase.google.com/docs/web/setup
   */
   const app = initializeApp(firebaseConfig)
+
+  store.commit('firebase/addFunctions', getFunctions(app, 'europe-west1'))
 
   /* 📈 INITIALISE GOOGLE ANALYTICS
   Docs: https://firebase.google.com/docs/analytics

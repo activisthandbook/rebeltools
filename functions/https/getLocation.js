@@ -9,7 +9,14 @@ exports.getLocation = functions.region('europe-west1').https.onCall((data, conte
 
   functions.logger.info('getLocation rawRequest', context.rawRequest)
 
-  return context.rawRequest.headers
+  const response = {
+    city: context.rawRequest.headers['X-Appengine-City'],
+    country: context.rawRequest.headers['X-Appengine-Country'],
+    lat: context.rawRequest.headers['X-Appengine-CityLatLong'].split(',')[0],
+    lgn: context.rawRequest.headers['X-Appengine-CityLatLong'].split(',')[1]
+  }
+
+  return response
 
   // cors(req, res, () => {
 

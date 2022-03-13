@@ -10,6 +10,7 @@ Documentation:
 import { store } from 'quasar/wrappers'
 import { createStore } from 'vuex'
 
+import firebase from './firebase'
 import auth from './auth'
 import currentUser from './currentUser'
 import currentMovement from './currentMovement'
@@ -28,6 +29,7 @@ import currentAction from './currentAction'
 export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
+      firebase,
       auth,
       currentUser,
       currentMovement,

@@ -4,7 +4,7 @@
   <q-card flat class="text-black q-mt-md">
     <q-card-section>
       <div class="q-gutter-y-sm">
-        <div class="text-bold" @click="getLocation()">Create Rebel Tools profile</div>
+        <div class="text-bold" @click="getLocation()">Create Rebel Tools profile </div>
 
         <q-input
           label="💬 First name"
@@ -26,19 +26,12 @@
           :error="this.v$.phoneNumber.$error"
           :errorMessage="mixin_mergeErrorMessages(this.v$.phoneNumber.$errors)"
         />
-        <q-banner class="bg-grey-3 rounded-borders">
+        <!-- <q-chip square label="Rotterdam" icon-right="mdi-pencil" class="q-mx-none" color="grey-2"/> -->
+        <q-banner class="bg-grey-3 rounded-borders flex">
           <q-avatar icon="mdi-account" color="secondary" text-color="white" size="64px" class="q-mr-md"/>
-        <q-btn icon="mdi-upload" label="Upload picture" no-caps color="white" text-color="secondary"/>
+          <q-btn icon="mdi-upload" label="Upload picture" no-caps color="white" text-color="secondary"/>
         </q-banner>
-        <!-- <q-input dense outlined readonly v-model="location" text :input-style="{ color: '#444' }">
-          <template v-slot:prepend>
-            <q-icon name="mdi-map" size="xs"/>
-          </template>
-          <template v-slot:append>
-             <q-btn label="Edit" dense no-caps flat/>
-          </template>
-        </q-input> -->
-        <!-- <div class="text-bold">Only shared with movement admins</div> -->
+
         <q-checkbox v-model="acceptPrivacyPolicy" class="text-body2 non-selectable" color="secondary">
           <div class="q-ml-sm">
             <span class="text-bold">Accept privacy policy.</span> <span class="text-grey-8">Name and profile picture are public. Phone number is only shared with movement admins.</span>
@@ -93,8 +86,7 @@
 import { getAnalytics, logEvent } from 'firebase/analytics'
 const analytics = getAnalytics()
 
-import { getFunctions, httpsCallable } from 'firebase/functions'
-const functions = getFunctions()
+import { httpsCallable } from 'firebase/functions'
 
 import useVuelidate from '@vuelidate/core'
 
@@ -143,12 +135,22 @@ export default {
       logEvent(analytics, 'user_profile_created')
     },
     getLocation () {
-      const getLocation = httpsCallable(functions, 'getLocation')
-      getLocation()
+      const getLocation = httpsCallable(this.$store.state.firebase.functions, 'getLocation')
+      getLocation({ text: 'test' })
         .then((result) => {
           const data = result.data
           console.log(data)
+          this.$store.commit('currentUser/update', {
+            location: data
+          })
         })
+      // const url = 'https://europe-west1-rebel-tools.cloudfunctions.net/getLocation'
+
+      // fetch(url).then(resp => {
+      //   return resp.json()
+      // }).then(data => {
+      //   console.log(data)
+      // })
     }
   }
 }
