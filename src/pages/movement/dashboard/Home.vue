@@ -234,6 +234,7 @@
 import IllustrationDraw from '../../../illustrations/draw'
 import IllustrationCalendar from '../../../illustrations/calendar'
 import IllustrationGroup from '../../../illustrations/group'
+import IllustrationOrganise from '../../../illustrations/organise'
 
 export default {
   components: { IllustrationDraw, IllustrationCalendar },
@@ -244,7 +245,7 @@ export default {
         { title: '🎨 Customise page', description: 'Make it look your own', illustration: IllustrationDraw, to: { name: 'Dashboard Page' } },
         { title: '📆 Add events', description: 'Promote your actions', illustration: IllustrationCalendar, to: { name: 'Dashboard Calendar' } },
         { title: '📢 Start campaign', description: 'Create a collection of events', illustration: IllustrationGroup, to: { name: 'Dashboard Community' } },
-        { title: '⚡️ Organise community', description: 'List of all rebels', illustration: IllustrationGroup, to: { name: 'Dashboard Community' } }
+        { title: '⚡️ Organise community', description: 'List of all rebels', illustration: IllustrationOrganise, to: { name: 'Dashboard Community' } }
       ]
     }
   }

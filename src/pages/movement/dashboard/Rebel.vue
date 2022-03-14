@@ -10,7 +10,7 @@
       <q-list>
         <q-item class="q-mt-sm">
           <q-item-section avatar>
-            <q-avatar color="grey-4" text-color="white" icon="mdi-account"/>
+            <q-avatar color="grey-4" text-color="white" icon="mdi-account" size="64px"/>
           </q-item-section>
           <q-item-section>
             <q-item-label class="row no-wrap items-center justify-between">

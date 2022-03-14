@@ -4,7 +4,7 @@
   <q-card flat class="text-black q-mt-md">
     <q-card-section>
       <div class="q-gutter-y-sm">
-        <div class="text-bold" @click="getLocation()">Create Rebel Tools profile </div>
+        <div class="text-bold" @click="getLocation()">Create profile</div>
 
         <q-input
           label="💬 First name"
@@ -27,18 +27,21 @@
           :errorMessage="mixin_mergeErrorMessages(this.v$.phoneNumber.$errors)"
         />
         <!-- <q-chip square label="Rotterdam" icon-right="mdi-pencil" class="q-mx-none" color="grey-2"/> -->
-        <q-banner class="bg-grey-3 rounded-borders flex">
+        <profile-picture-uploader/>
+        <!-- <q-banner class="bg-grey-3 rounded-borders flex">
           <q-avatar icon="mdi-account" color="secondary" text-color="white" size="64px" class="q-mr-md"/>
           <q-btn icon="mdi-upload" label="Upload picture" no-caps color="white" text-color="secondary"/>
-        </q-banner>
+        </q-banner> -->
 
-        <q-checkbox v-model="acceptPrivacyPolicy" class="text-body2 non-selectable" color="secondary">
+        <div class="text-body2 q-mt-md" style="line-height:1">
+          <span class="text-bold text-grey-9"><q-icon name="mdi-lock" class="q-mr-xs"/>Who can see this info:</span> <span class="text-grey-7">Name and profile picture are public. Phone number is only shared with movement admins.</span>
+        </div>
+        <!-- <q-checkbox v-model="acceptPrivacyPolicy" class="text-body2 non-selectable" color="secondary">
           <div class="q-ml-sm">
             <span class="text-bold">Accept privacy policy.</span> <span class="text-grey-8">Name and profile picture are public. Phone number is only shared with movement admins.</span>
           </div>
-        </q-checkbox>
-
-        <q-btn label="Continue" no-caps color="secondary" class="q-mt-md q-mr-sm" :disable="this.v$.firstName.$invalid || this.v$.phoneNumber.$invalid" @click="finishAction()"/>
+        </q-checkbox> -->
+        <q-btn label="Create profile" no-caps color="secondary" class="q-mt-md q-mr-sm full-width shadow-12" unelevated :disable="this.v$.firstName.$invalid || this.v$.phoneNumber.$invalid" @click="finishAction()" size="16px"/>
           <!-- <q-icon name="mdi-lock" round flat color="black" dense size="xs" class="q-ml-sm"/> -->
           <!-- <div class="col q-ml-sm"> <strong>Privacy: </strong>Name and profile picture are public. Phone number is only shared with movement admins.</div> -->
       </div>
@@ -83,6 +86,8 @@
   </q-card> -->
 </template>
 <script>
+import ProfilePictureUploader from 'components/ProfilePictureUploader'
+
 import { geohashForLocation } from 'geofire-common'
 import { getAnalytics, logEvent } from 'firebase/analytics'
 const analytics = getAnalytics()
@@ -92,6 +97,7 @@ import { httpsCallable } from 'firebase/functions'
 import useVuelidate from '@vuelidate/core'
 
 export default {
+  components: { ProfilePictureUploader },
   setup () {
     return { v$: useVuelidate() }
   },
@@ -103,19 +109,12 @@ export default {
   },
   mounted: function () {
     this.$nextTick(function () {
-      // Code that will run only after the
-      // entire view has been rendered
+      this.getLocation()
     })
   },
   data () {
     return {
-      acceptPrivacyPolicy: false,
-      location: 'Rotterdam, Netherlands',
-      options: [
-        { label: 'Share my phone number (‭+31 6 57 70 48 83‬)', value: 'bat' },
-        { label: 'Do not share', value: 'friend' }
-      ],
-      group: null
+      // location: 'Rotterdam, Netherlands',
     }
   },
   computed: {
@@ -143,17 +142,10 @@ export default {
           this.$store.commit('currentUser/update', {
             location: {
               ...locationData,
-              geohash: geohashForLocation([locationData.lat, locationData.lng])
+              geohash: geohashForLocation([locationData.lat, locationData.long])
             }
           })
         })
-      // const url = 'https://europe-west1-rebel-tools.cloudfunctions.net/getLocation'
-
-      // fetch(url).then(resp => {
-      //   return resp.json()
-      // }).then(data => {
-      //   console.log(data)
-      // })
     }
   }
 }

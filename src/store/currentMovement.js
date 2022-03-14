@@ -136,7 +136,14 @@ export default {
     async pushToDatabase ({ state }) {
       const currentMovementRef = doc(getFirestore(), 'movements', state.data.id)
 
-      await setDoc(currentMovementRef, state.data, { merge: true })
+      await setDoc(currentMovementRef, state.data, { merge: true }).then(() => {
+        Notify.create({ message: 'Movement saved', icon: 'mdi-check' })
+      }).catch((error) => {
+        Notify.create({
+          message: error + ' (currentMovement.js)',
+          icon: 'mdi-alert'
+        })
+      })
     }
   }
 }

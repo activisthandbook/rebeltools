@@ -37,28 +37,7 @@ Path: /:movementPath/*
         </q-toolbar-title>
         <q-space/>
 
-        <span class="cursor-pointer non-selectable" v-if="$store.state.auth.dataLoaded && !isAnonymous">
-          <span v-if="$store.state.currentUser.data.firstName" class="text-bold ellipsis" style="max-width:120px">{{ $store.state.currentUser.data.firstName }}</span>
-          <q-btn round icon="mdi-account" dense unelevated color="white" text-color="black" class="q-mx-sm">
-          </q-btn>
-          <q-menu :offset="[0, 6]" transition-show="jump-down"
-          transition-hide="fade">
-            <q-list style="min-width: 180px">
-              <q-item clickable v-close-popup :to="{name: 'Settings'}">
-                <q-item-section avatar>
-                  <q-icon name="mdi-cog" />
-                </q-item-section>
-                <q-item-section>Settings</q-item-section>
-              </q-item>
-              <q-item clickable v-close-popup @click="$store.dispatch('auth/signOut')">
-                <q-item-section avatar>
-                  <q-icon name="mdi-exit-to-app" />
-                </q-item-section>
-                <q-item-section>Sign out</q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
-        </span>
+        <account-menu v-if="$store.state.auth.dataLoaded && !isAnonymous"/>
 
         <q-btn dense flat round icon="mdi-menu" @click="rightDrawerOpen = true"/>
 
@@ -130,10 +109,11 @@ Path: /:movementPath/*
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import AccountMenu from 'components/AccountMenu'
 
-export default defineComponent({
+export default {
   name: 'MainLayout',
+  components: { AccountMenu },
   data () {
     return {
       rightDrawerOpen: false
@@ -147,13 +127,17 @@ export default defineComponent({
       get () { return this.$store.state.currentMovement.data.admins }
     },
     isAnonymous: {
-      get () { return this.$store.state.auth.data.isAnonymous }
+      get () {
+        if (this.$store.state.auth.dataLoaded) {
+          return this.$store.state.auth.data.isAnonymous
+        } else return true
+      }
     },
     isSuperADMIN: {
       get () { return this.$store.state.currentUser.data.isSuperADMIN }
     }
   }
-})
+}
 </script>
 <style scoped>
 .q-page{

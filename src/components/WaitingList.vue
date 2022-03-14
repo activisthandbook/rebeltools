@@ -24,6 +24,7 @@
           label="📧 Email address"
           placeholder="my@email.com"
 
+          v-show="waitingListItem.firstName"
           outlined
           stack-label
           color="secondary"
@@ -37,6 +38,7 @@
         <q-input
           label="☎️ Phone number"
           placeholder="+00 00 12345678"
+          v-show="waitingListItem.firstName && waitingListItem.emailAddress"
 
           outlined
           stack-label
@@ -52,6 +54,7 @@
           label="👋 About you (optional)"
           placeholder="Tell us a bit about yourself! Are you involved with any activist movements?"
           type="textarea"
+          v-show="waitingListItem.firstName  && waitingListItem.emailAddress  && waitingListItem.phoneNumber"
 
           stack-label
           outlined

@@ -1,5 +1,5 @@
 <template>
-  <h2>Share with friends</h2>
+  <h2>Invite friends</h2>
   <p>Let's grow {{ $store.state.currentMovement.data.name }} together. Share the link, {{$store.state.currentUser.data.firstName }}.</p>
   <q-input label="🔗 Share the link" v-model="url" @focus="(input) => input.target.select()" ref="url" dark color="white" filled/>
   <q-btn icon="mdi-content-copy" label="Copy link" no-caps @click="copy()" color="white" text-color="black"/>
@@ -12,7 +12,7 @@ export default {
   computed: {
     url: {
       get: function () {
-        return window.location.href
+        return window.location.href + '?invite=' + this.$store.state.auth.data.uid
       },
       set: function (newValue) {
       }

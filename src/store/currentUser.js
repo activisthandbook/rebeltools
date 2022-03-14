@@ -61,7 +61,14 @@ export default {
     pushToDatabase ({ state, rootState }) {
       const currentUserRef = doc(getFirestore(), 'users', rootState.auth.data.uid)
 
-      setDoc(currentUserRef, state.data, { merge: true })
+      setDoc(currentUserRef, state.data, { merge: true }).then(() => {
+        Notify.create({ message: 'Profile saved', icon: 'mdi-check' })
+      }).catch(error => {
+        Notify.create({
+          message: error + ' (currentUser.js)',
+          icon: 'mdi-alert'
+        })
+      })
     }
   }
 }

@@ -10,18 +10,24 @@ Path: /settings
     <q-card>
       <q-card-section>
         <div class="q-gutter-y-sm">
-          <h2>Movement profile</h2>
-          <q-input label="First name" outlined v-model="firstName" @blur="save()"/>
-          <q-input label="Last name" outlined v-model="lastName" @blur="save()"/>
-          <q-input label="☎️ Phone number" outlined v-model="phoneNumber" @blur="save()"/>
+          <div class="text-bold">Movement profile</div>
+          <profile-picture-uploader v-if="$store.state.auth.dataLoaded"/>
+          <q-input label="First name" outlined v-model="firstName" @blur="save()" color="secondary"/>
+          <q-input label="Last name" outlined v-model="lastName" @blur="save()" color="secondary"/>
+          <q-input label="☎️ Phone number" outlined v-model="phoneNumber" @blur="save()" color="secondary"/>
+          <div class="text-caption q-mt-md">It is not yet possible to change your email or city.</div>
+          <q-input label="✉️ Email address" outlined v-model="emailAddress" color="secondary" readonly/>
+          <q-input label="📍 City" outlined v-if="location" v-model="location.city" color="secondary" readonly/>
         </div>
       </q-card-section>
     </q-card>
   </div>
 </template>
 <script>
+import ProfilePictureUploader from 'components/ProfilePictureUploader'
 
 export default {
+  components: { ProfilePictureUploader },
   computed: {
     firstName: {
       get () { return this.$store.state.currentUser.data.firstName },
@@ -34,10 +40,19 @@ export default {
     phoneNumber: {
       get () { return this.$store.state.currentUser.data.phoneNumber },
       set (value) { this.$store.commit('currentUser/update', { phoneNumber: value }) }
+    },
+    emailAddress: {
+      get () { return this.$store.state.currentUser.data.emailAddress },
+      set (value) { this.$store.commit('currentUser/update', { emailAddress: value }) }
+    },
+    location: {
+      get () { return this.$store.state.currentUser.data.location },
+      set (value) { this.$store.commit('currentUser/update', { location: value }) }
     }
   },
   methods: {
-    save () {
+    save (event) {
+      console.log(event)
       this.$store.dispatch('currentUser/pushToDatabase')
     }
   }
