@@ -19,10 +19,11 @@ const MovementPage_Partners = () => import('src/pages/movement/page/Partners')
 
 const MovementDashboard_Home = () => import('src/pages/movement/dashboard/Home')
 const MovementDashboard_Calendar = () => import('src/pages/movement/dashboard/Calendar')
-const MovementDashboard_NewEvent = () => import('src/pages/movement/dashboard/NewEvent')
+const MovementDashboard_NewEvent = () => import('src/pages/movement/dashboard/dialogs/NewEvent')
+const MovementDashboard_Event = () => import('src/pages/movement/dashboard/dialogs/Event')
 const MovementDashboard_Page = () => import('src/pages/movement/dashboard/Page')
 const MovementDashboard_Community = () => import('src/pages/movement/dashboard/Community')
-const MovementDashboard_Rebel = () => import('src/pages/movement/dashboard/Rebel')
+const MovementDashboard_Rebel = () => import('src/pages/movement/dashboard//dialogs/Rebel')
 const MovementDashboard_Apps = () => import('src/pages/movement/dashboard/Apps')
 
 // ROUTES
@@ -74,6 +75,7 @@ const routes = [
           { path: '', name: 'Dashboard', component: MovementDashboard_Home },
           { path: 'calendar', name: 'Dashboard Calendar', component: MovementDashboard_Calendar },
           { path: 'calendar/new-event', name: 'Dashboard New Event', component: MovementDashboard_NewEvent },
+          { path: 'calendar/:eventID', name: 'Dashboard Event', component: MovementDashboard_Event },
           { path: 'community', name: 'Dashboard Community', component: MovementDashboard_Community },
           { path: 'community/:userID', name: 'Dashboard Rebel', component: MovementDashboard_Rebel },
           { path: 'page', name: 'Dashboard Page', component: MovementDashboard_Page },

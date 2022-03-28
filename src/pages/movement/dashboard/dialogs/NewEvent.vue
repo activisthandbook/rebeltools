@@ -195,21 +195,10 @@
         </q-card>
       </q-expansion-item>
     </q-card>
-
-    <activist-handbook
-      title="Guides for organisers"
-      description="Learn how to organise succesful actions from experienced campaigners around the globe. Here are some relevant guides from Activist Handbook:"
-      campaign="new_event"
-      :articles="[
-        {title: 'How to organise actions', link: 'https://activisthandbook.org/en/organising/action'},
-        {title: 'Explore tactics', link: 'https://activisthandbook.org/en/tactics'}
-      ]"
-    />
   </div>
 
 </template>
 <script>
-import ActivistHandbook from 'components/ActivistHandbook'
 import ImageSelector from 'components/ImageSelector'
 
 import { Timestamp, serverTimestamp } from 'firebase/firestore'
@@ -219,7 +208,7 @@ const analytics = getAnalytics()
 import useVuelidate from '@vuelidate/core'
 
 export default {
-  components: { ActivistHandbook, ImageSelector },
+  components: { ImageSelector },
   setup () {
     return { v$: useVuelidate() }
   },

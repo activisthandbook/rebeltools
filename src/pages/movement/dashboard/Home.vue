@@ -4,29 +4,32 @@
       <q-toolbar-title>Dashboard</q-toolbar-title>
     </q-toolbar>
   </q-header>
-  <div class="q-gutter-y-md">
-    <div>Here's how to get your day started<span v-if="$store.state.currentUser.data.firstName">, {{ $store.state.currentUser.data.firstName }}</span>:</div>
-    <div class="row q-col-gutter-md q-py-md">
-      <div class="col-12 col-sm-6" v-for="(suggestion, index) in suggestions" :key="index">
-        <q-card class="cursor-pointer">
-          <q-item clickable class="q-pa-none" :to="suggestion.to">
-            <div class="full-width">
+  <q-card>
+    <q-card-section class="q-gutter-y-sm">
+      <h2>Smart suggestions</h2>
+      <div>Here's how to get your day started<span v-if="$store.state.currentUser.data.firstName">, {{ $store.state.currentUser.data.firstName }}</span>:</div>
+      <q-list separator class="q-mt-sm">
+      <q-item v-for="(suggestion, index) in suggestions" :key="index" clickable class="q-pa-none" :to="suggestion.to">
+        <div class="row full-width items-center">
 
-              <!-- Load in illustration, with dynamically changing colors -->
-              <component v-bind:is="suggestion.illustration"/>
+          <!-- Load in illustration, with dynamically changing colors -->
+          <!-- <component v-bind:is="suggestion.illustration"/> -->
 
-              <q-item class="q-py-md">
-                <q-item-section>
-                  <q-item-label class="text-bold">{{ suggestion.title }}</q-item-label>
-                  <q-item-label caption>{{ suggestion.description }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </div>
-          </q-item>
-        </q-card>
-      </div>
-    </div>
-  </div>
+            <component v-bind:is="suggestion.illustration" class="col-sm-3 col-4 q-ma-sm rounded-borders"/>
+
+              <!-- <q-item-label class="text-bold">{{ suggestion.title }}</q-item-label> -->
+            <q-card-section class="flex items-center col text-bold">
+              <div>{{ suggestion.title }}</div>
+              <!-- <q-btn :label="suggestion.title" no-caps color="secondary"/> -->
+            </q-card-section>
+              <q-btn dense round icon="mdi-arrow-right" flat class="q-mr-md"/>
+
+        </div>
+      </q-item>
+    </q-list>
+    </q-card-section>
+
+  </q-card>
 
   <q-card class="text-bold">
 
@@ -242,10 +245,10 @@ export default {
     // We're  not changing these, so we can make them computed instead of reactive data, to improve performance
     suggestions: function () {
       return [
-        { title: '🎨 Customise page', description: 'Make it look your own', illustration: IllustrationDraw, to: { name: 'Dashboard Page' } },
-        { title: '📆 Add events', description: 'Promote your actions', illustration: IllustrationCalendar, to: { name: 'Dashboard Calendar' } },
-        { title: '📢 Start campaign', description: 'Create a collection of events', illustration: IllustrationGroup, to: { name: 'Dashboard Community' } },
-        { title: '⚡️ Organise community', description: 'List of all rebels', illustration: IllustrationOrganise, to: { name: 'Dashboard Community' } }
+        { title: 'Customise your page', illustration: IllustrationDraw, to: { name: 'Dashboard Page' } },
+        { title: 'Add events to calendar', illustration: IllustrationCalendar, to: { name: 'Dashboard Calendar' } },
+        { title: 'Start a campaign', illustration: IllustrationGroup, to: { name: 'Dashboard Community' } },
+        { title: 'Organise your community', illustration: IllustrationOrganise, to: { name: 'Dashboard Community' } }
       ]
     }
   }

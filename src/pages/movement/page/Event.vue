@@ -32,7 +32,7 @@
         <br>
         <q-chip color="white" class="text-bold" square size="xl">
           <q-avatar icon="mdi-calendar" color="primary" text-color="white" />
-          {{humanDate($store.state.currentEvent.data.startDate)}}
+          {{mixin_humanDate($store.state.currentEvent.data.startDate)}}
         </q-chip>
       </span>
     </q-card>
@@ -75,22 +75,22 @@ import OopsError from 'components/OopsError'
 
 import SmartAction from 'components/SmartAction'
 
-import dayjs from 'dayjs'
-import calendar from 'dayjs/plugin/calendar'
-import updateLocale from 'dayjs/plugin/updateLocale'
-dayjs.extend(calendar)
-dayjs.extend(updateLocale)
+// import dayjs from 'dayjs'
+// import calendar from 'dayjs/plugin/calendar'
+// import updateLocale from 'dayjs/plugin/updateLocale'
+// dayjs.extend(calendar)
+// dayjs.extend(updateLocale)
 
-dayjs.updateLocale('en', {
-  calendar: {
-    lastDay: '[Yesterday at] H:mm',
-    sameDay: '[Today at] H:mm',
-    nextDay: '[Tomorrow at] H:mm',
-    lastWeek: '[Last] dddd [at] H:mm',
-    nextWeek: 'dddd [at] H:mm',
-    sameElse: 'D MMM YYYY, H:mm'
-  }
-})
+// dayjs.updateLocale('en', {
+//   calendar: {
+//     lastDay: '[Yesterday at] H:mm',
+//     sameDay: '[Today at] H:mm',
+//     nextDay: '[Tomorrow at] H:mm',
+//     lastWeek: '[Last] dddd [at] H:mm',
+//     nextWeek: 'dddd [at] H:mm',
+//     sameElse: 'D MMM YYYY, H:mm'
+//   }
+// })
 
 export default {
   components: {
@@ -117,11 +117,6 @@ export default {
     this.$store.commit('currentEvent/destroy')
   },
   methods: {
-    // a computed getter
-    humanDate: function (firestoreTimestamp) {
-      // `this` points to the vm instance
-      return dayjs(firestoreTimestamp.toDate()).calendar()
-    },
     openExternal: (link) => {
       // console.log('r')
       openURL(link)

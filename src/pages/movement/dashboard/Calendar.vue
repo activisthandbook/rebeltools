@@ -6,52 +6,70 @@
     </q-toolbar>
   </q-header>
 
-  <q-tabs v-model="tab" inline-label no-caps class="bg-grey-3 rounded-borders q-mb-md">
-    <q-tab name="upcoming" icon="mdi-calendar" label="Upcoming" />
-    <q-tab name="past" icon="mdi-history" label="Past" />
-  </q-tabs>
+  <div class="q-gutter-y-md">
 
-  <q-card>
-    <q-card-section v-if="!dataLoaded" class="text-center">
-      <q-circular-progress
-        color="grey"
-        indeterminate
-        size="50px"
-        class="q-ma-md"
-      />
-      <div class="text-grey">
-        Loading events...
-      </div>
-    </q-card-section>
+    <q-tabs v-model="tab" inline-label no-caps class="bg-grey-3 rounded-borders">
+      <q-tab name="upcoming" icon="mdi-calendar" label="Upcoming" />
+      <q-tab name="past" icon="mdi-history" label="Past" />
+    </q-tabs>
 
-    <q-card-section v-else-if="!data.length" class="text-body2 text-center">
-      No events planned.
-    </q-card-section>
-
-    <q-list separator v-else>
-      <q-item clickable class="full-width q-pa-sm" v-for="event in data" :key="event.id">
-        <div class="col-sm-3 col-4 overflow-hidden row items-center q-pr-md">
-          <q-img :ratio="16/9" :src="'https://source.unsplash.com/random/160x90?sig=' + Math.floor(Math.random() * 1000)" class="rounded-borders bg-grey-2" spinner-color="transparent"/>
+    <q-card>
+      <q-card-section v-if="!dataLoaded" class="text-center">
+        <q-circular-progress
+          color="grey"
+          indeterminate
+          size="50px"
+          class="q-ma-md"
+        />
+        <div class="text-grey">
+          Loading events...
         </div>
-        <q-item-section>
-          <div class="text-bold q-ma-none">
-            {{ event.title }}
-          </div>
-          <div class="text-caption">
-            <q-chip icon="mdi-calendar" square class="text-caption">
-              {{ toReadableTime(event.startDate) }}
-            </q-chip>
-          </div>
-        </q-item-section>
-      </q-item>
-    </q-list>
-  </q-card>
+      </q-card-section>
+
+      <q-card-section v-else-if="!data.length" class="text-body2 text-center">
+        No events planned.
+      </q-card-section>
+
+      <q-list separator v-else>
+        <q-item class="full-width q-pa-md" v-for="event in data" :key="event.id" clickable :to="{ name: 'Dashboard Event', params: { eventID: event.id } }">
+          <q-item-section class="col-4  overflow-hidden row items-center q-pr-sm">
+            <q-img :ratio="16/9" :src="'https://source.unsplash.com/random/160x90?sig=' + Math.floor(Math.random() * 1000)" class="rounded-borders bg-grey-2 cursor-pointer" spinner-color="transparent"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label caption>
+              {{ mixin_humanDate(event.startDate) }}
+            </q-item-label>
+            <q-item-label class="text-bold q-ma-none">
+              <span class="cursor-pointer q-mr-xs" >{{ event.title }}</span>
+            </q-item-label>
+            <q-item-label class="q-gutter-xs">
+               <q-chip icon="mdi-cursor-default-click" :label="event.signupCount + ' signups'" size="sm" class="q-ma-none text-bold" color="secondary" dark/>
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-card>
+
+    <activist-handbook
+        title="Guides for organisers"
+        description="Learn how to organise succesful actions from experienced campaigners around the globe. Here are some relevant guides from Activist Handbook:"
+        campaign="dashboard_calendar"
+        :articles="[
+          {title: 'How to organise actions', link: 'https://activisthandbook.org/en/organising/action'},
+          {title: 'Explore tactics', link: 'https://activisthandbook.org/en/tactics'}
+        ]"
+      />
+
+  </div>
 </template>
 <script>
+import ActivistHandbook from 'components/ActivistHandbook'
+
 import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore'
 const db = getFirestore()
 
 export default {
+  components: { ActivistHandbook },
   data () {
     return {
       dataLoaded: false,
