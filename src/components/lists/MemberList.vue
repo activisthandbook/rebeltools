@@ -23,21 +23,22 @@
             color="grey-9"
             dark
             class="q-my-none"
+            v-if="member.role"
           >
             <q-tooltip :offset="[0, 6]" class="text-body2 bg-grey-9 shadow-7">{{
               member.role.name
             }}</q-tooltip>
           </q-icon>
           <q-chip
-            icon="mdi-lightning-bolt-circle"
+            icon="mdi-heart"
             size="sm"
             color="grey-9"
             dark
             class="q-my-none"
-            label="1"
+            :label="member.engagementScore"
           >
             <q-tooltip :offset="[0, 6]" class="text-body2 bg-grey-9 shadow-7"
-              >Engagement score ⚡️</q-tooltip
+              >Engagement score ❤️</q-tooltip
             >
           </q-chip>
           <q-chip

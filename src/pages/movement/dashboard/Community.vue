@@ -9,17 +9,13 @@
         color="white"
         text-color="black"
         disable
+        class="q-mr-sm"
       />
+      <q-btn round flat icon="mdi-magnify" disable />
     </q-toolbar>
   </q-header>
   <div class="q-gutter-y-md">
-    <div>
-      <q-input
-        outlined
-        color="secondary"
-        label="🔍 Search rebels"
-        class="q-mb-sm q-mt-lg"
-      />
+    <!-- <div>
       <span v-for="(filter, index) in filters" :key="index">
         <q-chip
           v-show="allFiltersShown || index < 6"
@@ -39,7 +35,7 @@
         clickable
         @click="allFiltersShown = true"
       />
-    </div>
+    </div> -->
     <transition name="slide-fade">
       <div v-if="membersLoaded" class="q-gutter-y-md">
         <!-- GUIDE BASED ON FILTER -->
@@ -81,7 +77,7 @@
           </div>
 
           <div class="col-xs-12 col-sm-6 text-center">
-            <q-card class="light-dimmed">
+            <q-card>
               <q-card-section class="q-pt-lg">
                 <h3 class="q-mb-sm">Volunteers</h3>
                 <div class="text-bold">
@@ -134,6 +130,25 @@
           />
         </div>
 
+        <q-card
+          flat
+          v-model="tab"
+          inline-label
+          no-caps
+          class="bg-grey-3 rounded-borders"
+        >
+          <q-card-section class="q-gutter-sm row items-center">
+            <q-btn
+              label="All"
+              no-caps
+              color="secondary"
+              icon-right="mdi-menu-down"
+            />
+            <q-space />
+            <q-btn label="Filter" flat no-caps icon="mdi-filter" dense />
+            <q-btn label="Sort" flat no-caps icon="mdi-sort" dense />
+          </q-card-section>
+        </q-card>
         <q-card>
           <q-card-section v-if="!members[0] && filters[0].model">
             Nobody has signed up for your movement yet
@@ -165,6 +180,7 @@ export default {
   components: { ActivistHandbook, MemberList },
   data() {
     return {
+      tab: "upcoming",
       membersLoaded: false,
       members: [],
       currentDescription: "",
@@ -200,24 +216,24 @@ export default {
           },
         },
         {
-          label: "High engagement",
+          label: "Often active online",
           model: false,
           icon: "mdi-cursor-default-click",
           guide: {
             emoji: "📱",
-            title: "High online engagement",
+            title: "Often active online",
             description:
               "These people interact with your page a lot. They might be interested taking up a more active role.",
             campaign: "community_high_engagement",
           },
         },
         {
-          label: "Actively involved",
+          label: "High engagement score",
           model: false,
-          icon: "mdi-lightning-bolt-circle",
+          icon: "mdi-heart",
           guide: {
             emoji: "✊",
-            title: "Actively involved rebels",
+            title: "High engagement score",
             description:
               "These rebels regularly attend your actions and meetings. Make sure they stay involved. Create a healthy culture to avoid burnout.",
             campaign: "community_actively_involved",
