@@ -165,14 +165,14 @@ export default {
     SmartAction,
     OopsError,
   },
-  created() {
+  mounted() {
     // watch the params of the route to fetch the data again
     this.$watch(
       () => this.$route.params,
       () => {
         // console.log(this.$route)
         if (this.$route.params.eventPath) {
-          console.log("event load");
+          console.log("movement event load");
           this.$store.dispatch(
             "currentEvent/subscribeToDatabase",
             this.$route.params.eventPath

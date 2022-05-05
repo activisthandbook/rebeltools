@@ -112,7 +112,7 @@ export default {
       );
     },
   },
-  created() {
+  mounted() {
     // watch the params of the route to fetch the data again
     this.$watch(
       () => this.$route.params,

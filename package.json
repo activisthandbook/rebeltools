@@ -21,6 +21,7 @@
     "eslint-config-prettier": "^8.5.0",
     "firebase": "^9.6.1",
     "geofire-common": "^5.2.0",
+    "party-js": "^2.1.2",
     "quasar": "^2.4.3",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0",

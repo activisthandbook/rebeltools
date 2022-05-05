@@ -36,6 +36,26 @@
               </q-btn> -->
             </q-item-label>
           </q-item-section>
+          <q-item-section side>
+            <q-btn
+              no-caps
+              color="primary"
+              rounded
+              class="engagement-button q-ma-none shadow-12"
+              unelevated
+              icon="mdi-heart"
+              @click="increaseEngagementScore()"
+              :label="memberData.engagementScore"
+            >
+              <q-tooltip
+                class="bg-white text-black shadow-12"
+                :offset="[0, 12]"
+                style="font-size: 14px"
+              >
+                Add points to engagement score! ❤️
+              </q-tooltip>
+            </q-btn>
+          </q-item-section>
         </q-item>
       </q-list>
       <q-card-section class="q-pt-sm">
@@ -57,18 +77,50 @@
             color="secondary"
             :href="'tel:' + memberData.phoneNumber"
           />
-          <q-btn
-            icon="mdi-chat"
-            label="Chat"
-            no-caps
-            color="secondary"
-            :href="
-              'sms:' +
-              memberData.phoneNumber +
-              '&body=Hi%20' +
-              memberData.firstName
-            "
-          />
+          <q-btn icon="mdi-chat" label="Chat" no-caps color="secondary">
+            <q-menu
+              transition-show="jump-down"
+              transition-hide="fade"
+              :offset="[0, 4]"
+            >
+              <q-list>
+                <q-item
+                  clickable
+                  v-close-popup
+                  @click="
+                    mixin_openURL(
+                      'sms:' +
+                        memberData.phoneNumber +
+                        '&body=Hi%20' +
+                        memberData.firstName
+                    )
+                  "
+                >
+                  <q-item-section avatar>
+                    <q-icon name="mdi-message-processing-outline" />
+                  </q-item-section>
+                  <q-item-section>SMS</q-item-section>
+                </q-item>
+                <q-item
+                  clickable
+                  v-close-popup
+                  @click="
+                    mixin_openURL(
+                      'https://api.whatsapp.com/send?phone=' +
+                        memberData.phoneNumber.replace(/\D/g, '') +
+                        '&text=Hi%20' +
+                        memberData.firstName
+                    )
+                  "
+                >
+                  <q-item-section avatar>
+                    <q-icon name="mdi-whatsapp" />
+                  </q-item-section>
+                  <q-item-section>WhatsApp</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
           <q-btn
             label="Email"
             icon="mdi-email"
@@ -79,7 +131,13 @@
               memberData.firstName +
               ' <' +
               memberData.emailAddress +
-              '>'
+              '>?body=Hi%20' +
+              memberData.firstName +
+              ',%0D%0A%0D%0A' +
+              'Best,%0D%0A' +
+              $store.state.currentUser.data.firstName +
+              '%0D%0A%0D%0A' +
+              $store.state.currentMovement.data.name
             "
             target="_blank"
           />
@@ -98,36 +156,6 @@
             <q-item-label class="text-bold">
               <span>About</span>
             </q-item-label>
-          </q-item-section>
-
-          <q-item-section side>
-            <q-btn
-              no-caps
-              color="secondary"
-              padding="5px 5px"
-              rounded
-              style="flex-shrink: 0"
-              class="q-ma-none"
-              icon="mdi-plus"
-            >
-              <span class="q-ml-xs q-mr-xs">Add engagement</span>
-              <q-chip
-                icon="mdi-lightning-bolt-circle"
-                color="white"
-                text-color="secondary"
-                class="q-my-none q-mx-none cursor-pointer"
-                size="12px"
-                label="8"
-              >
-                <!-- <div class="q-pr-xs">8<span style="font-size:8px;position:absolute;margin-top:-3px;">+1</span></div> -->
-              </q-chip>
-              <q-tooltip
-                :offset="[0, 8]"
-                class="text-body2 bg-white text-black shadow-7"
-                >Add points to engagement score! ⚡️</q-tooltip
-              >
-              <!-- <q-icon name="mdi-plus" size="14px"/> -->
-            </q-btn>
           </q-item-section>
         </q-item>
         <q-item>
@@ -257,6 +285,7 @@
 <script>
 import OopsError from "components/OopsError";
 import AvatarImage from "components/AvatarImage";
+import party from "party-js";
 
 import {
   onSnapshot,
@@ -264,6 +293,7 @@ import {
   collection,
   doc,
   updateDoc,
+  increment,
 } from "firebase/firestore";
 const db = getFirestore();
 
@@ -336,6 +366,17 @@ export default {
         }
       });
     },
+    async increaseEngagementScore() {
+      const ref = doc(this.memberProfilesRef, this.$route.params.userID);
+      party.confetti(document.querySelector(".engagement-button"), {
+        color: party.Color.fromHex(
+          this.$store.state.currentMovement.data.primaryColor
+        ),
+      });
+      await updateDoc(ref, {
+        engagementScore: increment(1),
+      });
+    },
     async saveNotes() {
       const ref = doc(this.memberProfilesRef, this.$route.params.userID);
       await updateDoc(ref, {
@@ -347,3 +388,23 @@ export default {
   },
 };
 </script>
+<style scoped>
+.engagement-button {
+  transition: 0.1s ease-in-out;
+  animation: example 4s infinite;
+}
+.engagement-button:active {
+  opacity: 0.7;
+}
+@keyframes example {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.05) rotate(2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+</style>

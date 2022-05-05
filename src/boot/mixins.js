@@ -1,5 +1,6 @@
 import { boot } from "quasar/wrappers";
 import { Notify } from "quasar";
+import { openURL } from "quasar";
 
 import dayjs from "dayjs";
 import calendar from "dayjs/plugin/calendar";
@@ -47,6 +48,10 @@ export default boot(({ app }) => {
           icon: "mdi-cloud-check",
           timeout: 300,
         });
+      },
+      mixin_openURL: (link) => {
+        // console.log('r')
+        openURL(link);
       },
     },
   });
