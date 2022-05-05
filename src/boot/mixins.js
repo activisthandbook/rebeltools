@@ -1,4 +1,5 @@
 import { boot } from "quasar/wrappers";
+import { Notify } from "quasar";
 
 import dayjs from "dayjs";
 import calendar from "dayjs/plugin/calendar";
@@ -36,6 +37,16 @@ export default boot(({ app }) => {
       },
       mixin_humanDate(firestoreTimestamp) {
         return dayjs(firestoreTimestamp.toDate()).calendar();
+      },
+      mixin_savedNotification(message) {
+        Notify.create({
+          message: message,
+          color: "white",
+          textColor: "black",
+          iconColor: "grey",
+          icon: "mdi-cloud-check",
+          timeout: 300,
+        });
       },
     },
   });

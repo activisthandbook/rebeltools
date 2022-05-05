@@ -14,15 +14,7 @@
       color="white"
       class="q-mx-sm"
     >
-      <q-avatar size="32px" style="margin: 1px">
-        <q-icon name="mdi-account" v-if="!profileImage2x" size="24px" />
-        <img
-          :src="profileImage2x"
-          :srcset="profileImage1x + ' 1x,' + profileImage2x + ' 2x'"
-          no-spinner
-          v-else
-        />
-      </q-avatar>
+      <avatar-image :userID="$store.state.auth.data.uid" size="32px" />
     </q-btn>
     <q-menu :offset="[0, 6]" transition-show="jump-down" transition-hide="fade">
       <q-list style="min-width: 180px">
@@ -47,10 +39,14 @@
   </span>
 </template>
 <script>
+import AvatarImage from "components/AvatarImage";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 const storage = getStorage();
 
 export default {
+  components: {
+    AvatarImage,
+  },
   data() {
     return {
       profileImage1x: "",

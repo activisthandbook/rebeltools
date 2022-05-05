@@ -1,11 +1,7 @@
 {
   "hosting": {
     "public": "dist/pwa",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "/robot.txt",
@@ -36,10 +32,10 @@
       "port": 9099
     },
     "functions": {
-      "port": 5001
+      "port": 5002
     },
     "firestore": {
-      "port": 8080
+      "port": 8081
     },
     "database": {
       "port": 9000
@@ -61,9 +57,7 @@
     "rules": "storage.rules"
   },
   "functions": {
-    "predeploy": [
-      "npm --prefix \"$RESOURCE_DIR\" run lint"
-    ],
+    "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run lint"],
     "source": "functions"
   },
   "firestore": {

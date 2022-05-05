@@ -2,13 +2,24 @@
   <q-header bordered class="bg-primary text-white">
     <q-toolbar>
       <q-toolbar-title>Calendar</q-toolbar-title>
-      <q-btn icon="mdi-plus" label="Create" no-caps color="white" text-color="black" :to="{name: 'Dashboard New Event'}" />
+      <q-btn
+        icon="mdi-plus"
+        label="Create"
+        no-caps
+        color="white"
+        text-color="black"
+        :to="{ name: 'Dashboard New Event' }"
+      />
     </q-toolbar>
   </q-header>
 
   <div class="q-gutter-y-md">
-
-    <q-tabs v-model="tab" inline-label no-caps class="bg-grey-3 rounded-borders">
+    <q-tabs
+      v-model="tab"
+      inline-label
+      no-caps
+      class="bg-grey-3 rounded-borders"
+    >
       <q-tab name="upcoming" icon="mdi-calendar" label="Upcoming" />
       <q-tab name="past" icon="mdi-history" label="Past" />
     </q-tabs>
@@ -21,9 +32,7 @@
           size="50px"
           class="q-ma-md"
         />
-        <div class="text-grey">
-          Loading events...
-        </div>
+        <div class="text-grey">Loading events...</div>
       </q-card-section>
 
       <q-card-section v-else-if="!data.length" class="text-body2 text-center">
@@ -31,19 +40,51 @@
       </q-card-section>
 
       <q-list separator v-else>
-        <q-item class="full-width q-pa-md" v-for="event in data" :key="event.id" clickable :to="{ name: 'Dashboard Event', params: { eventID: event.id } }">
-          <q-item-section class="col-4  overflow-hidden row items-center q-pr-sm">
-            <q-img :ratio="16/9" :src="'https://source.unsplash.com/random/160x90?sig=' + Math.floor(Math.random() * 1000)" class="rounded-borders bg-grey-2 cursor-pointer" spinner-color="transparent"/>
+        <q-item
+          class="full-width q-pa-md"
+          v-for="event in data"
+          :key="event.id"
+          clickable
+          :to="{ name: 'Dashboard Event', params: { eventID: event.id } }"
+        >
+          <q-item-section
+            class="col-3 overflow-hidden row items-center q-pr-xs"
+          >
+            <q-img
+              :ratio="16 / 9"
+              :src="
+                'https://source.unsplash.com/random/160x90?sig=' +
+                Math.floor(Math.random() * 1000)
+              "
+              class="rounded-borders bg-grey-2 cursor-pointer"
+              spinner-color="transparent"
+            />
           </q-item-section>
           <q-item-section>
             <q-item-label caption>
-              {{ mixin_humanDate(event.startDate) }}
+              {{ mixin_humanDate(event.startDate) }} |
+              {{ event.address }}
             </q-item-label>
             <q-item-label class="text-bold q-ma-none">
-              <span class="cursor-pointer q-mr-xs" >{{ event.title }}</span>
+              <span class="cursor-pointer q-mr-xs">{{ event.title }}</span>
+              <!-- <q-chip
+                icon="mdi-cursor-default-click"
+                :label="event.signupCount"
+                size="sm"
+                class="q-ma-none text-bold"
+                color="secondary"
+                dark
+              /> -->
             </q-item-label>
             <q-item-label class="q-gutter-xs">
-               <q-chip icon="mdi-cursor-default-click" :label="event.signupCount + ' signups'" size="sm" class="q-ma-none text-bold" color="secondary" dark/>
+              <q-chip
+                icon="mdi-cursor-default-click"
+                :label="event.signupCount + ' signups'"
+                size="sm"
+                class="q-ma-none text-bold"
+                color="secondary"
+                dark
+              />
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -51,63 +92,102 @@
     </q-card>
 
     <activist-handbook
-        title="Guides for organisers"
-        description="Learn how to organise succesful actions from experienced campaigners around the globe. Here are some relevant guides from Activist Handbook:"
-        campaign="dashboard_calendar"
-        :articles="[
-          {title: 'How to organise actions', link: 'https://activisthandbook.org/en/organising/action'},
-          {title: 'Explore tactics', link: 'https://activisthandbook.org/en/tactics'}
-        ]"
-      />
-
+      title="Guides for organisers"
+      description="Learn how to organise succesful actions from experienced campaigners around the globe. Here are some relevant guides from Activist Handbook:"
+      campaign="dashboard_calendar"
+      :articles="[
+        {
+          title: 'How to organise actions',
+          link: 'https://activisthandbook.org/en/organising/action',
+        },
+        {
+          title: 'Explore tactics',
+          link: 'https://activisthandbook.org/en/tactics',
+        },
+      ]"
+    />
   </div>
 </template>
 <script>
-import ActivistHandbook from 'components/ActivistHandbook'
+import ActivistHandbook from "components/ActivistHandbook";
+import { Timestamp } from "firebase/firestore";
 
-import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore'
-const db = getFirestore()
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
+const db = getFirestore();
 
 export default {
   components: { ActivistHandbook },
-  data () {
+  data() {
     return {
       dataLoaded: false,
       data: null,
-      tab: 'upcoming'
-    }
+      tab: "upcoming",
+    };
   },
-  mounted () {
+  mounted() {
     this.$nextTick(function () {
-      const q = query(collection(db, 'calendar'), where('movementID', '==', this.$store.state.currentMovement.data.id))
+      this.fetchCalendar();
+      this.$watch(
+        () => this.tab,
+        () => {
+          this.fetchCalendar();
+        },
+        // fetch the data when the view is created and the data is
+        // already being observed
+        { immediate: true }
+      );
+    });
+  },
+  methods: {
+    fetchCalendar() {
+      const today = new Date();
+
+      let q = null;
+
+      if (this.tab === "upcoming") {
+        q = query(
+          collection(db, "calendar"),
+          where("movementID", "==", this.$store.state.currentMovement.data.id),
+          where("endDate", ">=", Timestamp.fromDate(today))
+        );
+      } else {
+        q = query(
+          collection(db, "calendar"),
+          where("movementID", "==", this.$store.state.currentMovement.data.id),
+          where("endDate", "<=", Timestamp.fromDate(today))
+        );
+      }
 
       onSnapshot(q, (querySnapshot) => {
-        const events = []
+        const events = [];
         querySnapshot.forEach((doc) => {
           events.push({
             ...doc.data(),
-            id: doc.id
-          })
-        })
-        this.data = events
-        this.dataLoaded = true
-      })
-    })
+            id: doc.id,
+          });
+        });
+        this.data = events;
+        this.dataLoaded = true;
+      });
+    },
+    toReadableTime(timestamp) {
+      const time = new Intl.DateTimeFormat("en", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        weekday: "long",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: false,
+      });
+      return time.format(timestamp.toDate());
+    },
   },
-  methods: {
-    toReadableTime (timestamp) {
-      const time = new Intl.DateTimeFormat('en', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        weekday: 'long',
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: false
-
-      })
-      return time.format(timestamp.toDate())
-    }
-  }
-}
+};
 </script>
