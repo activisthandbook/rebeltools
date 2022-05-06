@@ -1,9 +1,9 @@
 <template>
   <div v-if="!$store.state.currentEvent.dataLoaded" class="q-gutter-y-md">
+    <q-skeleton height="112px" />
     <q-card flat>
       <q-img :ratio="1920 / 1080" class="bg-grey-4" />
     </q-card>
-    <q-skeleton height="49.59px" />
     <q-card>
       <q-skeleton height="192.8px" class="bg-secondary" />
     </q-card>
@@ -24,6 +24,7 @@
         <q-btn label="Edit" no-caps color="secondary" disable />
       </template>
     </q-banner>
+    <h1>{{ $store.state.currentEvent.data.title }}</h1>
     <q-card flat>
       <q-img
         src="https://source.unsplash.com/random/608x342"
@@ -56,7 +57,7 @@
         </q-chip>
       </span>
     </q-card>
-    <h1>{{ $store.state.currentEvent.data.title }}</h1>
+    <!-- <h1>{{ $store.state.currentEvent.data.title }}</h1> -->
     <smart-action
       :action="{
         actionType: 'event',
