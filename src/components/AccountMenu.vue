@@ -14,7 +14,7 @@
       color="white"
       class="q-mx-sm"
     >
-      <avatar-image :userID="$store.state.auth.data.uid" size="32px" />
+      <avatar-image :userID="$store.state.auth.data.uid" :size="32" />
     </q-btn>
     <q-menu :offset="[0, 6]" transition-show="jump-down" transition-hide="fade">
       <q-list style="min-width: 180px">

@@ -1,59 +1,94 @@
 // app global css in SCSS form
 body {
-  font-family: 'Noto Sans', sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 16px;
   background-color: #fafafa;
 }
-a{color: #0431EA}
-h1,h2,h3,h4,h5,h6,.text-h1,.text-h2,.text-h3,.text-h4,.text-h5,.text-h6,.q-toolbar__title{
-  font-family: 'Noto Serif', serif;
+a {
+  color: #0431ea;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.text-h1,
+.text-h2,
+.text-h3,
+.text-h4,
+.text-h5,
+.text-h6,
+.q-toolbar__title {
+  font-family: "Noto Serif", serif;
   font-weight: 700;
   line-height: 1em;
-  margin:0;
+  margin: 0;
   overflow: visible;
 }
-h1,.text-h1{
-  font-size:2.6em
+h1,
+.text-h1 {
+  font-size: 2.6em;
 }
-h2,.text-h2{
-  font-size:1.8em;
+h2,
+.text-h2 {
+  font-size: 1.8em;
   // font-weight: 400;
   font-style: italic;
 }
-h3,.text-h3{
-  font-size:1.6em
+h3,
+.text-h3 {
+  font-size: 1.6em;
 }
-h4,.text-h4{
-  font-size:1.4em
+h4,
+.text-h4 {
+  font-size: 1.4em;
 }
-h5,.text-h5{
-  font-size:1.2em
+h5,
+.text-h5 {
+  font-size: 1.2em;
 }
-h6,.text-h6{
-  font-size:1em
+h6,
+.text-h6 {
+  font-size: 1em;
 }
-.q-btn{
-  font-weight:700;
+.q-btn {
+  font-weight: 700;
 
-  &:not(.q-btn--round, .q-btn--fab, .q-btn--rounded){
+  &:not(.q-btn--round, .q-btn--fab, .q-btn--rounded) {
     border-radius: 6px;
   }
 }
-.q-card{
+.q-card {
   border-radius: 8px;
-  overflow:hidden
+  overflow: hidden;
 }
 .q-field--with-bottom {
   padding-bottom: 0;
 }
-.q-field__bottom{
+.q-field__bottom {
   min-height: 0;
   padding: 0;
 }
-.q-field__messages div, .q-field__counter{
+.q-field__messages div,
+.q-field__counter {
   padding: 8px 0;
 }
-.q-field__bottom--animated{
+.q-field__bottom--animated {
   transform: none;
   position: inherit;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-leave-active {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateY(8px);
+  opacity: 0;
 }

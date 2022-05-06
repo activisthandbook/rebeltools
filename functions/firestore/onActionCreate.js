@@ -21,11 +21,8 @@ exports.onActionCreate = functions
     const actionInstance = snap.data();
 
     // UPDATE ACTIONS
+    updateProfiles(actionInstance);
     updateSignupCount(actionInstance);
-    updateUserProfile(actionInstance);
-    updateMemberProfile(actionInstance);
-
-    return 0;
   });
 
 // 🔢 UPDATE SIGNUP COUNT
@@ -48,46 +45,15 @@ function updateSignupCount(actionInstance) {
 
   const signupCount = new Counter(
     db.collection(collection).doc(actionInstance.actionID),
-    "signupCount"
+    "countSignups"
   );
-  signupCount.incrementBy(1);
+  return signupCount.incrementBy(1);
 }
 
-/* 👋 UPDATE USER PROFILE
-The 'user profile' is stored in the 'users' collection.
+/* 👋 UPDATE PROFILES
+The 'members profile' is stored as a subcollection of a specific movement. The 'user profile' is stored in the 'users' collection.
 */
-function updateUserProfile(actionInstance) {
-  functions.logger.info(
-    "🔵 Function started: updateUserProfile",
-    actionInstance
-  );
-
-  if (actionInstance.actionType === "movement") {
-    // Add movement to personal user profile
-    const userProfileRef = db.collection("users").doc(actionInstance.userID);
-
-    const userProfileData = {
-      movements: FieldValue.arrayUnion(actionInstance.movementID),
-    };
-
-    userProfileRef
-      .set(userProfileData, { merge: true })
-      .then(() => {
-        functions.logger.info(
-          "🟢 Setting user profile succesful",
-          userProfileData
-        );
-      })
-      .catch((error) => {
-        functions.logger.error("🔴 Error in updateUserProfile function", error);
-      });
-  }
-}
-
-/* 🌊 UPDATE MEMBERS PROFILE
-The 'members profile' is stored as a subcollection of a specific movement.
-*/
-function updateMemberProfile(actionInstance) {
+function updateProfiles(actionInstance) {
   functions.logger.info(
     "🔵 Function started: updateMemberProfile",
     actionInstance
@@ -100,44 +66,80 @@ function updateMemberProfile(actionInstance) {
     .collection("members")
     .doc(actionInstance.userID);
 
-  userProfileRef
+  return userProfileRef
     .get()
     .then((doc) => {
       functions.logger.info("🟢 Fetching user profile succesful", doc);
 
-      let dataForMemberProfile = {};
+      let member = {};
 
       if (doc.exists) {
         const user = doc.data();
-        if (user.emailAddress)
-          dataForMemberProfile.emailAddress = user.emailAddress;
-        if (user.phoneNumber)
-          dataForMemberProfile.phoneNumber = user.phoneNumber;
-        if (user.firstName) dataForMemberProfile.firstName = user.firstName;
-        if (user.lastName) dataForMemberProfile.lastName = user.lastName;
+
+        // If this is the first time the user has signed up for this movement, we need to create a new member profile.
+        if (
+          !user.movements ||
+          !user.movements.includes(actionInstance.movementID)
+        ) {
+          // Add info from user profile to movement member profile
+          member.id = user.id ? user.id : "";
+          member.emailAddress = user.emailAddress ? user.emailAddress : "";
+          member.phoneNumber = user.phoneNumber ? user.phoneNumber : "";
+          member.firstName = user.firstName ? user.firstName : "";
+          member.lastName = user.lastName ? user.lastName : "";
+          member.location = user.location ? user.location : "";
+          member.timestampFirstAction = FieldValue.serverTimestamp();
+          functions.logger.info(
+            "🔵 First action of user for this movement",
+            user
+          );
+        } else {
+          functions.logger.info(
+            "🔵 Not first action of user for this movement",
+            user
+          );
+        }
+      } else {
+        // Fallback: even though the Firestore user profile has not been created yet, we can still get some data from their Firebase auth profile.
+        member.id = actionInstance.userID;
+        member.timestampFirstAction = FieldValue.serverTimestamp();
+
+        admin
+          .getAuth()
+          .getUser(actionInstance.userID)
+          .then((userRecord) => {
+            member.emailAddress = userRecord.emailAddress;
+          })
+          .catch((error) => {
+            console.log("🔴 Could not fetch auth user data", error);
+          });
+        functions.logger.error("🟠User profile not found");
       }
-      dataForMemberProfile.timestampLastAction = FieldValue.serverTimestamp();
+
+      member.timestampLastAction = FieldValue.serverTimestamp();
+      member.countAllSignups = FieldValue.increment(1);
 
       switch (actionInstance.actionType) {
         case "movement":
-          dataForMemberProfile.member = true;
+          member.member = true;
           break;
         case "event":
-          dataForMemberProfile.eventSignups = FieldValue.arrayUnion(
+          member.eventSignups = FieldValue.arrayUnion(actionInstance.actionID);
+          member.countEventSignups = FieldValue.increment(1);
+          break;
+        case "campaign":
+          member.campaignSignups = FieldValue.arrayUnion(
             actionInstance.actionID
           );
+          member.countCampaignSignups = FieldValue.increment(1);
           break;
       }
 
       // Update the members profile
-
       memberProfileRef
-        .set(dataForMemberProfile, { merge: true })
+        .set(member, { merge: true })
         .then(() => {
-          functions.logger.info(
-            "🟢 Setting member profile succesful",
-            dataForMemberProfile
-          );
+          functions.logger.info("🟢 Setting member profile succesful", member);
         })
         .catch((error) => {
           functions.logger.error(
@@ -145,6 +147,29 @@ function updateMemberProfile(actionInstance) {
             error
           );
         });
+
+      // If the user profile does not exist yet, or if this is the first time the user has signed up for this movement, we need to add this movement to the user profile.
+      if (!doc.extists || !doc.data().includes(actionInstance.movementID)) {
+        const userProfileData = {
+          movements: FieldValue.arrayUnion(actionInstance.movementID),
+        };
+
+        return userProfileRef
+          .set(userProfileData, { merge: true })
+          .then(() => {
+            functions.logger.info(
+              "🟢 Added movement to user profile succesfully",
+              userProfileData
+            );
+            return;
+          })
+          .catch((error) => {
+            functions.logger.error(
+              "🔴 Error in adding movement to user profile",
+              error
+            );
+          });
+      }
     })
     .catch((error) => {
       functions.logger.error("🔴 Error in ferching user profile", error);

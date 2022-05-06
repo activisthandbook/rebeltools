@@ -2,15 +2,6 @@
   <q-header bordered class="bg-primary text-white">
     <q-toolbar>
       <q-toolbar-title>Community</q-toolbar-title>
-      <q-btn
-        icon="mdi-plus"
-        label="Add rebel"
-        no-caps
-        color="white"
-        text-color="black"
-        disable
-        class="q-mr-sm"
-      />
       <q-btn round flat icon="mdi-magnify" disable />
     </q-toolbar>
   </q-header>
@@ -142,7 +133,7 @@
               label="All"
               no-caps
               color="secondary"
-              icon-right="mdi-menu-down"
+              icon="mdi-account-group"
             />
             <q-space />
             <q-btn label="Filter" flat no-caps icon="mdi-filter" dense />
@@ -158,9 +149,23 @@
           </q-card-section>
           <member-list :members="members" v-else />
         </q-card>
+        <div class="q-gutter-x-sm row items-center">
+          <q-btn
+            label="Load more"
+            unelevated
+            no-caps
+            color="grey-3"
+            text-color="black"
+          />
+          <q-space />
+          <q-btn label="Export" flat no-caps icon="mdi-download" dense />
+        </div>
       </div>
     </transition>
   </div>
+  <q-page-sticky position="bottom-right" :offset="[18, 18]">
+    <q-btn icon="mdi-plus" color="primary" fab disable />
+  </q-page-sticky>
 </template>
 <script>
 import ActivistHandbook from "components/ActivistHandbook";
@@ -390,18 +395,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.slide-fade-enter-active {
-  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
-}
-
-.slide-fade-leave-active {
-  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
-}
-
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  transform: translateY(8px);
-  opacity: 0;
-}
-</style>

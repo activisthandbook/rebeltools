@@ -53,6 +53,14 @@ export default boot(({ app }) => {
         // console.log('r')
         openURL(link);
       },
+      mixin_copyText: (text) => {
+        navigator.clipboard.writeText(text);
+        Notify.create({
+          message: "Copied to clipboard",
+          icon: "mdi-check",
+          timeout: 1000,
+        });
+      },
     },
   });
 });
