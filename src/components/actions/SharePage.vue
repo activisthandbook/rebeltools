@@ -43,28 +43,31 @@
       </q-chip>
     </div>
   </q-linear-progress> -->
-  <q-chip color="primary" text-color="white" square class="q-ml-none">
-    <span
-      ><strong>4</strong> <span v-if="actionType === 'movement'">members</span
-      ><span v-if="actionType === 'event'">participants</span></span
-    >
-  </q-chip>
-  <q-chip color="white" text-color="black" square>
-    <q-spinner-rings
-      color="primary"
-      size="2em"
-      style="margin-left: -12px; margin-right: -2px"
-    />
-    <span><strong>0</strong> accepted your invite</span>
-  </q-chip>
+  <div class="q-mt-md">
+    <q-chip color="primary" text-color="white" square class="q-ml-none">
+      <span
+        ><strong>4</strong> <span v-if="actionType === 'movement'">members</span
+        ><span v-if="actionType === 'event'">participants</span></span
+      >
+    </q-chip>
+    <q-chip color="white" text-color="black" square>
+      <q-spinner-rings
+        color="primary"
+        size="2em"
+        style="margin-left: -12px; margin-right: -2px"
+      />
+      <span><strong>0</strong> accepted your invite</span>
+    </q-chip>
+  </div>
+
   <!-- <div
     class="text-right"
     style="margin-top: -64px; position: relative; font-size: 60px; height: 64px"
   >
     <span style="margin-right: -16px"> 🎉 </span>
   </div> -->
-  <div class="flex items-center text-body2">
-    <span class="text-italic q-mr-sm" style="opacity: 0.8"
+  <div class="flex items-center text-body2 q-mt-md">
+    <span class="text-italic q-mr-sm q-my-xs" style="opacity: 0.8"
       >Want to invite many people?</span
     >
     <q-btn

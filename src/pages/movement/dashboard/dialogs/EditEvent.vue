@@ -375,7 +375,7 @@ import useVuelidate from "@vuelidate/core";
 
 export default {
   components: {
-    ImageSelector: () => import("components/ImageSelector"),
+    ImageSelector,
     MiniEventDashboard,
   },
   setup() {
