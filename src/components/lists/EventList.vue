@@ -1,11 +1,27 @@
 <template>
-  <q-list separator>
+  <q-card-section v-if="!loaded" class="text-center">
+    <q-circular-progress
+      color="grey"
+      indeterminate
+      size="50px"
+      class="q-ma-md"
+    />
+    <div class="text-grey">Loading events...</div>
+  </q-card-section>
+
+  <q-card-section v-else-if="error" class="text-body2 text-center">
+    Something went wrong loading the events.
+  </q-card-section>
+  <q-card-section v-else-if="!events.length" class="text-body2 text-center">
+    No events planned.
+  </q-card-section>
+  <q-list separator v-else>
     <q-item
       class="full-width q-pa-md"
       v-for="event in events"
       :key="event.id"
       clickable
-      :to="{ name: 'Dashboard Event', params: { eventID: event.id } }"
+      :to="{ name: 'Dashboard Event Edit', params: { eventID: event.id } }"
     >
       <q-item-section class="col-3 overflow-hidden row items-center q-pr-xs">
         <q-img
@@ -50,6 +66,6 @@
 </template>
 <script>
 export default {
-  props: ["events"],
+  props: ["events", "loaded", "error"],
 };
 </script>

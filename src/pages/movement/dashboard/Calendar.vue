@@ -18,22 +18,12 @@
     </q-tabs>
 
     <q-card>
-      <q-card-section v-if="!dataLoaded" class="text-center">
-        <q-circular-progress
-          color="grey"
-          indeterminate
-          size="50px"
-          class="q-ma-md"
-        />
-        <div class="text-grey">Loading events...</div>
-      </q-card-section>
-
-      <q-card-section v-else-if="!data.length" class="text-body2 text-center">
-        No events planned.
-      </q-card-section>
-
       <!-- CALENDAR LIST -->
-      <event-list :events="data" v-else />
+      <event-list
+        :events="events.data"
+        :loaded="events.dataLoaded"
+        :error="events.error"
+      />
     </q-card>
 
     <activist-handbook
@@ -79,9 +69,13 @@ export default {
   components: { EventList, ActivistHandbook },
   data() {
     return {
-      dataLoaded: false,
-      data: null,
       tab: "upcoming",
+      events: {
+        unsubscribe: null,
+        dataLoaded: false,
+        data: null,
+        error: null,
+      },
     };
   },
   mounted() {
@@ -100,6 +94,8 @@ export default {
   },
   methods: {
     fetchCalendar() {
+      // this.events.dataLoaded = false;
+
       const today = new Date();
 
       let q = null;
@@ -118,29 +114,27 @@ export default {
         );
       }
 
-      onSnapshot(q, (querySnapshot) => {
-        const events = [];
-        querySnapshot.forEach((doc) => {
-          events.push({
-            ...doc.data(),
-            id: doc.id,
+      this.events.unsubscribe = onSnapshot(
+        // Query the collection
+        q,
+        // Process the data that is received
+        (querySnapshot) => {
+          const events = [];
+          querySnapshot.forEach((doc) => {
+            events.push({
+              ...doc.data(),
+              id: doc.id,
+            });
           });
-        });
-        this.data = events;
-        this.dataLoaded = true;
-      });
-    },
-    toReadableTime(timestamp) {
-      const time = new Intl.DateTimeFormat("en", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        weekday: "long",
-        hour: "numeric",
-        minute: "numeric",
-        hour12: false,
-      });
-      return time.format(timestamp.toDate());
+          this.events.data = events;
+          this.events.dataLoaded = true;
+        },
+        // Handle errors
+        (error) => {
+          this.events.dataLoaded = true;
+          this.events.error = error;
+        }
+      );
     },
   },
 };

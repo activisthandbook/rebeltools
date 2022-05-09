@@ -30,7 +30,6 @@ export default {
   },
   computed: {
     iconSize: function () {
-      console.log(this.size);
       return this.size - this.size / 3;
     },
   },

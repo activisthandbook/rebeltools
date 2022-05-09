@@ -15,6 +15,7 @@
         no-caps
         color="white"
         text-color="black"
+        :to="{ name: 'Dashboard Event Edit' }"
       />
     </q-toolbar>
   </q-header>
@@ -112,15 +113,10 @@ export default {
       );
     },
   },
-  mounted() {
-    // watch the params of the route to fetch the data again
-    this.$watch(
-      () => this.$route.params,
-      () => {
-        // console.log(this.$route.params.eventPath);
+  watch: {
+    "$route.params.eventID": {
+      handler: function () {
         if (this.$route.params.eventID) {
-          // console.log('event load')
-          console.log("dash event load");
           this.$store.dispatch(
             "currentEvent/subscribeToDatabaseID",
             this.$route.params.eventID
@@ -128,10 +124,8 @@ export default {
           this.fetchMembersFromDatabase();
         }
       },
-      // fetch the data when the view is created and the data is
-      // already being observed
-      { immediate: true }
-    );
+      immediate: true,
+    },
   },
   unmounted() {
     this.$store.commit("currentEvent/destroy");

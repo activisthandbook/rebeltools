@@ -8,10 +8,19 @@
         icon="mdi-close"
         :to="{ name: 'Dashboard Calendar' }"
       />
-      <q-toolbar-title class="gt-xs">Create event</q-toolbar-title>
+      <q-toolbar-title
+        class="gt-xs"
+        v-if="$route.name === 'Dashboard New Event'"
+        >Create event</q-toolbar-title
+      >
+      <q-toolbar-title
+        class="gt-xs"
+        v-if="$route.name === 'Dashboard Event Edit'"
+        >Edit event</q-toolbar-title
+      >
       <q-toolbar-title class="lt-sm">Event</q-toolbar-title>
       <q-space />
-      <div class="q-gutter-x-sm">
+      <div class="q-gutter-x-sm" v-if="$route.name === 'Dashboard New Event'">
         <q-btn
           label="Save draft"
           no-caps
@@ -20,6 +29,7 @@
           @click="createEvent()"
           :loading="loading"
         />
+
         <q-btn
           label="Publish"
           no-caps
@@ -27,13 +37,40 @@
           text-color="black"
           @click="createEvent()"
           :loading="loading"
-          :disable="this.v$.newEvent.$invalid"
+          :disable="this.v$.event.data.$invalid"
+        />
+      </div>
+      <div class="q-gutter-x-sm" v-if="$route.name === 'Dashboard Event Edit'">
+        <q-btn
+          label="Unpublish"
+          no-caps
+          color="white"
+          outline
+          :loading="loading"
+          :disable="this.v$.event.data.$invalid"
+        />
+        <q-btn
+          label="Save"
+          no-caps
+          color="white"
+          text-color="black"
+          @click="createEvent()"
+          :loading="loading"
+          :disable="this.v$.event.data.$invalid"
         />
       </div>
     </q-toolbar>
   </q-header>
 
-  <div class="q-gutter-y-md">
+  <div v-if="!event.dataLoaded">Loading...</div>
+  <div v-else-if="event.error">Something went wrong loading this event.</div>
+  <div v-else class="q-gutter-y-md">
+    <mini-event-dashboard
+      :event="event.data"
+      :count-signups="event.data.countSignups"
+      v-if="$route.name === 'Dashboard Event Edit'"
+      editing
+    />
     <!-- ℹ️ BASIC INFO -->
     <q-card>
       <q-card-section>
@@ -44,11 +81,12 @@
             label="📢 Event title"
             outlined
             color="secondary"
-            v-model="newEvent.title"
-            :error="this.v$.newEvent.title.$error"
+            v-model="event.data.title"
+            :error="this.v$.event.data.title.$error"
             :errorMessage="
-              mixin_mergeErrorMessages(this.v$.newEvent.title.$errors)
+              mixin_mergeErrorMessages(this.v$.event.data.title.$errors)
             "
+            @blur="generatePath()"
           />
 
           <q-input
@@ -57,7 +95,7 @@
             filled
             color="secondary"
             dense
-            v-model="newEvent.path"
+            v-model="event.data.path"
           >
             <template v-slot:hint>
               <div>
@@ -65,7 +103,7 @@
                   "rebel.tools/" +
                   this.$store.state.currentMovement.data.path +
                   "/events/" +
-                  newEvent.path
+                  event.data.path
                 }}
               </div>
             </template>
@@ -79,7 +117,7 @@
             outlined
             type="textarea"
             color="secondary"
-            v-model="newEvent.callToAction"
+            v-model="event.data.callToAction"
             autogrow
             input-style="min-height: 2em"
             counter
@@ -92,7 +130,7 @@
             outlined
             type="textarea"
             color="secondary"
-            v-model="newEvent.description"
+            v-model="event.data.description"
             autogrow
             input-style="min-height: 6em"
           />
@@ -111,10 +149,12 @@
             color="secondary"
             type="datetime-local"
             stack-label
-            v-model="newEvent.startDate"
-            :error="this.v$.newEvent.startDate.$error"
+            v-model="event.data.startDateLocalFormat"
+            :error="this.v$.event.data.startDateLocalFormat.$error"
             :errorMessage="
-              mixin_mergeErrorMessages(this.v$.newEvent.startDate.$errors)
+              mixin_mergeErrorMessages(
+                this.v$.event.data.startDateLocalFormat.$errors
+              )
             "
           />
           <q-input
@@ -123,12 +163,14 @@
             color="secondary"
             type="datetime-local"
             stack-label
-            :disable="!newEvent.startDate"
-            :dense="!newEvent.startDate"
-            v-model="newEvent.endDate"
-            :error="this.v$.newEvent.endDate.$error"
+            :disable="!event.data.startDateLocalFormat"
+            :dense="!event.data.startDateLocalFormat"
+            v-model="event.data.endDateLocalFormat"
+            :error="this.v$.event.data.endDateLocalFormat.$error"
             :errorMessage="
-              mixin_mergeErrorMessages(this.v$.newEvent.endDate.$errors)
+              mixin_mergeErrorMessages(
+                this.v$.event.data.endDateLocalFormat.$errors
+              )
             "
           />
           <div class="text-caption">Automatically uses your timezone</div>
@@ -145,10 +187,10 @@
             label="📍 Address"
             outlined
             color="secondary"
-            v-model="newEvent.address"
-            :error="this.v$.newEvent.address.$error"
+            v-model="event.data.address"
+            :error="this.v$.event.data.address.$error"
             :errorMessage="
-              mixin_mergeErrorMessages(this.v$.newEvent.address.$errors)
+              mixin_mergeErrorMessages(this.v$.event.data.address.$errors)
             "
           />
           <q-input
@@ -156,10 +198,10 @@
             outlined
             color="secondary"
             hint="Video call, livestream or other online space"
-            v-model="newEvent.onlineLink"
-            :error="this.v$.newEvent.onlineLink.$error"
+            v-model="event.data.onlineLink"
+            :error="this.v$.event.data.onlineLink.$error"
             :errorMessage="
-              mixin_mergeErrorMessages(this.v$.newEvent.onlineLink.$errors)
+              mixin_mergeErrorMessages(this.v$.event.data.onlineLink.$errors)
             "
           >
             <template v-slot:append>
@@ -171,7 +213,7 @@
                 flat
                 dense
                 @click="generateJitsiLink()"
-                v-show="!jitsiLinkGenerated || !newEvent.onlineLink"
+                v-show="!jitsiLinkGenerated || !event.data.onlineLink"
               />
             </template>
           </q-input>
@@ -226,10 +268,10 @@
                 label="📄 Document link"
                 outlined
                 color="secondary"
-                v-model="newEvent.document"
-                :error="this.v$.newEvent.document.$error"
+                v-model="event.data.document"
+                :error="this.v$.event.data.document.$error"
                 :errorMessage="
-                  mixin_mergeErrorMessages(this.v$.newEvent.document.$errors)
+                  mixin_mergeErrorMessages(this.v$.event.data.document.$errors)
                 "
               >
                 <template v-slot:append>
@@ -250,7 +292,7 @@
                 outlined
                 type="textarea"
                 color="secondary"
-                v-model="newEvent.prepare"
+                v-model="event.data.prepare"
                 autogrow
                 input-style="min-height: 4em"
               />
@@ -259,7 +301,7 @@
                 outlined
                 type="textarea"
                 color="secondary"
-                v-model="newEvent.nextSteps"
+                v-model="event.data.nextSteps"
                 autogrow
                 input-style="min-height: 4em"
               />
@@ -290,7 +332,7 @@
                   <q-item-section avatar>
                     <q-toggle
                       color="secondary"
-                      v-model="newEvent.sync.GoogleCalendar"
+                      v-model="event.data.sync.GoogleCalendar"
                     />
                   </q-item-section>
                 </q-item>
@@ -304,7 +346,7 @@
                   <q-item-section avatar>
                     <q-toggle
                       color="secondary"
-                      v-model="newEvent.sync.FacebookPage"
+                      v-model="event.data.sync.FacebookPage"
                     />
                   </q-item-section>
                 </q-item>
@@ -318,15 +360,22 @@
 </template>
 <script>
 import ImageSelector from "components/ImageSelector";
+import MiniEventDashboard from "components/miniDashboards/MiniEventDashboard";
 
-import { Timestamp, serverTimestamp } from "firebase/firestore";
+import {
+  getFirestore,
+  onSnapshot,
+  doc,
+  Timestamp,
+  serverTimestamp,
+} from "firebase/firestore";
 import { getAnalytics, logEvent } from "firebase/analytics";
 const analytics = getAnalytics();
 
 import useVuelidate from "@vuelidate/core";
 
 export default {
-  components: { ImageSelector },
+  components: { ImageSelector, MiniEventDashboard },
   setup() {
     return { v$: useVuelidate() };
   },
@@ -334,31 +383,70 @@ export default {
     return {
       loading: false,
       jitsiLinkGenerated: false,
-      newEvent: {
-        title: "",
-        path: "",
-        address: "",
-        onlineLink: "",
-        startDate: "",
-        callToAction: "",
-        description: "",
-        document: "",
-        prepare: "",
-        followUp: "",
-        sync: {
-          googleCalendar: false,
-          facebookPage: false,
+      event: {
+        data: {
+          sync: {},
+          path: "",
         },
-        signupCount: 0,
+        dataLoaded: false,
+        error: null,
+        unsubscribe: null,
       },
     };
   },
+  watch: {
+    "$route.params.eventID": {
+      handler: function () {
+        if (this.$route.params.eventID) {
+          this.fetchFromDatabase(this.$route.params.eventID);
+        }
+      },
+      immediate: true,
+    },
+  },
   validations() {
     return {
-      newEvent: this.$store.state.currentEvent.validations,
+      event: { data: this.$store.state.currentEvent.validations },
     };
   },
   methods: {
+    fetchFromDatabase(eventID) {
+      const q = doc(getFirestore(), "calendar", eventID);
+      this.event.unsubscribe = onSnapshot(
+        q,
+        (querySnapshot) => {
+          if (querySnapshot.exists) {
+            this.event.data = querySnapshot.data();
+            this.event.dataLoaded = true;
+          } else {
+            Notify.create({
+              message: "Event not found",
+              icon: "mdi-alert",
+            });
+          }
+        },
+        (error) => {
+          // In case of error
+          this.event.error = error;
+          this.event.dataLoaded = true;
+
+          Notify.create({
+            message: error + " (currentEvent.js)",
+            icon: "mdi-alert",
+          });
+        }
+      );
+    },
+    generatePath() {
+      if (!this.event.data.path) {
+        this.event.data.path = this.event.data.title
+          .toLowerCase() // Make everything lowercase
+          .trim() // Remove leading and trailing whitespace
+          .replaceAll(" ", "-") // Replace spaces with dashes
+          .replace(/[^a-z,0-9,-]+/g, "") // Remove all non-alphanumeric characters, except dashes
+          .replace(/-{2,}/g, "-"); // Remove any double dashes
+      }
+    },
     generateJitsiLink() {
       let result = "";
       const characters =
@@ -369,7 +457,7 @@ export default {
           Math.floor(Math.random() * charactersLength)
         );
       }
-      this.newEvent.onlineLink =
+      this.event.onlineLink =
         "https://meet.jit.si/" +
         this.$store.state.currentMovement.data.path +
         "-" +
@@ -388,13 +476,13 @@ export default {
         timestampCreated: serverTimestamp(),
         published: true,
         movementID: this.$store.state.currentMovement.data.id,
-        ...this.newEvent,
+        ...this.event.data,
       };
       serverData.startDate = this.convertToFirestoreTimestamp(
-        this.newEvent.startDate
+        this.event.startDateLocalFormat
       );
       serverData.endDate = this.convertToFirestoreTimestamp(
-        this.newEvent.endDate
+        this.event.endDateLocalFormat
       );
 
       this.$store

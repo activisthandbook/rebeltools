@@ -50,7 +50,6 @@ export default boot(({ app }) => {
         });
       },
       mixin_openURL: (link) => {
-        // console.log('r')
         openURL(link);
       },
       mixin_copyText: (text) => {

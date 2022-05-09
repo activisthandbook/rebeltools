@@ -222,7 +222,7 @@
           <q-item
             v-if="member.data.phoneNumber"
             clickable
-            @click="mixin_copyText(membe.data.phoneNumber)"
+            @click="mixin_copyText(member.data.phoneNumber)"
             v-ripple
           >
             <q-item-section avatar>
@@ -286,6 +286,7 @@
               </q-chip>
             </q-item-section>
           </template>
+          <event-list :events="events" />
           <q-list>
             <q-item>
               <q-item-section>‭{{ member.data.eventSignups }}</q-item-section>
@@ -357,6 +358,7 @@
 </template>
 <script>
 import OopsError from "components/OopsError";
+import EventList from "components/lists/EventList";
 import AvatarImage from "components/AvatarImage";
 import party from "party-js";
 
@@ -373,7 +375,7 @@ import {
 const db = getFirestore();
 
 export default {
-  components: { AvatarImage, OopsError },
+  components: { AvatarImage, OopsError, EventList },
   data() {
     return {
       unsubscribe: null,
@@ -403,8 +405,8 @@ export default {
       );
     },
     allowedToIncreaseEngagement: function () {
-      // Check if admin is allowed to increase engagement
-      const jsYesterday = new Date(Date.now() - 1000 * 60 * 60 * 24);
+      // Check if admin is allowed to increase engagement (we say it's only once a day, but in reality its once every 12 hours)
+      const jsYesterday = new Date(Date.now() - 1000 * 60 * 60 * 12);
       const firebaseYesterday = Timestamp.fromDate(jsYesterday);
       if (this.member.data.engagementScoreTimestamp > firebaseYesterday) {
         return false;
@@ -441,34 +443,15 @@ export default {
     },
   },
   watch: {
-    "$route.params": {
-      handler: function (search) {
+    "$route.params.userID": {
+      handler: function () {
         if (this.$route.params.userID) {
-          // console.log('event load')
           this.fetchMemberFromDatabase();
         }
       },
-      deep: true,
       immediate: true,
     },
   },
-  // created() {
-  //   // watch the params of the route to fetch the data again
-  //   this.$watch(
-  //     () => this.$route.params,
-  //     () => {
-  //       // console.log(this.$route.params.eventPath);
-  //       if (this.$route.params.userID) {
-  //         // console.log('event load')
-  //         this.fetchMemberFromDatabase();
-  //       }
-  //     },
-  //     // fetch the data when the view is created and the data is
-  //     // already being observed
-  //     { immediate: true }
-  //   );
-  // },
-
   unmounted() {
     this.unsubscribe();
   },
@@ -512,21 +495,11 @@ export default {
           engagementScoreTimestamp: serverTimestamp(),
         });
       } else {
-        this.$q
-          .dialog({
-            title: "Engagement score ❤️",
-            message:
-              "You can only increase someone's engagement score once per day. Come back tomorrow!",
-          })
-          .onOk(() => {
-            // console.log('OK')
-          })
-          .onCancel(() => {
-            // console.log('Cancel')
-          })
-          .onDismiss(() => {
-            // console.log('I am triggered on both OK and Cancel')
-          });
+        this.$q.dialog({
+          title: "Engagement score ❤️",
+          message:
+            "You can only increase someone's engagement score once per day. Come back tomorrow!",
+        });
       }
     },
     async saveNotes() {

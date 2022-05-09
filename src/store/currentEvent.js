@@ -43,11 +43,11 @@ export default {
         required: helpers.withMessage("Add a video call link", required),
         $autoDirty: true,
       },
-      startDate: {
+      startDateLocalFormat: {
         required: helpers.withMessage("Add a starting date.", required),
         $autoDirty: true,
       },
-      endDate: {
+      endDateLocalFormat: {
         required: helpers.withMessage("Add a ending date.", required),
         $autoDirty: true,
       },
@@ -131,7 +131,6 @@ export default {
           },
           (error) => {
             // In case of error
-            console.log(error);
             commit("storeError", error);
             Notify.create({
               message: error + " (currentEvent.js)",
@@ -165,7 +164,6 @@ export default {
           },
           (error) => {
             // In case of error
-            console.log(error);
             commit("storeError", error);
             Notify.create({
               message: error + " (currentEvent.js)",

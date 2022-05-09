@@ -7,16 +7,29 @@ This component allows users to sign up for movements and events.
 <template>
   <div>
     <q-card dark class="bg-secondary shadow-6">
-      <q-card-section v-if="!$store.state.currentAction.dataLoaded || (!$store.state.currentUser.dataLoaded && !$store.state.auth.data.isAnonymous)" class="q-gutter-y-sm">
-        <q-skeleton type="rect" height="28.8px"/>
-        <q-skeleton type="text" height="20px"/>
-        <q-skeleton type="text" height="20px"/>
-        <q-skeleton type="QInput" class="q-mb-sm"/>
+      <q-card-section
+        v-if="
+          !$store.state.currentAction.dataLoaded ||
+          (!$store.state.currentUser.dataLoaded &&
+            !$store.state.auth.data.isAnonymous)
+        "
+        class="q-gutter-y-sm"
+      >
+        <q-skeleton type="rect" height="28.8px" />
+        <q-skeleton type="text" height="20px" />
+        <q-skeleton type="text" height="20px" />
+        <q-skeleton type="QInput" class="q-mb-sm" />
       </q-card-section>
 
       <transition name="fade">
-
-        <q-card-section v-if="$store.state.currentAction.dataLoaded && ($store.state.currentUser.dataLoaded || $store.state.auth.data.isAnonymous)"  class="q-gutter-y-sm">
+        <q-card-section
+          v-if="
+            $store.state.currentAction.dataLoaded &&
+            ($store.state.currentUser.dataLoaded ||
+              $store.state.auth.data.isAnonymous)
+          "
+          class="q-gutter-y-sm"
+        >
           <sign-up
             v-if="$store.state.currentAction.error === 'action-not-found'"
             :actionType="action.actionType"
@@ -27,13 +40,13 @@ This component allows users to sign up for movements and events.
             :actionCount="action.actionCount"
           />
           <!-- <create-profile v-else-if="true"/> -->
-          <create-profile v-else-if="!$store.state.currentUser.data.profileCreated"/>
-          <share-page v-else/>
+          <create-profile
+            v-else-if="!$store.state.currentUser.data.profileCreated"
+          />
+          <share-page v-else />
           <!-- <enable-notifications v-else-if="!actions['enable-notifications'].completed"/> -->
         </q-card-section>
-
       </transition>
-
     </q-card>
 
     <!-- <q-list bordered class="rounded-borders q-mb-lg" dense>
@@ -81,95 +94,74 @@ This component allows users to sign up for movements and events.
 // import { getFirestore, collection, onSnapshot, query, where } from 'firebase/firestore'
 // const db = getFirestore()
 
-import SignUp from './actions/SignUp'
-import CreateProfile from './actions/CreateProfile'
-import SharePage from './actions/SharePage'
+import SignUp from "./actions/SignUp";
+import CreateProfile from "./actions/CreateProfile";
+import SharePage from "./actions/SharePage";
 
 // import EnableNotifications from './actions/EnableNotifications'
 
 export default {
-  name: 'smart-action',
+  name: "smart-action",
   components: {
     SignUp,
     CreateProfile,
     // EnableNotifications
-    SharePage
+    SharePage,
   },
   props: {
     action: {
       actionType: {
         type: String,
-        required: true
+        required: true,
       },
       actionID: {
         type: String,
-        required: true
+        required: true,
       },
       title: {
         type: String,
-        required: true
+        required: true,
       },
       description: {
         type: String,
-        required: true
+        required: true,
       },
       buttonLabel: {
         type: String,
-        default: 'Join us'
+        default: "Join us",
       },
       actionCount: {
         type: Number,
-        default: 0
-      }
-    }
+        default: 0,
+      },
+    },
   },
-  data () {
+  data() {
     return {
       actionDataLoaded: false,
       actionData: null,
-      email: null
-    }
+      email: null,
+    };
   },
-  mounted () {
+  mounted() {
     this.$nextTick(function () {
-      this.$store.dispatch('currentAction/subscribeToDatabase', this.action.actionID)
-      // // Define query
-      // const q = query(
-      //   collection(db, 'actions'),
-      //   where('userID', '==', this.$store.state.auth.data.uid), where('actionID', '==', this.action.actionID)
-      // )
-
-      // // Fetch action from database
-      // onSnapshot(
-      //   q,
-      //   querySnapshot => {
-      //     const actions = []
-      //     querySnapshot.forEach((doc) => {
-      //       actions.push(doc.data())
-      //     })
-      //     this.actionData = actions
-      //     this.actionDataLoaded = true
-      //     console.log('smartaction success')
-      //   },
-      //   error => {
-      //     console.log('smartaction error')
-      //     console.log(this.$store.state.auth.data.uid)
-      //     this.$q.notify({ message: error + '(SmartAction.vue)', icon: 'mdi-alert' })
-      //   }
-      // )
-    })
-  }
-}
+      this.$store.dispatch(
+        "currentAction/subscribeToDatabase",
+        this.action.actionID
+      );
+    });
+  },
+};
 </script>
 <style scoped>
 .fade-enter-active {
-  transition: max-height .5s, opacity .3s;
+  transition: max-height 0.5s, opacity 0.3s;
   max-height: 500px;
-  overflow: hidden
+  overflow: hidden;
 }
 
 .fade-enter-from {
   max-height: 196.8px;
-  opacity: .5;
+  opacity: 0.5;
 }
 </style>

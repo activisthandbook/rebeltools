@@ -14,7 +14,7 @@
     v-else-if="$store.state.currentEvent.error"
   />
   <div v-else class="q-gutter-y-md">
-    <q-banner
+    <!-- <q-banner
       inline-actions
       class="bg-grey-3"
       v-if="!$store.state.currentEvent.data.published"
@@ -23,7 +23,7 @@
       <template v-slot:action>
         <q-btn label="Edit" no-caps color="secondary" disable />
       </template>
-    </q-banner>
+    </q-banner> -->
     <h1>{{ $store.state.currentEvent.data.title }}</h1>
     <q-card flat>
       <q-img
@@ -65,57 +65,9 @@
         title: 'Sign up for event',
         description: $store.state.currentEvent.data.callToAction,
         buttonLabel: 'Join event',
-        actionCount: $store.state.currentEvent.data.signupCount,
+        actionCount: $store.state.currentEvent.data.countSignups,
       }"
     />
-    <q-card
-      bordered
-      flat
-      v-if="
-        $store.state.currentAction.dataLoaded &&
-        !$store.state.currentAction.error
-      "
-    >
-      <q-card-section>
-        <div class="q-gutter-y-sm">
-          <div class="text-bold">Info for participants</div>
-          <div v-if="$store.state.currentEvent.data.prepare">
-            {{ $store.state.currentEvent.data.prepare }}
-          </div>
-          <div class="q-gutter-sm">
-            <q-btn
-              label="Join online"
-              no-caps
-              icon="mdi-video"
-              color="black"
-              v-if="$store.state.currentEvent.data.onlineLink"
-              :href="$store.state.currentEvent.data.onlineLink"
-              target="_blank"
-            />
-            <q-btn
-              label="Map directions"
-              no-caps
-              icon="mdi-directions"
-              color="black"
-              :href="
-                'https://www.google.com/maps/dir//' +
-                $store.state.currentEvent.data.address
-              "
-              target="_blank"
-              v-if="$store.state.currentEvent.data.address"
-            />
-            <q-btn
-              label="Document"
-              no-caps
-              icon="mdi-file-document"
-              color="black"
-              :href="$store.state.currentEvent.data.document"
-              v-if="$store.state.currentEvent.data.document"
-            />
-          </div>
-        </div>
-      </q-card-section>
-    </q-card>
     <div style="white-space: pre-wrap">
       {{ $store.state.currentEvent.data.description }}
     </div>
@@ -128,20 +80,105 @@
     >
       Sign up for this event to get access to additional info.
     </div>
+    <mini-event-dashboard
+      v-if="admins.includes(userUID)"
+      :event="$store.state.currentEvent.data"
+    />
+    <q-card
+      bordered
+      flat
+      v-if="
+        admins.includes(userUID) ||
+        ($store.state.currentAction.dataLoaded &&
+          !$store.state.currentAction.error)
+      "
+    >
+      <q-card-section>
+        <div class="q-gutter-y-sm">
+          <div class="text-bold">Joining info</div>
+          <div v-if="$store.state.currentEvent.data.prepare">
+            {{ $store.state.currentEvent.data.prepare }}
+          </div>
+          <div class="q-gutter-sm">
+            <q-btn
+              label="Join online"
+              no-caps
+              icon="mdi-video"
+              color="black"
+              outline
+              v-if="$store.state.currentEvent.data.onlineLink"
+              :href="$store.state.currentEvent.data.onlineLink"
+              target="_blank"
+            />
+            <q-btn
+              label="Map directions"
+              no-caps
+              icon="mdi-directions"
+              color="black"
+              outline
+              :href="
+                'https://www.google.com/maps/dir//' +
+                $store.state.currentEvent.data.address
+              "
+              target="_blank"
+              v-if="$store.state.currentEvent.data.address"
+            />
+            <q-btn
+              label="Document"
+              no-caps
+              icon="mdi-file-document"
+              color="black"
+              outline
+              :href="$store.state.currentEvent.data.document"
+              v-if="$store.state.currentEvent.data.document"
+            />
+          </div>
+        </div>
+      </q-card-section>
+    </q-card>
   </div>
+  <q-page-scroller
+    reverse
+    position="bottom"
+    :scroll-offset="300"
+    :offset="[0, 0]"
+    expand
+  >
+    <div
+      class="col cursor-pointer q-pa-sm bg-white text-primary text-bold text-center shadow-5"
+    >
+      <q-icon name="mdi-arrow-down" />Joining info
+    </div>
+    <!-- <q-btn
+      icon="mdi-arrow-down"
+      label="Participant info"
+      no-caps
+      color="primary"
+      unelevated
+      class="shadow-4"
+    /> -->
+  </q-page-scroller>
   <q-page-sticky
     position="bottom-right"
     :offset="[18, 18]"
     v-if="admins.includes(userUID)"
   >
-    <q-btn icon="mdi-pencil" color="primary" fab disable />
+    <q-btn
+      icon="mdi-pencil"
+      color="primary"
+      fab
+      :to="{
+        name: 'Dashboard Event Edit',
+        params: { eventID: $store.state.currentEvent.data.id },
+      }"
+    />
   </q-page-sticky>
 </template>
 <script>
 import { openURL } from "quasar";
 
 import OopsError from "components/OopsError";
-
+import MiniEventDashboard from "components/miniDashboards/MiniEventDashboard";
 import SmartAction from "components/SmartAction";
 
 // import dayjs from 'dayjs'
@@ -165,15 +202,14 @@ export default {
   components: {
     SmartAction,
     OopsError,
+    MiniEventDashboard,
   },
   mounted() {
     // watch the params of the route to fetch the data again
     this.$watch(
       () => this.$route.params,
       () => {
-        // console.log(this.$route)
         if (this.$route.params.eventPath) {
-          console.log("movement event load");
           this.$store.dispatch(
             "currentEvent/subscribeToDatabase",
             this.$route.params.eventPath
@@ -190,7 +226,6 @@ export default {
   },
   methods: {
     openExternal: (link) => {
-      // console.log('r')
       openURL(link);
     },
   },

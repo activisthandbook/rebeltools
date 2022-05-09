@@ -187,8 +187,6 @@ export default {
       // this.loading = true
       this.party();
 
-      console.log(this.actionType);
-      console.log(this.actionID);
       this.$store.dispatch("currentAction/addToDatabase", {
         actionType: this.actionType,
         actionID: this.actionID,

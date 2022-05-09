@@ -1,4 +1,9 @@
 <template>
+  <q-card-section v-if="!loaded">Loading...</q-card-section>
+  <q-card-section v-else-if="error">
+    <oops-error title="Something went wrong loading rebels." :error="error" />
+  </q-card-section>
+  <q-card-section v-else-if="!members[0]"> No rebels found. </q-card-section>
   <q-list separator>
     <q-item
       v-for="(member, index) in members"
@@ -75,10 +80,12 @@
 </template>
 <script>
 import AvatarImage from "components/AvatarImage";
+import OopsError from "components/OopsError";
 export default {
   components: {
     AvatarImage,
+    OopsError,
   },
-  props: ["members"],
+  props: ["members", "loaded", "error"],
 };
 </script>

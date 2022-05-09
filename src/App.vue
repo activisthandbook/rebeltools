@@ -19,23 +19,14 @@ Path: /*
   </div> -->
 </template>
 <script>
-
 export default {
-  name: 'App',
+  name: "App",
   computed: {
-    movementNotFound () {
-      return this.$store.state.currentMovement.data.notFound
-    }
+    movementNotFound() {
+      return this.$store.state.currentMovement.data.notFound;
+    },
   },
-  watch: {
-    movementNotFound: function (result) {
-      if (result) {
-        // console.log(result)
-        // this.$router.push({ name: '404', params: { catchAll: 404 } })
-      }
-    }
-  }
-}
+};
 </script>
 <style>
 body.platform-ios.q-body--prevent-scroll {

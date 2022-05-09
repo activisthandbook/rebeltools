@@ -5,7 +5,13 @@
       <q-btn round flat icon="mdi-magnify" disable />
     </q-toolbar>
   </q-header>
-  <div class="q-gutter-y-md">
+
+  <q-tabs v-model="tab" inline-label no-caps class="bg-grey-3 rounded-borders">
+    <q-tab name="rebels" icon="mdi-account-group" label="Rebels" />
+    <q-tab name="roles" icon="mdi-badge-account" label="Roles" />
+    <q-tab name="teams" icon="mdi-account-supervisor-circle" label="Teams" />
+  </q-tabs>
+  <div class="q-gutter-y-md q-mt-md">
     <!-- <div>
       <span v-for="(filter, index) in filters" :key="index">
         <q-chip
@@ -28,9 +34,8 @@
       />
     </div> -->
     <transition name="slide-fade">
-      <div v-if="membersLoaded" class="q-gutter-y-md">
-        <!-- GUIDE BASED ON FILTER -->
-        <div class="row q-col-gutter-md" v-if="filters[0].model">
+      <div class="q-gutter-y-md">
+        <!-- <div class="row q-col-gutter-md" v-if="filters[0].model">
           <div class="col-xs-12 col-sm-6 text-center">
             <q-card>
               <q-card-section class="q-pt-lg">
@@ -119,9 +124,9 @@
             :campaign="filter.guide.campaign"
             :articles="filter.guide.articles"
           />
-        </div>
+        </div> -->
 
-        <q-card
+        <!-- <q-card
           flat
           v-model="tab"
           inline-label
@@ -139,15 +144,25 @@
             <q-btn label="Filter" flat no-caps icon="mdi-filter" dense />
             <q-btn label="Sort" flat no-caps icon="mdi-sort" dense />
           </q-card-section>
-        </q-card>
+        </q-card> -->
         <q-card>
-          <q-card-section v-if="!members[0] && filters[0].model">
-            Nobody has signed up for your movement yet
+          <q-card-section class="q-gutter-sm row items-center">
+            <q-btn
+              label="All"
+              no-caps
+              color="secondary"
+              icon="mdi-account-group"
+            />
+            <q-space />
+            <q-btn label="Filter" flat no-caps icon="mdi-filter" dense />
+            <q-btn label="Sort" flat no-caps icon="mdi-sort" dense />
           </q-card-section>
-          <q-card-section v-else-if="!members[0]">
-            No rebels found.
-          </q-card-section>
-          <member-list :members="members" v-else />
+          <q-separator />
+          <member-list
+            :members="members.data"
+            :loaded="members.dataLoaded"
+            :error="members.error"
+          />
         </q-card>
         <div class="q-gutter-x-sm row items-center">
           <q-btn
@@ -168,7 +183,7 @@
   </q-page-sticky>
 </template>
 <script>
-import ActivistHandbook from "components/ActivistHandbook";
+// import ActivistHandbook from "components/ActivistHandbook";
 import MemberList from "components/lists/MemberList";
 
 import {
@@ -182,12 +197,18 @@ import {
 const db = getFirestore();
 
 export default {
-  components: { ActivistHandbook, MemberList },
+  components: {
+    // ActivistHandbook,
+    MemberList,
+  },
   data() {
     return {
-      tab: "upcoming",
-      membersLoaded: false,
-      members: [],
+      tab: "rebels",
+      members: {
+        data: null,
+        dataLoaded: false,
+        error: null,
+      },
       currentDescription: "",
       allFiltersShown: false,
       filters: [
@@ -383,14 +404,21 @@ export default {
           break;
       }
 
-      onSnapshot(q, (querySnapshot) => {
-        const memberList = [];
-        querySnapshot.forEach((doc) => {
-          memberList.push(doc.data());
-        });
-        this.members = memberList;
-        this.membersLoaded = true;
-      });
+      onSnapshot(
+        q,
+        (querySnapshot) => {
+          const memberList = [];
+          querySnapshot.forEach((doc) => {
+            memberList.push(doc.data());
+          });
+          this.members.data = memberList;
+          this.members.dataLoaded = true;
+        },
+        (error) => {
+          this.members.dataLoaded = true;
+          this.members.error = error;
+        }
+      );
     },
   },
 };

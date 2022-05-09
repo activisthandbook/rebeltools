@@ -23,8 +23,8 @@ const MovementDashboard_Home = () =>
   import("src/pages/movement/dashboard/Home");
 const MovementDashboard_Calendar = () =>
   import("src/pages/movement/dashboard/Calendar");
-const MovementDashboard_NewEvent = () =>
-  import("src/pages/movement/dashboard/dialogs/NewEvent");
+const MovementDashboard_EditEvent = () =>
+  import("src/pages/movement/dashboard/dialogs/EditEvent");
 const MovementDashboard_Event = () =>
   import("src/pages/movement/dashboard/dialogs/Event");
 const MovementDashboard_Page = () =>
@@ -135,12 +135,17 @@ const routes = [
           {
             path: "calendar/new-event",
             name: "Dashboard New Event",
-            component: MovementDashboard_NewEvent,
+            component: MovementDashboard_EditEvent,
           },
           {
             path: "calendar/:eventID",
             name: "Dashboard Event",
             component: MovementDashboard_Event,
+          },
+          {
+            path: "calendar/:eventID/edit",
+            name: "Dashboard Event Edit",
+            component: MovementDashboard_EditEvent,
           },
           {
             path: "community",
