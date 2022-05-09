@@ -45,6 +45,7 @@
               clickable
               v-ripple
               dark
+              @click="openParticipantsDialog()"
             >
               <q-item-section avatar>
                 <q-avatar icon="mdi-check-bold" />
@@ -116,15 +117,91 @@
       </div>
     </q-card-section>
   </q-card>
+
+  <q-dialog v-model="participantsDialog" :maximized="$q.screen.lt.sm">
+    <q-layout view="hHh lpR fFf" container class="bg-grey-1">
+      <q-header class="bg-white text-black" bordered>
+        <q-toolbar>
+          <q-btn flat round dense icon="mdi-close" v-close-popup />
+
+          <q-toolbar-title>Event participants</q-toolbar-title>
+        </q-toolbar>
+      </q-header>
+
+      <q-page-container>
+        <member-list
+          :members="members.data"
+          :loaded="members.dataLoaded"
+          :error="members.error"
+        />
+      </q-page-container>
+    </q-layout>
+  </q-dialog>
 </template>
 <script>
+import MemberList from "components/lists/MemberList";
+
+import {
+  query,
+  onSnapshot,
+  getFirestore,
+  where,
+  collection,
+} from "firebase/firestore";
+const db = getFirestore();
+
 export default {
+  components: {
+    MemberList,
+  },
   props: {
     event: {
       type: Object,
     },
     editing: {
       type: Boolean,
+    },
+  },
+  data() {
+    return {
+      participantsDialog: false,
+      members: {
+        data: [],
+        dataLoaded: false,
+        error: null,
+      },
+    };
+  },
+  methods: {
+    openParticipantsDialog() {
+      this.participantsDialog = true;
+      if (!this.members.dataLoaded) {
+        const membersProfileRef = collection(
+          db,
+          "movements",
+          this.$store.state.currentMovement.data.id,
+          "members"
+        );
+        const q = query(
+          membersProfileRef,
+          where("eventSignups", "array-contains", this.event.id)
+        );
+
+        onSnapshot(
+          q,
+          (querySnapshot) => {
+            const memberList = [];
+            querySnapshot.forEach((doc) => {
+              memberList.push(doc.data());
+            });
+            this.members.data = memberList;
+            this.members.dataLoaded = true;
+          },
+          (error) => {
+            this.members.error = error;
+          }
+        );
+      }
     },
   },
 };

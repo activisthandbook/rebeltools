@@ -137,7 +137,7 @@
       </q-card-section>
     </q-card>
   </div>
-  <q-page-scroller
+  <!-- <q-page-scroller
     reverse
     position="bottom"
     :scroll-offset="300"
@@ -147,21 +147,15 @@
     <div
       class="col cursor-pointer q-pa-sm bg-white text-primary text-bold text-center shadow-5"
     >
-      <q-icon name="mdi-arrow-down" />Joining info
+      <q-icon name="mdi-arrow-down" class="bounce-arrow" />Joining info
     </div>
-    <!-- <q-btn
-      icon="mdi-arrow-down"
-      label="Participant info"
-      no-caps
-      color="primary"
-      unelevated
-      class="shadow-4"
-    /> -->
-  </q-page-scroller>
+  </q-page-scroller> -->
   <q-page-sticky
     position="bottom-right"
     :offset="[18, 18]"
     v-if="admins.includes(userUID)"
+    class="fixed"
+    style="z-index: 1"
   >
     <q-btn
       icon="mdi-pencil"
@@ -243,3 +237,21 @@ export default {
   },
 };
 </script>
+<style>
+.bounce-arrow {
+  animation: bounce 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translate3d(0, 2px, 0);
+  }
+  50% {
+    transform: translate3d(0, -2px, 0);
+  }
+  100% {
+    transform: translate3d(0, 2px, 0);
+  }
+}
+</style>

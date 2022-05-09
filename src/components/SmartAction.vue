@@ -43,8 +43,33 @@ This component allows users to sign up for movements and events.
           <create-profile
             v-else-if="!$store.state.currentUser.data.profileCreated"
           />
-          <share-page v-else />
+          <share-page :actionType="action.actionType" v-else />
           <!-- <enable-notifications v-else-if="!actions['enable-notifications'].completed"/> -->
+
+          <!-- Reminder for people to scroll down for joining info on events pages -->
+          <q-page-scroller
+            v-if="
+              action.actionType === 'event' &&
+              $store.state.currentAction.error !== 'action-not-found'
+            "
+            reverse
+            position="bottom"
+            :scroll-offset="300"
+            :offset="[0, 0]"
+            expand
+            class="fixed"
+            style="z-index: 1"
+          >
+            <div
+              class="col cursor-pointer q-pa-sm bg-white text-primary text-bold text-center shadow-5"
+            >
+              {{ $store.state.currentAction.error }}
+              <q-icon
+                name="mdi-arrow-down"
+                class="bounce-arrow q-mr-xs"
+              />Joining info
+            </div>
+          </q-page-scroller>
         </q-card-section>
       </transition>
     </q-card>

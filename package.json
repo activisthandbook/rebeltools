@@ -7,6 +7,8 @@
   "private": true,
   "scripts": {
     "dev": "quasar dev",
+    "deploy-functions": "firebase deploy --only functions",
+    "deploy-rules": "firebase deploy --only firestore:rules",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },

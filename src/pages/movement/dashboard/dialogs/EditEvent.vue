@@ -67,7 +67,6 @@
   <div v-else class="q-gutter-y-md">
     <mini-event-dashboard
       :event="event.data"
-      :count-signups="event.data.countSignups"
       v-if="$route.name === 'Dashboard Event Edit'"
       editing
     />
@@ -375,7 +374,10 @@ const analytics = getAnalytics();
 import useVuelidate from "@vuelidate/core";
 
 export default {
-  components: { ImageSelector, MiniEventDashboard },
+  components: {
+    ImageSelector: () => import("components/ImageSelector"),
+    MiniEventDashboard,
+  },
   setup() {
     return { v$: useVuelidate() };
   },
@@ -417,6 +419,7 @@ export default {
         (querySnapshot) => {
           if (querySnapshot.exists) {
             this.event.data = querySnapshot.data();
+            this.event.data.id = querySnapshot.id;
             this.event.dataLoaded = true;
           } else {
             Notify.create({

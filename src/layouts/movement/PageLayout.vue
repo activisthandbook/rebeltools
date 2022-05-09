@@ -144,6 +144,23 @@ Path: /:movementPath/*
 
     <q-page-container class="flex justify-center">
       <q-page padding class="q-pt-lg q-gutter-y-md">
+        <!-- ROUTER -->
+        <q-banner
+          class="bg-grey-3 q-mb-lg"
+          v-if="!this.$store.state.currentMovement.data.verificationLevel"
+        >
+          <template v-slot:avatar>
+            <q-icon name="mdi-alert" color="black" />
+          </template>
+          <div class="text-bold q-my-sm">
+            Rebel Tools has not verified this movement yet.
+          </div>
+          <div class="q-mb-sm">
+            By verifying movements, we make sure the account is authentic.
+            Admins can verify their movement by linking their website, email, or
+            social media.
+          </div>
+        </q-banner>
         <router-view />
         <p class="text-caption text-center q-mt-xl text-grey-6">
           Made with
@@ -160,13 +177,13 @@ Path: /:movementPath/*
 import AccountMenu from "components/AccountMenu";
 
 export default {
-  name: "MainLayout",
   components: { AccountMenu },
   data() {
     return {
       rightDrawerOpen: false,
     };
   },
+
   computed: {
     movementName: {
       get() {

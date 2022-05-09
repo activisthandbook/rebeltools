@@ -1,6 +1,52 @@
 <template>
   <div class="party q-gutter-y-sm">
     <div v-if="!verificationEmailSent" class="q-gutter-y-sm">
+      <div class="row q-col-gutter-sm items-center">
+        <!-- INVITE PROFILE -->
+        <div v-if="this.$route.query.invite">
+          <q-chip
+            v-if="inviteProfile.dataLoaded"
+            class="q-ma-none q-pl-xs"
+            color="white"
+          >
+            <avatar-image :userID="inviteProfile.data.id" size="20" />
+            <div class="q-ml-xs">
+              <strong>{{ inviteProfile.data.firstName }}</strong> is inviting
+              you to join
+            </div>
+          </q-chip>
+        </div>
+        <!-- Events show 'new event' with 2 or less signups. Movements show 'new movement' with 10 or less signups. -->
+        <div
+          v-if="
+            (actionType === 'event' && actionCount > 2) ||
+            (actionType === 'movement' && actionCount > 10)
+          "
+        >
+          <q-chip
+            text-color="white"
+            icon="mdi-account-group"
+            class="q-ma-none text-bold"
+            style="background: rgba(255, 255, 255, 0.1)"
+          >
+            <span class="q-mx-xs">{{ actionCount }}</span>
+            <span v-if="actionType === 'event'">participants</span>
+            <span v-if="actionType === 'movement'">members</span>
+          </q-chip>
+        </div>
+        <div v-else>
+          <q-chip
+            icon="mdi-star"
+            style="background: rgba(255, 255, 255, 0.1)"
+            text-color="white"
+            class="q-ma-none"
+          >
+            <span v-if="actionType === 'event'">New event!</span>
+            <span v-if="actionType === 'movement'">New movement!</span>
+          </q-chip>
+        </div>
+      </div>
+
       <h2>{{ title }}</h2>
       <div v-if="description">{{ description }}</div>
 
@@ -46,28 +92,9 @@
           unelevated
           class="shadow-12 q-my-none"
           icon="mdi-check-circle-outline"
-          rounded
           no-caps
           @click="saveSignup()"
           :loading="loading"
-        />
-        <q-chip
-          text-color="white"
-          icon="mdi-account-group"
-          class="q-ma-sm text-bold"
-          style="background: rgba(255, 255, 255, 0.1)"
-          v-if="actionCount > 1"
-        >
-          <span class="q-mx-xs">{{ actionCount }}</span>
-          <span>sign ups</span>
-        </q-chip>
-        <q-chip
-          v-else
-          icon="mdi-star"
-          label="New event!"
-          style="background: rgba(255, 255, 255, 0.1)"
-          text-color="white"
-          class="q-ma-sm"
         />
         <div class="text-caption items-center flex" style="opacity: 0.7">
           <q-btn
@@ -132,9 +159,13 @@
   </div>
 </template>
 <script>
+import AvatarImage from "components/AvatarImage";
 import party from "party-js";
+import { onSnapshot, getFirestore, doc } from "firebase/firestore";
+const db = getFirestore();
 
 export default {
+  components: { AvatarImage },
   props: {
     actionType: {
       type: String,
@@ -166,9 +197,39 @@ export default {
       email: null,
       verificationEmailSent: false,
       loading: false,
+      inviteProfile: {
+        dataLoaded: false,
+        data: {},
+        dataOld: {}, // Used for tracking if user made changes (for saving to Firestore)
+        error: null,
+      },
     };
   },
+  watch: {
+    "$route.query.invite": {
+      handler: function () {
+        if (this.$route.query.invite) {
+          this.fetchPublicProfileFromDatabase(this.$route.query.invite);
+        }
+      },
+      immediate: true,
+    },
+  },
   methods: {
+    async fetchPublicProfileFromDatabase(profileID) {
+      const inviteProfileRef = doc(db, "publicProfiles", profileID);
+      this.inviteProfile.dataLoaded = false;
+
+      this.unsubscribe = await onSnapshot(inviteProfileRef, (querySnapshot) => {
+        if (querySnapshot.exists()) {
+          this.inviteProfile.data = querySnapshot.data();
+          this.inviteProfile.dataLoaded = true;
+        } else {
+          this.inviteProfile.dataLoaded = true;
+          this.inviteProfile.error = "Invite profile not found";
+        }
+      });
+    },
     sendVerificationEmail() {
       this.party();
       this.phase = "verify-email";
@@ -184,14 +245,19 @@ export default {
         });
     },
     async saveSignup() {
-      // this.loading = true
       this.party();
 
-      this.$store.dispatch("currentAction/addToDatabase", {
+      const actionInstance = {
         actionType: this.actionType,
         actionID: this.actionID,
         movementID: this.$store.state.currentMovement.data.id,
-      });
+      };
+
+      if (this.$route.query.invite) {
+        actionInstance.invite = this.$route.query.invite;
+      }
+
+      this.$store.dispatch("currentAction/addToDatabase", actionInstance);
     },
     party() {
       party.confetti(document.querySelector(".party"), {

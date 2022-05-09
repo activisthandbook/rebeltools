@@ -24,6 +24,7 @@ exports.onUserUpdate = functions
 
     // UPDATE ACTIONS
     updateMemberProfile(user);
+    updatePublicProfile(user);
 
     return 0;
   });
@@ -66,4 +67,27 @@ function updateMemberProfile(user) {
   } else {
     functions.logger.error("🔴 No movements found to update", user);
   }
+}
+
+function updatePublicProfile(user) {
+  const publicProfileRef = db.collection("publicProfiles").doc(user.id);
+
+  const publicProfile = {};
+
+  // We don't want to share everything from the user document, so we only share the data relevant for their profile. If a value is undefined, we set it to an empty string.
+  // Add info from user profile to movement member profile
+  publicProfile.id = user.id ? user.id : "";
+  publicProfile.firstName = user.firstName ? user.firstName : "";
+
+  publicProfileRef
+    .set(publicProfile, { merge: true })
+    .then(() => {
+      functions.logger.error(
+        "🟢 Setting public profile succesful",
+        publicProfile
+      );
+    })
+    .catch((error) => {
+      functions.logger.error("🔴 Failed to set public profile", error);
+    });
 }

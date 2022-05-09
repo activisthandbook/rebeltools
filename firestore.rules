@@ -34,6 +34,16 @@ service cloud.firestore {
         isSuperADMIN() // User is superADMIN 🔴
     }
 
+    // 👋 USERS
+    match /publicProfiles/{userID} {
+
+      allow read, update: if
+        true;
+
+      allow read, write, delete: if
+        isSuperADMIN() // User is superADMIN 🔴
+    }
+
     // 📢 MOVEMENTS
     match /movements/{movementID} {
 
