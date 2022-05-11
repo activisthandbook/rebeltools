@@ -37,13 +37,18 @@ This component allows users to sign up for movements and events.
             :title="action.title"
             :description="action.description"
             :buttonLabel="action.buttonLabel"
-            :actionCount="action.actionCount"
+            :countSignups="action.countSignups"
           />
           <!-- <create-profile v-else-if="true"/> -->
           <create-profile
             v-else-if="!$store.state.currentUser.data.profileCreated"
           />
-          <share-page :actionType="action.actionType" v-else />
+
+          <share-page
+            :actionType="action.actionType"
+            :countSignups="action.countSignups"
+            v-else
+          />
           <!-- <enable-notifications v-else-if="!actions['enable-notifications'].completed"/> -->
 
           <!-- Reminder for people to scroll down for joining info on events pages -->
@@ -72,6 +77,29 @@ This component allows users to sign up for movements and events.
           </q-page-scroller>
         </q-card-section>
       </transition>
+    </q-card>
+    <q-card
+      v-if="
+        $store.state.currentAction.dataLoaded &&
+        $store.state.currentAction.error !== 'action-not-found'
+      "
+      class="bg-grey-3 q-mt-md text-caption text-bold"
+      flat
+    >
+      <q-item dense>
+        <q-item-section avatar>
+          <q-avatar icon="mdi-check-bold" />
+        </q-item-section>
+        <q-item-section v-if="action.actionType === 'movement'">
+          You are a member of this movement.
+        </q-item-section>
+        <q-item-section v-if="action.actionType === 'event'">
+          You have signed up for this event.
+        </q-item-section>
+        <q-item-section side>
+          <q-btn icon="mdi-cog" round flat dense />
+        </q-item-section>
+      </q-item>
     </q-card>
 
     <!-- <q-list bordered class="rounded-borders q-mb-lg" dense>
@@ -155,7 +183,7 @@ export default {
         type: String,
         default: "Join us",
       },
-      actionCount: {
+      countSignups: {
         type: Number,
         default: 0,
       },

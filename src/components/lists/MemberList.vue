@@ -4,7 +4,7 @@
     <oops-error title="Something went wrong loading rebels." :error="error" />
   </q-card-section>
   <q-card-section v-else-if="!members[0]"> No rebels found. </q-card-section>
-  <q-list separator>
+  <q-list separator class="active-border">
     <q-item
       v-for="(member, index) in members"
       :key="index"

@@ -65,6 +65,9 @@ h6,
     border-radius: 6px;
   }
 }
+.rounded-borders {
+  border-radius: 8px;
+}
 .q-card {
   border-radius: 8px;
   overflow: hidden;
@@ -102,4 +105,29 @@ h6,
 .q-page {
   max-width: 640px;
   width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.no-animations {
+  .q-drawer,
+  .slide-fade-enter-active,
+  .slide-fade-leave-active,
+  .q-transition--scale-leave-active,
+  .q-transition--scale-enter-active,
+  .q-transition--fade-enter-active,
+  .q-transition--leave-enter-active {
+    transition: none !important;
+    transition-duration: 0ms !important;
+    --q-transition-duration: 0ms !important;
+  }
+}
+
+.active-border .q-item {
+  transition: 0.2s border-left;
+  border-left: 0px solid white;
+}
+.active-border .q-item.q-router-link--active {
+  border-left: 6px solid $secondary;
+  color: black;
 }

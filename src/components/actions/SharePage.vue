@@ -1,3 +1,8 @@
+<!-- SHARE PAGE
+
+Security: The invite link is generated just by adding '?invite=' tot the url, with the ID of the current user. This means that anyone who knows the ID of a user, can share a link pretending that user is inviting people to join that particular event or movement. This is not ideal, as it could make people think someone is supporting a certain movement while in reality they are not. However, since anyone can create an account and add the same name and profile picture as someone else anyways, this feature does not really make the app significantly less secure in that aspect.
+ -->
+
 <template>
   <h2>
     Invite friends<span v-if="$store.state.currentUser.data.firstName"
@@ -45,10 +50,11 @@
   </q-linear-progress> -->
   <div class="q-mt-md">
     <q-chip color="primary" text-color="white" square class="q-ml-none">
-      <span
-        ><strong>4</strong> <span v-if="actionType === 'movement'">members</span
-        ><span v-if="actionType === 'event'">participants</span></span
-      >
+      <span>
+        <strong>{{ countSignups }}</strong>
+        <span v-if="actionType === 'movement'"> members</span>
+        <span v-if="actionType === 'event'"> participants</span>
+      </span>
     </q-chip>
     <q-chip color="white" text-color="black" square>
       <q-spinner-rings
@@ -90,7 +96,7 @@ import { getAnalytics, logEvent } from "firebase/analytics";
 const analytics = getAnalytics();
 
 export default {
-  props: ["actionType"],
+  props: ["actionType", "countSignups"],
   computed: {
     url: {
       get: function () {

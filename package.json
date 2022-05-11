@@ -13,7 +13,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.12.2",
+    "@quasar/extras": "^1.13.6",
     "@vuelidate/core": "^2.0.0-alpha.32",
     "@vuelidate/validators": "^2.0.0-alpha.26",
     "babel-loader": "^8.2.3",
@@ -24,8 +24,8 @@
     "firebase": "^9.6.1",
     "geofire-common": "^5.2.0",
     "party-js": "^2.1.2",
-    "quasar": "^2.4.3",
-    "vue": "^3.0.0",
+    "quasar": "^2.6.6",
+    "vue": "3",
     "vue-router": "^4.0.0",
     "vuex": "^4.0.2"
   },

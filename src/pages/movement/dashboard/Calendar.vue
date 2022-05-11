@@ -6,42 +6,46 @@
     </q-toolbar>
   </q-header>
 
-  <div class="q-gutter-y-md">
-    <q-tabs
-      v-model="tab"
-      inline-label
-      no-caps
-      class="bg-grey-3 rounded-borders"
-    >
-      <q-tab name="upcoming" icon="mdi-calendar" label="Upcoming" />
-      <q-tab name="past" icon="mdi-history" label="Past" />
-    </q-tabs>
+  <q-page-container>
+    <q-page padding>
+      <div class="q-gutter-y-md">
+        <q-tabs
+          v-model="tab"
+          inline-label
+          no-caps
+          class="bg-grey-3 rounded-borders"
+        >
+          <q-tab name="upcoming" icon="mdi-calendar" label="Upcoming" />
+          <q-tab name="past" icon="mdi-history" label="Past" />
+        </q-tabs>
 
-    <q-card>
-      <!-- CALENDAR LIST -->
-      <event-list
-        :events="events.data"
-        :loaded="events.dataLoaded"
-        :error="events.error"
-      />
-    </q-card>
+        <q-card>
+          <!-- CALENDAR LIST -->
+          <event-list
+            :events="events.data"
+            :loaded="events.dataLoaded"
+            :error="events.error"
+          />
+        </q-card>
 
-    <activist-handbook
-      title="Guides for organisers"
-      description="Learn how to organise succesful actions from experienced campaigners around the globe. Here are some relevant guides from Activist Handbook:"
-      campaign="dashboard_calendar"
-      :articles="[
-        {
-          title: 'How to organise actions',
-          link: 'https://activisthandbook.org/en/organising/action',
-        },
-        {
-          title: 'Explore tactics',
-          link: 'https://activisthandbook.org/en/tactics',
-        },
-      ]"
-    />
-  </div>
+        <activist-handbook
+          title="Guides for organisers"
+          description="Learn how to organise succesful actions from experienced campaigners around the globe. Here are some relevant guides from Activist Handbook:"
+          campaign="dashboard_calendar"
+          :articles="[
+            {
+              title: 'How to organise actions',
+              link: 'https://activisthandbook.org/en/organising/action',
+            },
+            {
+              title: 'Explore tactics',
+              link: 'https://activisthandbook.org/en/tactics',
+            },
+          ]"
+        />
+      </div>
+    </q-page>
+  </q-page-container>
   <q-page-sticky position="bottom-right" :offset="[18, 18]">
     <q-btn
       icon="mdi-plus"

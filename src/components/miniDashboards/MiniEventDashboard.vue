@@ -39,7 +39,10 @@
     <q-card-section class="q-pt-none">
       <div class="q-gutter-y-sm">
         <q-list class="q-col-gutter-sm row">
-          <div class="col-12 col-sm-6">
+          <div
+            class="col-12 col-sm-6"
+            :class="{ 'col-sm-12': $q.screen.gt.sm && $route.meta.secondView }"
+          >
             <q-item
               class="rounded-borders bg-secondary"
               clickable
@@ -59,7 +62,10 @@
               </q-item-section>
             </q-item>
           </div>
-          <div class="col-12 col-sm-6">
+          <div
+            class="col-12 col-sm-6"
+            :class="{ 'col-sm-12': $q.screen.gt.sm && $route.meta.secondView }"
+          >
             <q-item
               class="bg-secondary rounded-borders disabled"
               clickable
@@ -70,14 +76,17 @@
                 <q-avatar icon="mdi-comment-question-outline" />
               </q-item-section>
               <q-item-section>
-                <q-item-label>Form submissions!</q-item-label>
+                <q-item-label>Form submissions</q-item-label>
               </q-item-section>
               <q-item-section side>
                 <h2 class="text-white">-</h2>
               </q-item-section>
             </q-item>
           </div>
-          <div class="col-12 col-sm-6">
+          <div
+            class="col-12 col-sm-6"
+            :class="{ 'col-sm-12': $q.screen.gt.sm && $route.meta.secondView }"
+          >
             <q-item
               class="bg-secondary rounded-borders disabled"
               clickable
@@ -95,7 +104,10 @@
               </q-item-section>
             </q-item>
           </div>
-          <div class="col-12 col-sm-6">
+          <div
+            class="col-12 col-sm-6"
+            :class="{ 'col-sm-12': $q.screen.gt.sm && $route.meta.secondView }"
+          >
             <q-item
               class="bg-secondary rounded-borders disabled"
               clickable

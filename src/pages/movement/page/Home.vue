@@ -17,7 +17,7 @@ Path: /:movementID/
       title: primaryAction.title,
       description: primaryAction.description,
       buttonLabel: 'Join movement',
-      actionCount: $store.state.currentMovement.data.countSignups,
+      countSignups: $store.state.currentMovement.data.countSignups,
     }"
   />
 

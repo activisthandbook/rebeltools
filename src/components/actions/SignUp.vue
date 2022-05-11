@@ -9,7 +9,7 @@
             class="q-ma-none q-pl-xs"
             color="white"
           >
-            <avatar-image :userID="inviteProfile.data.id" size="20" />
+            <avatar-image :userID="inviteProfile.data.id" :size="20" />
             <div class="q-ml-xs">
               <strong>{{ inviteProfile.data.firstName }}</strong> is inviting
               you to join
@@ -19,8 +19,8 @@
         <!-- Events show 'new event' with 2 or less signups. Movements show 'new movement' with 10 or less signups. -->
         <div
           v-if="
-            (actionType === 'event' && actionCount > 2) ||
-            (actionType === 'movement' && actionCount > 10)
+            (actionType === 'event' && countSignups > 2) ||
+            (actionType === 'movement' && countSignups > 10)
           "
         >
           <q-chip
@@ -29,7 +29,7 @@
             class="q-ma-none text-bold"
             style="background: rgba(255, 255, 255, 0.1)"
           >
-            <span class="q-mx-xs">{{ actionCount }}</span>
+            <span class="q-mx-xs">{{ countSignups }}</span>
             <span v-if="actionType === 'event'">participants</span>
             <span v-if="actionType === 'movement'">members</span>
           </q-chip>
@@ -187,7 +187,7 @@ export default {
       type: String,
       default: "Join us",
     },
-    actionCount: {
+    countSignups: {
       type: Number,
       default: 0,
     },

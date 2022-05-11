@@ -82,9 +82,7 @@ export default {
     },
     async addToDatabase({ commit, rootState }, data) {
       await addDoc(collection(getFirestore(), "actions"), {
-        actionType: data.actionType,
-        actionID: data.actionID,
-        movementID: data.movementID,
+        ...data,
         userID: rootState.auth.data.uid,
         createdAt: serverTimestamp(),
       })

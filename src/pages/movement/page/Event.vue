@@ -31,7 +31,7 @@
         :ratio="1920 / 1080"
         class="bg-grey-4"
       />
-      <span class="absolute-bottom-left q-ma-md">
+      <span class="absolute-bottom-left q-pa-md" style="max-width: 100%">
         <q-chip
           color="white"
           class="text-bold"
@@ -53,7 +53,9 @@
         <br />
         <q-chip color="white" class="text-bold" square size="xl">
           <q-avatar icon="mdi-calendar" color="primary" text-color="white" />
-          {{ mixin_humanDate($store.state.currentEvent.data.startDate) }}
+          <div class="ellipsis">
+            {{ mixin_humanDate($store.state.currentEvent.data.startDate) }}
+          </div>
         </q-chip>
       </span>
     </q-card>
@@ -65,7 +67,7 @@
         title: 'Sign up for event',
         description: $store.state.currentEvent.data.callToAction,
         buttonLabel: 'Join event',
-        actionCount: $store.state.currentEvent.data.countSignups,
+        countSignups: $store.state.currentEvent.data.countSignups,
       }"
     />
     <div style="white-space: pre-wrap">

@@ -25,8 +25,6 @@ const MovementDashboard_Calendar = () =>
   import("src/pages/movement/dashboard/Calendar");
 const MovementDashboard_EditEvent = () =>
   import("src/pages/movement/dashboard/dialogs/EditEvent");
-const MovementDashboard_Event = () =>
-  import("src/pages/movement/dashboard/dialogs/Event");
 const MovementDashboard_Page = () =>
   import("src/pages/movement/dashboard/Page");
 const MovementDashboard_Community = () =>
@@ -39,7 +37,7 @@ const MovementDashboard_Apps = () =>
 // ROUTES
 const routes = [
   {
-    path: "/",
+    path: "",
     component: () => import("src/layouts/HomeLayout.vue"),
     children: [
       {
@@ -48,27 +46,27 @@ const routes = [
         component: () => import("src/pages/Index.vue"),
       },
       {
-        path: "campaigns/actionnetwork",
+        path: "/campaigns/actionnetwork",
         name: "Action Network",
         component: () => import("src/pages/campaigns/ActionNetwork.vue"),
       },
       {
-        path: "start",
+        path: "/start",
         name: "Start",
         component: () => import("src/pages/Start.vue"),
       },
       {
-        path: "privacy",
+        path: "/privacy",
         name: "Privacy",
         component: () => import("src/pages/Privacy.vue"),
       },
       {
-        path: "settings",
+        path: "/settings",
         name: "Settings",
         component: () => import("src/pages/Settings.vue"),
       },
       {
-        path: "new-movement",
+        path: "/new-movement",
         name: "New movement",
         component: () => import("src/pages/NewMovement.vue"),
       },
@@ -79,7 +77,7 @@ const routes = [
     component: () => import("src/pages/VerifyEmail.vue"),
   },
   {
-    path: "/super-admin/",
+    path: "/super-admin",
     component: () => import("src/layouts/SuperAdminLayout.vue"),
     children: [
       {
@@ -126,46 +124,65 @@ const routes = [
         path: "dashboard/",
         component: () => import("src/layouts/movement/DashboardLayout.vue"),
         children: [
-          { path: "", name: "Dashboard", component: MovementDashboard_Home },
           {
-            path: "calendar",
+            path: "",
+            name: "Dashboard",
+            components: {
+              FirstView: MovementDashboard_Home,
+            },
+            meta: { app: "Home" },
+          },
+          {
+            path: "calendar/",
             name: "Dashboard Calendar",
-            component: MovementDashboard_Calendar,
+            components: {
+              FirstView: MovementDashboard_Calendar,
+            },
+            meta: { app: "Calendar" },
           },
           {
-            path: "calendar/new-event",
+            path: "calendar/new-event/",
             name: "Dashboard New Event",
-            component: MovementDashboard_EditEvent,
-          },
-          {
-            path: "calendar/:eventID",
-            name: "Dashboard Event",
-            component: MovementDashboard_Event,
+            components: {
+              FirstView: MovementDashboard_Calendar,
+              SecondView: MovementDashboard_EditEvent,
+            },
+            meta: { secondView: true, app: "Calendar" },
           },
           {
             path: "calendar/:eventID/edit",
             name: "Dashboard Event Edit",
-            component: MovementDashboard_EditEvent,
+            components: {
+              FirstView: MovementDashboard_Calendar,
+              SecondView: MovementDashboard_EditEvent,
+            },
+            meta: { secondView: true, app: "Calendar" },
           },
           {
             path: "community",
             name: "Dashboard Community",
-            component: MovementDashboard_Community,
+            components: {
+              FirstView: MovementDashboard_Community,
+            },
+            meta: { app: "Community" },
           },
           {
             path: "community/:userID",
             name: "Dashboard Rebel",
             component: MovementDashboard_Rebel,
+            components: {
+              FirstView: MovementDashboard_Community,
+              SecondView: MovementDashboard_Rebel,
+            },
+            meta: { secondView: true, app: "Community" },
           },
           {
             path: "page",
             name: "Dashboard Page",
-            component: MovementDashboard_Page,
-          },
-          {
-            path: "apps",
-            name: "Dashboard Apps",
-            component: MovementDashboard_Apps,
+            components: {
+              FirstView: MovementDashboard_Page,
+            },
+            meta: { app: "Page" },
           },
         ],
       },

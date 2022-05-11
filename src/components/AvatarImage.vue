@@ -50,6 +50,7 @@ export default {
       getDownloadURL(ref(storage, "profileImages/" + this.userID + size1))
         .then((url) => {
           this.profileImage1x = url;
+          console.log("profileImage1x", url);
         })
         .catch((error) => {
           console.log(error);

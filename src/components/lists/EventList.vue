@@ -15,7 +15,7 @@
   <q-card-section v-else-if="!events.length" class="text-body2 text-center">
     No events planned.
   </q-card-section>
-  <q-list separator v-else>
+  <q-list separator v-else class="active-border">
     <q-item
       class="full-width q-pa-md"
       v-for="event in events"
