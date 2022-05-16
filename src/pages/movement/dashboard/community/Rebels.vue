@@ -1,29 +1,18 @@
 <template>
-  <q-header bordered class="bg-primary text-white">
-    <q-toolbar>
-      <q-toolbar-title>Community</q-toolbar-title>
-      <q-btn round flat icon="mdi-magnify" disable />
-    </q-toolbar>
-  </q-header>
-
-  <q-page-container>
-    <q-page padding>
-      <q-tabs
-        v-model="tab"
-        inline-label
-        no-caps
-        class="bg-grey-3 rounded-borders"
-      >
-        <q-tab name="rebels" icon="mdi-account-group" label="Rebels" />
-        <q-tab name="roles" icon="mdi-badge-account" label="Roles" />
-        <q-tab
-          name="teams"
-          icon="mdi-account-supervisor-circle"
-          label="Teams"
-        />
-      </q-tabs>
-      <div class="q-gutter-y-md q-mt-md">
-        <!-- <div>
+  <q-card-section class="q-gutter-sm row items-center">
+    <q-btn label="All" no-caps color="secondary" icon="mdi-account-group" />
+    <q-space />
+    <q-btn label="Filter" flat no-caps icon="mdi-filter" dense />
+    <q-btn label="Sort" flat no-caps icon="mdi-sort" dense />
+  </q-card-section>
+  <q-separator />
+  <member-list
+    :members="members.data"
+    :loaded="members.dataLoaded"
+    :error="members.error"
+  />
+  <!-- TO-DO: Comment 2 -->
+  <!-- <div>
       <span v-for="(filter, index) in filters" :key="index">
         <q-chip
           v-show="allFiltersShown || index < 6"
@@ -44,9 +33,8 @@
         @click="allFiltersShown = true"
       />
     </div> -->
-        <transition name="slide-fade">
-          <div class="q-gutter-y-md">
-            <!-- <div class="row q-col-gutter-md" v-if="filters[0].model">
+  <!-- TO-DO: COMMENT 2 -->
+  <!-- <div class="row q-col-gutter-md" v-if="filters[0].model">
           <div class="col-xs-12 col-sm-6 text-center">
             <q-card>
               <q-card-section class="q-pt-lg">
@@ -135,9 +123,9 @@
             :campaign="filter.guide.campaign"
             :articles="filter.guide.articles"
           />
-        </div> -->
+        </div>
 
-            <!-- <q-card
+        <q-card
           flat
           v-model="tab"
           inline-label
@@ -156,45 +144,6 @@
             <q-btn label="Sort" flat no-caps icon="mdi-sort" dense />
           </q-card-section>
         </q-card> -->
-            <q-card>
-              <q-card-section class="q-gutter-sm row items-center">
-                <q-btn
-                  label="All"
-                  no-caps
-                  color="secondary"
-                  icon="mdi-account-group"
-                />
-                <q-space />
-                <q-btn label="Filter" flat no-caps icon="mdi-filter" dense />
-                <q-btn label="Sort" flat no-caps icon="mdi-sort" dense />
-              </q-card-section>
-              <q-separator />
-              <member-list
-                :members="members.data"
-                :loaded="members.dataLoaded"
-                :error="members.error"
-              />
-            </q-card>
-            <div class="q-gutter-x-sm row items-center">
-              <q-btn
-                label="Load more"
-                unelevated
-                no-caps
-                color="grey-3"
-                text-color="black"
-              />
-              <q-space />
-              <q-btn label="Export" flat no-caps icon="mdi-download" dense />
-            </div>
-          </div>
-        </transition>
-      </div>
-    </q-page>
-  </q-page-container>
-
-  <q-page-sticky position="bottom-right" :offset="[18, 18]">
-    <q-btn icon="mdi-plus" color="primary" fab disable />
-  </q-page-sticky>
 </template>
 <script>
 // import ActivistHandbook from "components/ActivistHandbook";

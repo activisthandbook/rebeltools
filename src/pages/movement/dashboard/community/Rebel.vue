@@ -255,7 +255,7 @@
           <q-card class="q-py-sm">
             <q-item>
               <q-item-section class="text-bold"> Activity </q-item-section>
-              <q-item-section side>
+              <!-- <q-item-section side>
                 <q-chip
                   v-if="activeInLast14Days"
                   color="secondary"
@@ -270,9 +270,13 @@
                   icon="mdi-sleep"
                   >Inactive</q-chip
                 >
-              </q-item-section>
+              </q-item-section> -->
             </q-item>
-            <q-expansion-item v-model="eventsExpanded" expand-separator>
+            <q-expansion-item
+              v-model="eventsExpanded"
+              expand-separator
+              v-if="member.data.countEventSignups"
+            >
               <template v-slot:header>
                 <q-item-section avatar>
                   <q-avatar icon="mdi-calendar" />
@@ -284,9 +288,11 @@
                   <q-chip
                     v-if="member.data.countEventSignups"
                     icon="mdi-cursor-default-click"
-                    class="q-my-none q-mx-none"
+                    class="q-my-none q-mx-none text-bold"
                     :label="member.data.countEventSignups"
                     size="12px"
+                    color="secondary"
+                    text-color="white"
                   >
                     <q-tooltip>Online activity</q-tooltip>
                   </q-chip>
@@ -304,7 +310,7 @@
             <q-expansion-item
               v-model="campaignsExpanded"
               expand-separator
-              disable
+              v-if="member.data.countCampaignSignups"
             >
               <template v-slot:header>
                 <q-item-section avatar>
@@ -320,6 +326,8 @@
                     class="q-my-none q-mx-none"
                     :label="member.data.countCampaignSignups"
                     size="12px"
+                    color="secondary"
+                    text-color="white"
                   >
                     <q-tooltip>Online activity</q-tooltip>
                   </q-chip>
@@ -332,23 +340,47 @@
               </q-list>
             </q-expansion-item>
             <q-list>
+              <q-item v-if="member.data.countAcceptedInvites">
+                <q-item-section avatar>
+                  <q-avatar icon="mdi-share" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>
+                    <span>Accepted invites</span>
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-item-label>
+                    <q-chip square>{{
+                      member.data.countAcceptedInvites
+                    }}</q-chip>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section avatar>
+                  <q-avatar icon="mdi-cursor-default-click" />
+                </q-item-section>
+                <q-item-section class="ellipsis">
+                  <q-item-label v-if="member.data.timestampFirstAction">
+                    Last action
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  {{ mixin_humanDate(member.data.timestampLastAction) }}
+                </q-item-section>
+              </q-item>
               <q-item>
                 <q-item-section avatar>
                   <q-avatar icon="mdi-history" />
                 </q-item-section>
                 <q-item-section class="ellipsis">
-                  <q-item-label v-if="member.data.timestampFirstAction"
-                    >Joined:
-                    {{
-                      mixin_humanDate(member.data.timestampFirstAction)
-                    }}</q-item-label
-                  >
-                  <q-item-label caption v-if="member.data.timestampLastAction"
-                    >Last action:
-                    {{
-                      mixin_humanDate(member.data.timestampLastAction)
-                    }}</q-item-label
-                  >
+                  <q-item-label v-if="member.data.timestampFirstAction">
+                    Joining date
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  {{ mixin_humanDate(member.data.timestampFirstAction) }}
                 </q-item-section>
               </q-item>
             </q-list>

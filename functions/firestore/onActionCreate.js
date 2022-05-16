@@ -23,6 +23,10 @@ exports.onActionCreate = functions
     // UPDATE ACTIONS
     updateProfiles(actionInstance);
     updateSignupCount(actionInstance);
+
+    if (actionInstance.invite) {
+      updateInvitee(actionInstance);
+    }
   });
 
 // 🔢 UPDATE SIGNUP COUNT
@@ -174,4 +178,47 @@ function updateProfiles(actionInstance) {
     .catch((error) => {
       functions.logger.error("🔴 Error in ferching user profile", error);
     });
+}
+
+// UPDATE INVITEE PROFILES
+function updateInvitee(actionInstance) {
+  functions.logger.info("🔵 Function started: updateInvitee", actionInstance);
+
+  // UPDATE INVITEE MEMBER PROFILE
+  const inviteeMemberProfileRef = db
+    .collection("movements")
+    .doc(actionInstance.movementID)
+    .collection("members")
+    .doc(actionInstance.invite);
+
+  const inviteeMemberProfileSignupCount = new Counter(
+    inviteeMemberProfileRef,
+    "countAcceptedInvites"
+  );
+
+  inviteeMemberProfileSignupCount.incrementBy(1);
+
+  // UPDATE INVITEE ACTION PROFILE
+  let collection;
+  switch (actionInstance.actionType) {
+    case "movement":
+      collection = "movements";
+      break;
+    case "event":
+      collection = "calendar";
+      break;
+  }
+
+  const inviteeActionProfileRef = db
+    .collection(collection)
+    .doc(actionInstance.actionID)
+    .collection("invitees")
+    .doc(actionInstance.invite);
+
+  const inviteeActionProfileSignupCount = new Counter(
+    inviteeActionProfileRef,
+    "countAcceptedInvites"
+  );
+
+  inviteeActionProfileSignupCount.incrementBy(1);
 }

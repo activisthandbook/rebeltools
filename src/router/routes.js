@@ -28,9 +28,11 @@ const MovementDashboard_EditEvent = () =>
 const MovementDashboard_Page = () =>
   import("src/pages/movement/dashboard/Page");
 const MovementDashboard_Community = () =>
-  import("src/pages/movement/dashboard/Community");
+  import("src/pages/movement/dashboard/community/Community");
 const MovementDashboard_Rebel = () =>
-  import("src/pages/movement/dashboard//dialogs/Rebel");
+  import("src/pages/movement/dashboard/community/Rebel");
+const MovementDashboard_Outreach = () =>
+  import("src/pages/movement/dashboard/community/Outreach");
 const MovementDashboard_Apps = () =>
   import("src/pages/movement/dashboard/Apps");
 
@@ -169,7 +171,6 @@ const routes = [
           {
             path: "community/:userID",
             name: "Dashboard Rebel",
-            component: MovementDashboard_Rebel,
             components: {
               FirstView: MovementDashboard_Community,
               SecondView: MovementDashboard_Rebel,
